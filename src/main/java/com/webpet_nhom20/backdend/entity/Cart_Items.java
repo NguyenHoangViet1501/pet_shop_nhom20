@@ -2,43 +2,35 @@ package com.webpet_nhom20.backdend.entity;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "addresses")
+@Table(name = "cart_items")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Addresses {
-
+public class Cart_Items {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "user_id" , nullable = false)
-    int userId;
+    @Column(name = "cart_id")
+    int cartId;
 
-    @Column(name = "contact_name" )
-    String contactName;
+    @Column(name = "product_variant_id")
+    int productVariantId;
 
-    @Column(name = "phone")
-    String phone;
+    @Column(name = "quantity")
+    int quantity;
 
-    @Column(name = "detail_address")
-    String detailAddress;
-
-    @Column(name = "city")
-    String city;
-
-    @Column(name = "state")
-    String state;
-
-
-    @Column(name = "is_deleted" , length = 1 )
+    @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
 
     @Column(name = "created_date")
@@ -46,8 +38,5 @@ public class Addresses {
 
     @Column(name = "updated_date")
     LocalDate updatedDate;
-
-
-
 
 }

@@ -9,39 +9,33 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order_items")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Orders {
+public class Order_Items {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "orderCode" , nullable = false)
-    String orderCode;
+    @Column(name = "order_id")
+    int orderId;
 
-    @Column(name = "user_id" , nullable = false)
-    int userId;
+    @Column(name = "product_variant_id")
+    int productVariantId;
 
-    @Column(name = "total_amount" , nullable = false)
-    Float totalAmount;
+    @Column(name = "quantity")
+    int quantity;
 
-    @Column(name = "shipping_amount" , nullable = false)
-    Float shippingAmount;
+    @Column(name = "unit_price")
+    Float unitPrice;
 
-    @Column(name = "discount_amount" )
-    Float discountAmount;
-
-    @Column(name = "payment_method" , nullable = false)
-    String paymentMethods ;
-
-    @Column(name = "status" , nullable = false)
-    String status;
+    @Column(name = "total_price")
+    Float totalPrice;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
