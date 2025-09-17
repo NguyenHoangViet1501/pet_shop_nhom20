@@ -23,10 +23,9 @@ public class CategoryController {
 
     @GetMapping()
     public ApiResponse<Page<CategoryResponse>> getAllCategories(
-            Pageable pageable,
-            @RequestParam(value = "search", required = false) String search){
+            Pageable pageable){
 
-        return ApiResponse.<Page<CategoryResponse>>builder().success(true).result(categoryService.getAllCategories(pageable, search)).build();
+        return ApiResponse.<Page<CategoryResponse>>builder().success(true).result(categoryService.getAllCategories(pageable)).build();
     }
 
 }

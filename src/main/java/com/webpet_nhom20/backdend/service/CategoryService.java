@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 
-    public Page<CategoryResponse> getAllCategories(Pageable pageable, String search);
+    public Page<CategoryResponse> getAllCategories(Pageable pageable);
 }
