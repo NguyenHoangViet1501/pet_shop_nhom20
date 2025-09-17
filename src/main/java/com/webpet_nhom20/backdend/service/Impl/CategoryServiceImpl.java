@@ -5,7 +5,6 @@ import com.webpet_nhom20.backdend.entity.Categories;
 import com.webpet_nhom20.backdend.mapper.CategoryMapper;
 import com.webpet_nhom20.backdend.repository.CategoryRepository;
 import com.webpet_nhom20.backdend.service.CategoryService;
-import com.webpet_nhom20.backdend.specification.CategorySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +22,7 @@ public class CategoryServiceImpl implements CategoryService
     private CategoryMapper categoryMapper;
 
     @Override
-    public Page<CategoryResponse> getAllCategories(Pageable pageable, String search) {
-        Specification<Categories> where = CategorySpecification.buildWhere(search);
-        return categoryRepository.findAll(where , pageable).map(categoryMapper::toCategoryResponse);
+    public Page<CategoryResponse> getAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable).map(categoryMapper::toCategoryResponse);
     }
 }
