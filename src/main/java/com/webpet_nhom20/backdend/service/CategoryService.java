@@ -7,4 +7,8 @@ import org.springframework.data.domain.Pageable;
 public interface CategoryService {
 
     public Page<CategoryResponse> getAllCategories(Pageable pageable);
+
+    public CategoryResponse getCategoryById(Pageable pageable ,int id);
+
+
 }

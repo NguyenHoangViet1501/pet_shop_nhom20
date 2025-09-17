@@ -1,12 +1,9 @@
 package com.webpet_nhom20.backdend.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -14,17 +11,17 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CategoryResponse {
+public class ProductResponse {
     int id;
+    int categoryId;
     String name;
+    String shortDescription;
     String description;
+    String price;
+    String stockQuantity;
+    String soldQuantity;
     String isDeleted;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    String isFeatured;
     String createdDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     String updatedDate;
-
-    Page<ProductResponse> products;
-
-
 }
