@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 
 
@@ -46,19 +47,17 @@ public class User  {
     @Column(name = "is_deleted", length = 1)
     String isDeleted;
 
-    @Column(
-            name = "created_date",
-            nullable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-    )
-    LocalDateTime createdDate;
 
-    @Column(
-            name = "updated_date",
-            nullable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-    )
-    LocalDateTime updatedDate;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    Date createdDate;
+
+
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_date")
+    Date updatedDate;
 
 
 
