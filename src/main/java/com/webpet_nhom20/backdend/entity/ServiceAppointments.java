@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Service_Appointments {
+public class ServiceAppointments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

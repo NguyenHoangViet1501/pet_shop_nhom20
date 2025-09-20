@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Services_Pet {
+public class ServicesPet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
