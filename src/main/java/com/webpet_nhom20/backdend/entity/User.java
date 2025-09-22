@@ -3,10 +3,7 @@ package com.webpet_nhom20.backdend.entity;
 
 import com.webpet_nhom20.backdend.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
@@ -20,6 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User  {
     @Id
@@ -37,6 +35,7 @@ public class User  {
 
     @Column(name = "full_name" , nullable = false , length = 100)
     String fullName;
+
 
     @Column(name = "phone" , nullable = false , length = 100)
     String phone;
@@ -58,6 +57,20 @@ public class User  {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
     Date updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+        updatedDate = new Date();
+    }
+
+    /**
+     * Tự động update ngày khi cập nhật
+     */
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = new Date();
+    }
 
 
 
