@@ -16,14 +16,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Services_Pet {
+public class ServicesPet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     String name;
+
+    @Column(name = "title", nullable = false, columnDefinition = "TEXT")
+    String title;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     String description;
@@ -35,22 +38,22 @@ public class Services_Pet {
     BigDecimal price = BigDecimal.ZERO;
 
     @Column(name = "is_active", length = 1)
-    String is_active;
+    String isActive;
 
-    @Column(name = "create_at",  updatable = false)
-    LocalDateTime createAt;
+    @Column(name = "create_date", length = 19, updatable = false)
+    LocalDateTime createDate;
 
-    @Column(name = "update_at")
-    LocalDateTime updateAt;
+    @Column(name = "update_date", length = 19)
+    LocalDateTime updateDate;
 
     @PrePersist
     protected void onCreate(){
-        this.createAt = LocalDateTime.now();
-        this.updateAt = LocalDateTime.now();
+        this.createDate = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate(){
-        this.updateAt = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
     }
 }

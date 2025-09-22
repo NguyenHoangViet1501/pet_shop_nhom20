@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ServiceAppointmentsRepository extends JpaRepository<ServiceAppointments,Integer> {
+public interface ServicesAppointmentsRepository extends JpaRepository<ServiceAppointments,Integer> {
 }

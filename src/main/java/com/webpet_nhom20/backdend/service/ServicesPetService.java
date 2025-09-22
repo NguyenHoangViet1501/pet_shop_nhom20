@@ -1,7 +1,10 @@
 package com.webpet_nhom20.backdend.service;
 
-import org.springframework.stereotype.Service;
+import com.webpet_nhom20.backdend.dto.response.ServicesPetResponse;
 
-@Service
-public interface ServicePetService {
+import java.util.List;
+
+
+public interface ServicesPetService {
+    public List<ServicesPetResponse> getActiveServices();
 }
