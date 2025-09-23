@@ -14,7 +14,8 @@ public enum ErrorCode {
     PASSWORD_INVALID(1004,"Password must be at least 8 character",HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTS(1005,"User existed",HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1006,"Unauthenticated",HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007,"You do not have permission",HttpStatus.FORBIDDEN);
+    UNAUTHORIZED(1007,"You do not have permission",HttpStatus.FORBIDDEN),
+    SUCCESS(1008,"Success",HttpStatus.OK);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

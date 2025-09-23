@@ -25,7 +25,7 @@ public class ServicesPet {
     @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     String name;
 
-    @Column(name = "title", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "title", nullable = false, columnDefinition = "TEXT", unique = true)
     String title;
 
     @Column(name = "description", nullable = false, columnDefinition = "TEXT")

@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Chỉ cho phép POST vào 3 endpoint này
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
+                        // Cho phét không cần login
+                        .requestMatchers(HttpMethod.GET, "/api/v1/services/active").permitAll()
                         // Các request khác đều cần JWT
                         .anyRequest().authenticated()
                 )

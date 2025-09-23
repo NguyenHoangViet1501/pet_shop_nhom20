@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/services")
+@RequestMapping("/api/v1/services")
 @RequiredArgsConstructor
 public class ServicesPetController {
     @Autowired

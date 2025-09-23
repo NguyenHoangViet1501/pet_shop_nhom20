@@ -1,0 +1,11 @@
+-- INSERT INTO services (name, title, description, duration_minutes, price, is_active, create_date, update_date)
+-- VALUES
+--     ('veterinary', 'Khám sức khỏe thú y', 'Khám tổng quát bởi bác sĩ thú y giàu kinh nghiệm', 60, 85.00, '1', NOW(), NOW()),
+--
+--     ('grooming', 'Tắm & vệ sinh thú cưng', 'Dịch vụ tắm rửa sạch sẽ, vệ sinh tai, cắt móng cho thú cưng', 45, 50.00, '1', NOW(), NOW()),
+--
+--     ('haircut', 'Cắt tỉa lông thú cưng', 'Cắt tỉa, tạo kiểu lông gọn gàng, thoải mái cho thú cưng', 70, 65.00, '1', NOW(), NOW()),
+--
+--     ('vaccination', 'Tiêm phòng vắc-xin', 'Tiêm phòng định kỳ giúp thú cưng khỏe mạnh, phòng tránh bệnh truyền nhiễm', 30, 40.00, '1', NOW(), NOW()),
+--
+--     ('petboarding', 'Dịch vụ trông giữ thú cưng', 'Chăm sóc thú cưng khi chủ vắng nhà, có chỗ ăn uống, vui chơi và nghỉ ngơi an toàn', 1440, 120.00, '1', NOW(), NOW());

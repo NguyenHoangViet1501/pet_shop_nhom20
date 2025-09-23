@@ -6,6 +6,7 @@ import com.webpet_nhom20.backdend.dto.request.IntrospectRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.AuthenticationResponse;
 import com.webpet_nhom20.backdend.dto.response.IntrospectResponse;
+import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.service.AuthenticationService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,8 @@ public class AuthenticationController {
         var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
+                .success(true)
+                .message(ErrorCode.SUCCESS.getMessage())
                 .build();
     }
 
