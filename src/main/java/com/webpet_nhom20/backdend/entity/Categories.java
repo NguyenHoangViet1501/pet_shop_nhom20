@@ -28,6 +28,9 @@ public class Categories {
     @Column(name = "description")
     String description ;
 
+    @Column(name = "is_featured" , length = 1)
+    String isFeatured = "0";
+
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
 

@@ -66,8 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = userRepository.findByUsernameOrEmail(request.getIdentifier(), request.getIdentifier()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
         //boolean match10 = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        boolean authenticated = passwordEncoder.matches(request.getPassword()
-                ,user.getPassword());
+        boolean authenticated = passwordEncoder.matches(request.getPassword(),user.getPassword());
         if(!authenticated) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
