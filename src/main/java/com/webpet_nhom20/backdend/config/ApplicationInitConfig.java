@@ -39,7 +39,7 @@ public class ApplicationInitConfig {
                 User customer = User.builder()
                         .username("customer")
                         .password(passwordEncoder.encode("customer123"))
-                        .email("customer@gmail.com")
+                        .email("hoangvit2k4@gmail.com")
                         .fullName("Customer Test")
                         .phone("0987654321")
                         .roles(UserRole.CUSTOMER.name())
