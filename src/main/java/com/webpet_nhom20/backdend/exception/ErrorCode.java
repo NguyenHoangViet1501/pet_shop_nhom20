@@ -23,7 +23,8 @@ public enum ErrorCode {
     USERNAME_NOT_BLANK(1013,"Username must not be blank", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_BLANK(1014,"Email must not be blank", HttpStatus.BAD_REQUEST),
     FULLNAME_NOT_BLANK(1015,"Fullname must not be blank", HttpStatus.BAD_REQUEST),
-    PHONE_NOT_BLANK(1016,"Phone must not be blank", HttpStatus.BAD_REQUEST);
+    PHONE_NOT_BLANK(1016,"Phone must not be blank", HttpStatus.BAD_REQUEST),
+    USER_DELETED(1017,"User deleted", HttpStatus.OK);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

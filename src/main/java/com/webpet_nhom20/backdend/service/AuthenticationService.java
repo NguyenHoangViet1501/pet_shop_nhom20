@@ -3,6 +3,8 @@ package com.webpet_nhom20.backdend.service;
 import com.nimbusds.jose.JOSEException;
 import com.webpet_nhom20.backdend.dto.request.AuthenticationRequest;
 import com.webpet_nhom20.backdend.dto.request.IntrospectRequest;
+import com.webpet_nhom20.backdend.dto.request.LogoutRequest;
+import com.webpet_nhom20.backdend.dto.request.RefreshRequest;
 import com.webpet_nhom20.backdend.dto.response.AuthenticationResponse;
 import com.webpet_nhom20.backdend.dto.response.IntrospectResponse;
 
@@ -13,4 +15,6 @@ public interface AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request);
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException;
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException;
+    public void logout(LogoutRequest request);
 }
