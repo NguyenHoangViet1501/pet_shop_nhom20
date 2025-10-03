@@ -44,7 +44,7 @@ public class User  {
     String roles;
 
     @Column(name = "is_deleted", length = 1)
-    String isDeleted;
+    String isDeleted = "0";
 
 
     @Basic
