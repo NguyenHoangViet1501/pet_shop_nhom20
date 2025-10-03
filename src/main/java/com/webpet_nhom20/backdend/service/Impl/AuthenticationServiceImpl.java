@@ -58,10 +58,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-
-
-
-
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var user = userRepository.findByUsernameOrEmail(request.getIdentifier(), request.getIdentifier()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
