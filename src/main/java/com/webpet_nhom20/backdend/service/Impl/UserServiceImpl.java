@@ -7,6 +7,7 @@ import com.webpet_nhom20.backdend.entity.User;
 import com.webpet_nhom20.backdend.enums.UserRole;
 import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
+import com.webpet_nhom20.backdend.repository.RoleRepository;
 import com.webpet_nhom20.backdend.repository.UserRepository;
 import com.webpet_nhom20.backdend.service.UserService;
 import com.webpet_nhom20.backdend.mapper.UserMapper;
@@ -29,6 +30,8 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserMapper userMapper;
@@ -45,7 +48,8 @@ public class UserServiceImpl implements UserService {
         }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setRoles(UserRole.CUSTOMER.name());
+        var roleCustomer = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
+        user.setRole(roleCustomer);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

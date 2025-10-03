@@ -5,7 +5,7 @@ import com.webpet_nhom20.backdend.dto.request.ServiceAppointmentsRequest;
 import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ServiceAppointmentMapper {
 
     // Request -> Entity (khi tạo mới)
