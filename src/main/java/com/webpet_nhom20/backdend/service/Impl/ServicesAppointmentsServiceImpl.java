@@ -1,15 +1,15 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
-import com.webpet_nhom20.backdend.dto.request.ServiceAppointmentsRequest;
+import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
 import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
 import com.webpet_nhom20.backdend.entity.ServiceAppointments;
 import com.webpet_nhom20.backdend.entity.ServicesPet;
-import com.webpet_nhom20.backdend.entity.User;
 import com.webpet_nhom20.backdend.common.CommonUtil;
 import com.webpet_nhom20.backdend.mapper.ServiceAppointmentMapper;
 import com.webpet_nhom20.backdend.repository.ServicesAppointmentsRepository;
 import com.webpet_nhom20.backdend.repository.ServicesPetRespository;
 import com.webpet_nhom20.backdend.repository.UserRepository;
+import com.webpet_nhom20.backdend.service.AsyncEmailService;
 import com.webpet_nhom20.backdend.service.EmailService;
 import com.webpet_nhom20.backdend.service.ServicesAppointmentsService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +36,9 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    AsyncEmailService asyncEmailService;
+
     @Override
     public ServiceAppointmentsResponse create(ServiceAppointmentsRequest request) {
         ServicesPet servicesPet = servicesPetRespository.findById(request.getServiceId())
@@ -49,12 +52,11 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
 
         ServiceAppointments saved = servicesAppointmentsRepository.save(appointment);
         try {
-            User user = userRepository.findById(saved.getUserId().intValue())
-                    .orElseThrow(() -> new RuntimeException("User không tồn tại"));
-
-            String subject = CommonUtil.buildAppointmentEmailSubject(saved, user.getFullName(), user.getPhone());
-            String htmlBody = CommonUtil.buildAppointmentEmailHtml(saved, user.getFullName(), user.getPhone(), servicesPet.getTitle());
-            emailService.sendHtml(user.getEmail(), subject, htmlBody);
+            userRepository.findById(saved.getUserId().intValue()).ifPresent(user -> {
+                String subject = CommonUtil.buildAppointmentEmailSubject(saved, user.getFullName(), user.getPhone());
+                String htmlBody = CommonUtil.buildAppointmentEmailHtml(saved, user.getFullName(), user.getPhone(), servicesPet.getTitle());
+                asyncEmailService.sendAppointmentEmail(user.getEmail(), subject, htmlBody);
+            });
         } catch (Exception ex) {
             // Không chặn luồng chính nếu gửi mail lỗi
         }

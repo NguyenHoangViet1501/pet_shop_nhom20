@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.mapper;
 
 import com.webpet_nhom20.backdend.entity.ServiceAppointments;
-import com.webpet_nhom20.backdend.dto.request.ServiceAppointmentsRequest;
+import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
 import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
 import org.mapstruct.*;
 

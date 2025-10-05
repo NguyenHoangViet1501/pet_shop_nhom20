@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.mapper;
 
-import com.webpet_nhom20.backdend.dto.request.UserCreationRequest;
-import com.webpet_nhom20.backdend.dto.request.UserUpdateRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.UserResponse;
 import com.webpet_nhom20.backdend.entity.User;
 import org.mapstruct.Mapper;

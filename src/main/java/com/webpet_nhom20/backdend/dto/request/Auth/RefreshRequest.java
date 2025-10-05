@@ -1,5 +1,4 @@
-package com.webpet_nhom20.backdend.dto.request;
-
+package com.webpet_nhom20.backdend.dto.request.Auth;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationRequest {
-    String identifier;
-    String password;
+public class RefreshRequest {
+    String token;
 }

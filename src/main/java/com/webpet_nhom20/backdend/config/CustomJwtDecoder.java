@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.config;
 
 import com.nimbusds.jose.JOSEException;
-import com.webpet_nhom20.backdend.dto.request.IntrospectRequest;
+import com.webpet_nhom20.backdend.dto.request.Auth.IntrospectRequest;
 import com.webpet_nhom20.backdend.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

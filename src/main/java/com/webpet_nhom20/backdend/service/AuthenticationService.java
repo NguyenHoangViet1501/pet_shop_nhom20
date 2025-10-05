@@ -1,10 +1,10 @@
 package com.webpet_nhom20.backdend.service;
 
 import com.nimbusds.jose.JOSEException;
-import com.webpet_nhom20.backdend.dto.request.AuthenticationRequest;
-import com.webpet_nhom20.backdend.dto.request.IntrospectRequest;
-import com.webpet_nhom20.backdend.dto.request.LogoutRequest;
-import com.webpet_nhom20.backdend.dto.request.RefreshRequest;
+import com.webpet_nhom20.backdend.dto.request.Auth.AuthenticationRequest;
+import com.webpet_nhom20.backdend.dto.request.Auth.IntrospectRequest;
+import com.webpet_nhom20.backdend.dto.request.Auth.LogoutRequest;
+import com.webpet_nhom20.backdend.dto.request.Auth.RefreshRequest;
 import com.webpet_nhom20.backdend.dto.response.AuthenticationResponse;
 import com.webpet_nhom20.backdend.dto.response.IntrospectResponse;
 

@@ -1,6 +1,6 @@
 package com.webpet_nhom20.backdend.controller;
 
-import com.webpet_nhom20.backdend.dto.request.ServiceAppointmentsRequest;
+import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
 import com.webpet_nhom20.backdend.service.ServicesAppointmentsService;

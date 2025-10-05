@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.controller;
 
 
-import com.webpet_nhom20.backdend.dto.request.PermissionRequest;
+import com.webpet_nhom20.backdend.dto.request.Role_Permission.PermissionRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.PermissionResponse;
 import com.webpet_nhom20.backdend.service.PermissionService;

@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.mapper;
 
 
-import com.webpet_nhom20.backdend.dto.request.RoleRequest;
+import com.webpet_nhom20.backdend.dto.request.Role_Permission.RoleRequest;
 import com.webpet_nhom20.backdend.dto.response.RoleResponse;
 import com.webpet_nhom20.backdend.entity.Role;
 import org.mapstruct.Mapper;

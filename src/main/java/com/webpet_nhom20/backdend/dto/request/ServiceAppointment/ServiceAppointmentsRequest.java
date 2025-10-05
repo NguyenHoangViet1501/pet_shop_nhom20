@@ -1,4 +1,4 @@
-package com.webpet_nhom20.backdend.dto.request;
+package com.webpet_nhom20.backdend.dto.request.ServiceAppointment;
 
 import com.webpet_nhom20.backdend.enums.AppoinmentStatus;
 import jakarta.validation.constraints.Future;

@@ -1,6 +1,6 @@
 package com.webpet_nhom20.backdend.service;
 
-import com.webpet_nhom20.backdend.dto.request.RoleRequest;
+import com.webpet_nhom20.backdend.dto.request.Role_Permission.RoleRequest;
 import com.webpet_nhom20.backdend.dto.response.RoleResponse;
 
 import java.util.List;

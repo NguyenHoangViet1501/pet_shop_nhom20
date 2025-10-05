@@ -1,10 +1,9 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
-import com.webpet_nhom20.backdend.dto.request.UserCreationRequest;
-import com.webpet_nhom20.backdend.dto.request.UserUpdateRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.UserResponse;
 import com.webpet_nhom20.backdend.entity.User;
-import com.webpet_nhom20.backdend.enums.UserRole;
 import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.repository.RoleRepository;
@@ -17,7 +16,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,8 +44,12 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(request.getEmail())){
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
+        if(userRepository.existsByPhone(request.getPhone())){
+            throw new AppException(ErrorCode.PHONE_EXISTED);
+        }
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setIsDeleted("0");
         var roleCustomer = roleRepository.findById("CUSTOMER").orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
         user.setRole(roleCustomer);
 
@@ -75,7 +77,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS))) ;
     }
 
-    @PreAuthorize("hasRole('SHOP')")
+
+
+
     @Override
     public List<UserResponse> getUsers() {
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();

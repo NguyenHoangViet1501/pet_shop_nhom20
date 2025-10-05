@@ -25,7 +25,8 @@ public enum ErrorCode {
     FULLNAME_NOT_BLANK(1015,"Fullname must not be blank", HttpStatus.BAD_REQUEST),
     PHONE_NOT_BLANK(1016,"Phone must not be blank", HttpStatus.BAD_REQUEST),
     USER_DELETED(1017,"User deleted", HttpStatus.OK),
-    ROLE_NOT_FOUND(1018,"Role not found",HttpStatus.BAD_REQUEST);
+    ROLE_NOT_FOUND(1018,"Role not found",HttpStatus.BAD_REQUEST),
+    PHONE_EXISTED(1019,"Phone is exist",HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
