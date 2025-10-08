@@ -68,4 +68,7 @@ public class CommonUtil {
 			.replace("\"", "&quot;")
 			.replace("'", "&#39;");
 	}
+
+	// Mail khác viết ở dưới
+
 }
