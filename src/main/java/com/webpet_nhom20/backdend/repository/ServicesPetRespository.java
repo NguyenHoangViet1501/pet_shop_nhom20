@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface ServicesPetRespository extends JpaRepository<ServicesPet,Integer> {
     List<ServicesPet> findByIsActive(String isActive);
+    List<ServicesPet> findByTitle(String title);
 
 }

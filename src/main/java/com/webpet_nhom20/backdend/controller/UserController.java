@@ -1,11 +1,10 @@
 package com.webpet_nhom20.backdend.controller;
 
 
-import com.webpet_nhom20.backdend.dto.request.UserCreationRequest;
-import com.webpet_nhom20.backdend.dto.request.UserUpdateRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
+import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.UserResponse;
-import com.webpet_nhom20.backdend.entity.User;
 import com.webpet_nhom20.backdend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +22,11 @@ public class UserController {
 
     @PostMapping()
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .success(true)
+                .message("Create user successfully")
+                .result(userService.createUser(request))
+                .build();
     }
 
     @GetMapping("/myInfo")

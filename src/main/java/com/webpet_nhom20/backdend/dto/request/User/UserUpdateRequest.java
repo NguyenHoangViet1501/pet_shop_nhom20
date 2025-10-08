@@ -1,4 +1,4 @@
-package com.webpet_nhom20.backdend.dto.request;
+package com.webpet_nhom20.backdend.dto.request.User;
 
 public class UserUpdateRequest {
     String email;
