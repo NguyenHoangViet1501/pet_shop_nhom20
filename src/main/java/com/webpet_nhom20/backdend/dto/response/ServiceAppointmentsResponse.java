@@ -19,8 +19,10 @@ import java.time.LocalDateTime;
 public class ServiceAppointmentsResponse {
     private Long id;
     private Long serviceId;
+    private String serviceName;
     private Long userId;
     private String namePet;
+    private String speciePet;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime appoinmentStart;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

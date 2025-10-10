@@ -26,6 +26,10 @@ public class ServiceAppointmentsRequest {
     @Size(max = 100, message = "Tên thú cưng không vượt quá 100 ký tự")
     private String namePet;
 
+    @NotBlank(message = "Loại thú cưng không được để trống")
+    @Size(max = 100, message = "Loại thú cưng không vượt quá 100 ký tự")
+    private String speciePet;
+
     @NotNull(message = "Thời gian bắt đầu không được để trống")
     @Future(message = "Thời gian bắt đầu phải là thời gian trong tương lai")
     private LocalDateTime appoinmentStart;

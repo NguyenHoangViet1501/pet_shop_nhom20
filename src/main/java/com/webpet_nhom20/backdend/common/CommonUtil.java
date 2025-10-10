@@ -17,6 +17,7 @@ public class CommonUtil {
 		String start = appointment.getAppoinmentStart().format(formatter);
 		String end = appointment.getAppoinmentEnd().format(formatter);
 		String petName = appointment.getNamePet() == null ? "(Không có)" : appointment.getNamePet();
+		String speciePet = appointment.getSpeciePet() == null ? "(Không có)" : appointment.getSpeciePet();
 		String notes = appointment.getNotes() == null ? "(Không có)" : appointment.getNotes();
 		String safePhone = userPhone == null ? "(Không có)" : userPhone;
 
@@ -38,6 +39,7 @@ public class CommonUtil {
 			row("Dịch vụ", serviceName) +
 			row("Họ và tên", userFullName) +
 			row("Số điện thoại", safePhone) +
+			row("Tên loài", speciePet) +
 			row("Tên thú cưng", petName) +
 			row("Bắt đầu", start) +
 			row("Kết thúc", end) +

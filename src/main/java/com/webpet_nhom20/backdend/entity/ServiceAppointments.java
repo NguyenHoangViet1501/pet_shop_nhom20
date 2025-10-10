@@ -23,13 +23,16 @@ public class ServiceAppointments {
     Long id;
 
     @Column( name = "service_id" , nullable = false)
-    Long serviceId;
+    int serviceId;
 
     @Column( name = "user_id", nullable = false)
     Long userId;
 
     @Column( name = "name_pet")
     String namePet;
+
+    @Column( name = "specie_pet")
+    String speciePet;
 
     @Column( name = "appointment_start", nullable = false)
     LocalDateTime appoinmentStart;
