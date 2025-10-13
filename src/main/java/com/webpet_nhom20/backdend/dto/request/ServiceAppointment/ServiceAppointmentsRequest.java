@@ -16,23 +16,23 @@ import java.time.LocalDateTime;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ServiceAppointmentsRequest {
-    @NotNull(message = "Service ID không được để trống")
+    @NotNull(message = "SERVICE_ID_NOT_NULL")
     private Integer serviceId;
 
-    @NotNull(message = "User ID không được để trống")
+    @NotNull(message = "USER_ID_NOT_NULL")
     private Long userId;
 
-    @NotBlank(message = "Tên thú cưng không được để trống")
-    @Size(max = 100, message = "Tên thú cưng không vượt quá 100 ký tự")
+    @NotBlank(message = "NAME_PET_NOT_BLANK")
+    @Size(max = 100, message = "NAME_PET_TOO_LONG")
     private String namePet;
 
-    @NotNull(message = "Thời gian bắt đầu không được để trống")
-    @Future(message = "Thời gian bắt đầu phải là thời gian trong tương lai")
+    @NotNull(message = "APPOINTMENT_START_NOT_NULL")
+    @Future(message = "APPOINTMENT_START_NOT_FUTURE")
     private LocalDateTime appoinmentStart;
 
     // Có thể để optional, default = SCHEDULED khi xử lý trong service
     private AppoinmentStatus status;
 
-    @Size(max = 500, message = "Ghi chú không vượt quá 500 ký tự")
+    @Size(max = 500, message = "NOTES_TOO_LONG")
     private String notes;
 }

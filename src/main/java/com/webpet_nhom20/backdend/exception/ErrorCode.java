@@ -26,7 +26,16 @@ public enum ErrorCode {
     PHONE_NOT_BLANK(1016,"Phone must not be blank", HttpStatus.BAD_REQUEST),
     USER_DELETED(1017,"User deleted", HttpStatus.OK),
     ROLE_NOT_FOUND(1018,"Role not found",HttpStatus.BAD_REQUEST),
-    PHONE_EXISTED(1019,"Phone is exist",HttpStatus.BAD_REQUEST);
+    PHONE_EXISTED(1019,"Phone is exist",HttpStatus.BAD_REQUEST),
+
+    // ServiceAppointment
+    SERVICE_ID_NOT_NULL(1020, "Service ID không được để trống", HttpStatus.BAD_REQUEST),
+    USER_ID_NOT_NULL(1021, "User ID không được để trống", HttpStatus.BAD_REQUEST),
+    NAME_PET_NOT_BLANK(1022, "Tên thú cưng không được để trống", HttpStatus.BAD_REQUEST),
+    NAME_PET_TOO_LONG(1023, "Tên thú cưng không vượt quá 100 ký tự", HttpStatus.BAD_REQUEST),
+    APPOINTMENT_START_NOT_NULL(1024, "Thời gian bắt đầu không được để trống", HttpStatus.BAD_REQUEST),
+    APPOINTMENT_START_NOT_FUTURE(1025, "Thời gian bắt đầu phải là thời gian trong tương lai", HttpStatus.BAD_REQUEST),
+    NOTES_TOO_LONG(1026, "Ghi chú không vượt quá 500 ký tự", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
