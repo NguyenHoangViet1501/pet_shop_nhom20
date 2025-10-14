@@ -10,9 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/categories")
-@CrossOrigin(origins = "*")
 public class CategoryController {
 
     @Autowired
@@ -20,11 +21,11 @@ public class CategoryController {
 
 
     @GetMapping()
-    public ApiResponse<Page<CategoryResponse>> getAllCategories(
-            Pageable pageable){
-        return ApiResponse.<Page<CategoryResponse>>builder().
+    public ApiResponse<List<CategoryResponse>> getAllCategories(
+            ){
+        return ApiResponse.<List<CategoryResponse>>builder().
                 success(true).
-                result(categoryService.getAllCategories(pageable)).build();
+                result(categoryService.getAllCategories()).build();
     }
 
     @GetMapping("/{categoryId}")

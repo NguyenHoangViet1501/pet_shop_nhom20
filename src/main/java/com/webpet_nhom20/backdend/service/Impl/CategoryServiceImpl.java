@@ -34,8 +34,8 @@ public class CategoryServiceImpl implements CategoryService
     private ProductMapper  productMapper;
 
     @Override
-    public Page<CategoryResponse> getAllCategories(Pageable pageable) {
-        return categoryRepository.findAll(pageable).map(categoryMapper::toCategoryResponse);
+    public List<CategoryResponse> getAllCategories() {
+        return categoryRepository.findAll().stream().map(categoryMapper::toCategoryResponse).toList();
     }
 
     @Override

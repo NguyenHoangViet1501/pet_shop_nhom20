@@ -36,6 +36,10 @@ public class SecurityConfig {
             "/api/v1/auth/refresh-token",
             "/api/v1/auth/logout",
     };
+    private final String[] PUBLIC_GET_ENDPOINTS = {
+            "/api/v1/categories",
+            "/api/v1/services/active"
+    };
 
     @Value("${signerKey}")
     private String signerKey;
@@ -57,7 +61,7 @@ public class SecurityConfig {
                         // Cho phép POST vào các endpoint public
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         // Cho phép GET không cần login
-                        .requestMatchers(HttpMethod.GET, "/api/v1/services/active").permitAll()
+                        .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         // Các request khác đều cần JWT
                         .anyRequest().authenticated()
                 )
