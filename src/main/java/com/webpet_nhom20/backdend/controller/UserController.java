@@ -47,7 +47,9 @@ public class UserController {
         authentication.getAuthorities().forEach(grantedAuthority ->  log.info(grantedAuthority.getAuthority()));
         return ApiResponse.<List<UserResponse>>builder()
                 .result(userService.getUsers())
-                .build();
+                .success(true)
+                .build()
+                ;
     }
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId){
