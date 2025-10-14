@@ -20,4 +20,9 @@ public class ApiResponse<T> {
     String message;
     T result;
     List<String> errors;
+    //page
+    Integer currentPage;
+    Integer pageSize;
+    Long totalElements;
+    Integer totalPages;
 }

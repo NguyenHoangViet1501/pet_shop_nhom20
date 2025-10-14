@@ -17,10 +17,12 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServiceAppointmentsResponse {
-    private Long id;
-    private Long serviceId;
-    private Long userId;
+    private int id;
+    private int serviceId;
+    private String serviceName;
+    private int userId;
     private String namePet;
+    private String speciePet;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime appoinmentStart;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

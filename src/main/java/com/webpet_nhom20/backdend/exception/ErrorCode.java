@@ -35,7 +35,19 @@ public enum ErrorCode {
     NAME_PET_TOO_LONG(1023, "Tên thú cưng không vượt quá 100 ký tự", HttpStatus.BAD_REQUEST),
     APPOINTMENT_START_NOT_NULL(1024, "Thời gian bắt đầu không được để trống", HttpStatus.BAD_REQUEST),
     APPOINTMENT_START_NOT_FUTURE(1025, "Thời gian bắt đầu phải là thời gian trong tương lai", HttpStatus.BAD_REQUEST),
-    NOTES_TOO_LONG(1026, "Ghi chú không vượt quá 500 ký tự", HttpStatus.BAD_REQUEST);
+    NOTES_TOO_LONG(1026, "Ghi chú không vượt quá 500 ký tự", HttpStatus.BAD_REQUEST),
+    SPECIE_PET_NOT_BLANK(1027, "Loài thú cưng không được để trống", HttpStatus.BAD_REQUEST),
+    SPECIE_PET_TOO_LONG(1028, "Loài thú cưng không vượt quá 100 ký tự", HttpStatus.BAD_REQUEST),
+
+    //UserServiceAppointment
+    ROLE_NAME_NOT_NULL(1030, "Role name không được để trống", HttpStatus.BAD_REQUEST),
+    
+    // Appointment Update
+    APPOINTMENT_NOT_FOUND(1031, "Lịch hẹn không tồn tại", HttpStatus.NOT_FOUND),
+    SERVICE_NOT_FOUND(1032, "Dịch vụ không tồn tại", HttpStatus.NOT_FOUND),
+    ACCESS_DENIED(1033, "Không có quyền truy cập", HttpStatus.FORBIDDEN),
+
+    ID_NOT_NULL(1034, "ID không được để trống", HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

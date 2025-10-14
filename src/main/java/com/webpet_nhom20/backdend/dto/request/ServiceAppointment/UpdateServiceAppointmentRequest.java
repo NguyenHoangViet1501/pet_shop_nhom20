@@ -5,8 +5,10 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +16,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ServiceAppointmentsRequest {
+public class UpdateServiceAppointmentRequest {
+
+    @NotNull(message = "ID_NOT_NULL")
+    private Integer id;
+
     @NotNull(message = "SERVICE_ID_NOT_NULL")
     private Integer serviceId;
-
-    @NotNull(message = "USER_ID_NOT_NULL")
-    private int userId;
 
     @NotBlank(message = "NAME_PET_NOT_BLANK")
     @Size(max = 100, message = "NAME_PET_TOO_LONG")
@@ -33,7 +36,6 @@ public class ServiceAppointmentsRequest {
     @Future(message = "APPOINTMENT_START_NOT_FUTURE")
     private LocalDateTime appoinmentStart;
 
-    // Có thể để optional, default = SCHEDULED khi xử lý trong service
     private AppoinmentStatus status;
 
     @Size(max = 500, message = "NOTES_TOO_LONG")

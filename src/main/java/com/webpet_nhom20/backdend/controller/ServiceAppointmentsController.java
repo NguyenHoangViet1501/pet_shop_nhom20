@@ -1,17 +1,21 @@
 package com.webpet_nhom20.backdend.controller;
 
 import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
+import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.UpdateServiceAppointmentRequest;
+import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.UserServiceAppointmentRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
 import com.webpet_nhom20.backdend.service.ServicesAppointmentsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
@@ -37,5 +41,40 @@ public class ServiceAppointmentsController {
         );
     }
 
+    @PostMapping("/list")
+    public ResponseEntity<ApiResponse<List<ServiceAppointmentsResponse>>> getAppointmentsByRole(
+            @RequestBody @Valid UserServiceAppointmentRequest request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ServiceAppointmentsResponse> appointments = servicesAppointmentsService.getAppointmentsByRole(request, pageable);
+        ApiResponse<List<ServiceAppointmentsResponse>> response = ApiResponse.<List<ServiceAppointmentsResponse>>builder()
+                .success(true)
+                .message("Get appointments successfully")
+                .result(appointments.getContent())
+                .currentPage(appointments.getNumber())
+                .pageSize(appointments.getSize())
+                .totalElements(appointments.getTotalElements())
+                .totalPages(appointments.getTotalPages())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<ServiceAppointmentsResponse>> updateAppointment(
+            @Valid @RequestBody UpdateServiceAppointmentRequest request,
+            @RequestHeader("Authorization") String token
+    ) {
+        ServiceAppointmentsResponse response = servicesAppointmentsService.update(request, token);
+
+        return ResponseEntity.ok(
+                ApiResponse.<ServiceAppointmentsResponse>builder()
+                        .success(true)
+                        .message("Update appointment successfully")
+                        .result(response)
+                        .build()
+        );
+    }
 
 }
