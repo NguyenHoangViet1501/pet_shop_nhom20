@@ -1,14 +1,14 @@
-package com.webpet_nhom20.backdend.dto.request;
-
+package com.webpet_nhom20.backdend.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IntrospectRequest {
-    String token;
+public class PermissionResponse {
+    String name;
+    String description;
 }

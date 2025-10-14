@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
+        apiResponse.setSuccess(false);
         apiResponse.setMessage(errorCode.getMessage());
         apiResponse.setSuccess(false);
         return ResponseEntity
@@ -43,6 +44,7 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
+        apiResponse.setSuccess(false);
         return ResponseEntity.badRequest().body(apiResponse);
     }
     @ExceptionHandler(value = Exception.class)
@@ -50,6 +52,7 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        apiResponse.setSuccess(false);
         return ResponseEntity.badRequest().body(apiResponse);
     }
     @ExceptionHandler(value = AccessDeniedException.class)
@@ -60,6 +63,7 @@ public class GlobalExceptionHandler {
                 ApiResponse.<String>builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
+                        .success(false)
                         .build()
         );
     }

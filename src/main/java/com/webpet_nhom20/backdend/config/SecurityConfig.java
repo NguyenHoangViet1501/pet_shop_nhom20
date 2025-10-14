@@ -1,5 +1,6 @@
 package com.webpet_nhom20.backdend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,16 +31,25 @@ public class SecurityConfig {
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/v1/users",
-            "/api/v1/auth/token",
-            "/api/v1/auth/introspect"
+            "/api/v1/auth/login",
+            "/api/v1/auth/introspect",
+            "/api/v1/auth/refresh-token",
+            "/api/v1/auth/logout",
     };
 
     @Value("${signerKey}")
     private String signerKey;
 
+    @Autowired
+    private CustomJwtDecoder jwtDecoder;
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors() // 👉 bật cors ở đây
                 .and()
@@ -51,15 +61,11 @@ public class SecurityConfig {
                         // Các request khác đều cần JWT
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .decoder(jwtDecoder())
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                        )
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                );
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
+                                jwtConfigurer.decoder(jwtDecoder).jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Bean
@@ -75,10 +81,12 @@ public class SecurityConfig {
         return source;
     }
 
+
+    // Custom converter để lấy authorities từ JWT
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
-        converter.setAuthorityPrefix("ROLE_");
+        converter.setAuthorityPrefix("");
 
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(converter);
@@ -86,17 +94,6 @@ public class SecurityConfig {
         return jwtConverter;
     }
 
-    @Bean
-    JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
+
 }

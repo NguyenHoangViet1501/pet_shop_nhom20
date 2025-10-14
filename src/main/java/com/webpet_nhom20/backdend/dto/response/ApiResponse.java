@@ -15,8 +15,14 @@ import java.util.List;
 public class ApiResponse<T> {
     @Builder.Default
     int code = 1000;
-    boolean success = true;
+    @Builder.Default
+    Boolean success = Boolean.TRUE;
     String message;
     T result;
     List<String> errors;
+    //page
+    Integer currentPage;
+    Integer pageSize;
+    Long totalElements;
+    Integer totalPages;
 }
