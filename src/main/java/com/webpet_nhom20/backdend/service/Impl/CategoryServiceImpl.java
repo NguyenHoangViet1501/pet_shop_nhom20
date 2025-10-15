@@ -49,14 +49,14 @@ public class CategoryServiceImpl implements CategoryService
     }
 
     @Override
-    public CategoryResponse getCategoryById(Pageable pageable,int id) {
+    public CategoryResponse getCategoryById(int id) {
         Categories category = categoryRepository.findById(id).orElseThrow(()-> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
         CategoryResponse response = categoryMapper.toCategoryResponse(category);
-        Page<Products> productPage = productRepository.findAllByCategoryId(category.getId(),pageable);
+        List<Products> productList = productRepository.findAllByCategoryId(category.getId());
 
-        Page<ProductResponse> productResponsePage = productPage.map(productMapper::toProductResponse);
-        response.setProducts(productResponsePage);
+        List<ProductResponse> productResponseList = productList.stream().map(productMapper::toProductResponse).toList();
+        response.setProducts(productResponseList);
         return response;
     }
 }

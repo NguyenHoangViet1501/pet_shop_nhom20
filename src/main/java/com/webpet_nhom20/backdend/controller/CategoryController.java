@@ -39,8 +39,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    ApiResponse<CategoryResponse> getCategoryById(Pageable pageable, @PathVariable int categoryId ){
-        CategoryResponse response = categoryService.getCategoryById(pageable,categoryId );
+    ApiResponse<CategoryResponse> getCategoryById(@PathVariable int categoryId ){
+        CategoryResponse response = categoryService.getCategoryById(categoryId );
         return ApiResponse.<CategoryResponse>builder()
                 .success(true)
                 .result(response)

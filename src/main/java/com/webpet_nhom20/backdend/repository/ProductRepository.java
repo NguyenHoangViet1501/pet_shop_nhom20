@@ -14,5 +14,5 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Products,Integer>, JpaSpecificationExecutor<Products> {
 
-    Page<Products> findAllByCategoryId(int categoryId , Pageable pageable);
+    List<Products> findAllByCategoryId(int categoryId);
 }

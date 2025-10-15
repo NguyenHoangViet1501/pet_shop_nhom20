@@ -12,7 +12,7 @@ public interface CategoryService {
 
     public List<CategoryResponse> getAllCategories();
 
-    public CategoryResponse getCategoryById(Pageable pageable ,int id);
+    public CategoryResponse getCategoryById(int id);
 
 
 }

@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,7 +27,7 @@ public class CategoryResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date updatedDate;
 
-    Page<ProductResponse> products;
+    List<ProductResponse> products;
 
 
 }
