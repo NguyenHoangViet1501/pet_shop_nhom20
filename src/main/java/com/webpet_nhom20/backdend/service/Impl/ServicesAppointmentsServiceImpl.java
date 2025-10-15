@@ -5,7 +5,7 @@ import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.CancelServiceAp
 import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
 import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.UpdateServiceAppointmentRequest;
 import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.UserServiceAppointmentRequest;
-import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
+import com.webpet_nhom20.backdend.dto.response.ServiceAppointment.ServiceAppointmentsResponse;
 import com.webpet_nhom20.backdend.entity.ServiceAppointments;
 import com.webpet_nhom20.backdend.entity.ServicesPet;
 import com.webpet_nhom20.backdend.common.CommonUtil;

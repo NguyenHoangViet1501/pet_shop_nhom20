@@ -1,6 +1,6 @@
 package com.webpet_nhom20.backdend.service;
 
-import com.webpet_nhom20.backdend.dto.response.ServicesPetResponse;
+import com.webpet_nhom20.backdend.dto.response.Service.ServicesPetResponse;
 
 import java.util.List;
 

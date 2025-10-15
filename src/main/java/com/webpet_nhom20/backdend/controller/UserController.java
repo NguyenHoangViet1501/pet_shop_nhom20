@@ -4,7 +4,7 @@ package com.webpet_nhom20.backdend.controller;
 import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
-import com.webpet_nhom20.backdend.dto.response.UserResponse;
+import com.webpet_nhom20.backdend.dto.response.User.UserResponse;
 import com.webpet_nhom20.backdend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;

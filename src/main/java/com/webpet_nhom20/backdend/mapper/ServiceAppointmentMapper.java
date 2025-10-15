@@ -2,7 +2,7 @@ package com.webpet_nhom20.backdend.mapper;
 
 import com.webpet_nhom20.backdend.entity.ServiceAppointments;
 import com.webpet_nhom20.backdend.dto.request.ServiceAppointment.ServiceAppointmentsRequest;
-import com.webpet_nhom20.backdend.dto.response.ServiceAppointmentsResponse;
+import com.webpet_nhom20.backdend.dto.response.ServiceAppointment.ServiceAppointmentsResponse;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

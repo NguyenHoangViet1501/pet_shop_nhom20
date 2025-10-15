@@ -2,7 +2,7 @@ package com.webpet_nhom20.backdend.service;
 
 import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
-import com.webpet_nhom20.backdend.dto.response.UserResponse;
+import com.webpet_nhom20.backdend.dto.response.User.UserResponse;
 
 import java.util.List;
 

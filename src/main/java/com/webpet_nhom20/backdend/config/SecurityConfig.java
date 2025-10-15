@@ -38,7 +38,8 @@ public class SecurityConfig {
     };
     private final String[] PUBLIC_GET_ENDPOINTS = {
             "/api/v1/categories",
-            "/api/v1/services/active"
+            "/api/v1/services/active",
+            "/api/v1/products"
     };
 
     @Value("${signerKey}")

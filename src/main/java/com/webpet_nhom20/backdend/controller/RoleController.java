@@ -3,7 +3,7 @@ package com.webpet_nhom20.backdend.controller;
 
 import com.webpet_nhom20.backdend.dto.request.Role_Permission.RoleRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
-import com.webpet_nhom20.backdend.dto.response.RoleResponse;
+import com.webpet_nhom20.backdend.dto.response.Role_Permission.RoleResponse;
 import com.webpet_nhom20.backdend.service.RoleService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.mapper;
 
 
-import com.webpet_nhom20.backdend.dto.response.ProductResponse;
+import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.entity.Products;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

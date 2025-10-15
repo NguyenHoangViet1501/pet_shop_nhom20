@@ -1,4 +1,4 @@
-package com.webpet_nhom20.backdend.dto.response;
+package com.webpet_nhom20.backdend.dto.response.Service;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter

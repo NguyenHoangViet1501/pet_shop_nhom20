@@ -1,7 +1,6 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
-import com.webpet_nhom20.backdend.dto.response.ServicesPetResponse;
-import com.webpet_nhom20.backdend.entity.ServicesPet;
+import com.webpet_nhom20.backdend.dto.response.Service.ServicesPetResponse;
 import com.webpet_nhom20.backdend.mapper.ServicesPetMapper;
 import com.webpet_nhom20.backdend.repository.ServicesPetRespository;
 import com.webpet_nhom20.backdend.service.ServicesPetService;

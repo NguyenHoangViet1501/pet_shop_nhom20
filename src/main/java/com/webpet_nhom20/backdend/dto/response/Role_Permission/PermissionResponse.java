@@ -1,5 +1,4 @@
-package com.webpet_nhom20.backdend.dto.response;
-
+package com.webpet_nhom20.backdend.dto.response.Role_Permission;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class IntrospectResponse {
-    boolean valid;
+public class PermissionResponse {
+    String name;
+    String description;
 }

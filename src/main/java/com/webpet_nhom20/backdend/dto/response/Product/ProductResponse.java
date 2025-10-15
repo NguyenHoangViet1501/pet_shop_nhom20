@@ -1,9 +1,14 @@
-package com.webpet_nhom20.backdend.dto.response;
+package com.webpet_nhom20.backdend.dto.response.Product;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
+import com.webpet_nhom20.backdend.dto.response.ProductVariant.ProductVariantResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -22,6 +27,10 @@ public class ProductResponse {
     String soldQuantity;
     String isDeleted;
     String isFeatured;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     String createdDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     String updatedDate;
+    List<ProductImageResponse> productImage;
+    List<ProductVariantResponse> productVariant;
 }

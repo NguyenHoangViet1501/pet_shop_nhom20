@@ -1,7 +1,7 @@
 package com.webpet_nhom20.backdend.controller;
 
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
-import com.webpet_nhom20.backdend.dto.response.ServicesPetResponse;
+import com.webpet_nhom20.backdend.dto.response.Service.ServicesPetResponse;
 import com.webpet_nhom20.backdend.service.ServicesPetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

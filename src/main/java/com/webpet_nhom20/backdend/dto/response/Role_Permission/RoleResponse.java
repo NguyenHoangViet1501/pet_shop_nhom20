@@ -1,4 +1,4 @@
-package com.webpet_nhom20.backdend.dto.response;
+package com.webpet_nhom20.backdend.dto.response.Role_Permission;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

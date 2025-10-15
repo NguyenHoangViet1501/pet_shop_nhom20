@@ -51,7 +51,15 @@ public enum ErrorCode {
 
     ALREADY_CANCELED(1035, "Cuộc hẹn đã được xóa", HttpStatus.BAD_REQUEST),
     ALREADY_COMPLETED(1036, "Cuộc hẹn đã hoàn thành", HttpStatus.BAD_REQUEST ),
-    UNAUTHENTICATED_CANCEL(1037, "Không có quyền xóa", HttpStatus.BAD_REQUEST);
+    UNAUTHENTICATED_CANCEL(1037, "Không có quyền xóa", HttpStatus.BAD_REQUEST),
+
+
+
+    //Category
+    CATEGORY_NAME_IS_NOT_NULL(1038,"Tên danh mục không được để trống",HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_FOUND(1039,"Không tìm thấy danh mục",HttpStatus.BAD_REQUEST),
+    CATEGORY_IS_EXISTED(1040,"Danh mục đã tồn tại",HttpStatus.BAD_REQUEST);
+
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
