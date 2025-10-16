@@ -1,6 +1,7 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
 import com.webpet_nhom20.backdend.dto.request.Category.CreateCategoryRequest;
+import com.webpet_nhom20.backdend.dto.request.Category.UpdateCategoryRequest;
 import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.entity.Categories;
@@ -13,8 +14,7 @@ import com.webpet_nhom20.backdend.repository.CategoryRepository;
 import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +34,8 @@ public class CategoryServiceImpl implements CategoryService
     @Autowired
     private ProductMapper  productMapper;
 
+
+    @PreAuthorize("hasRole('SHOP')")
     @Override
     public CategoryResponse createCategory(CreateCategoryRequest request) {
         if(categoryRepository.existsByName(request.getName())){
@@ -42,6 +44,23 @@ public class CategoryServiceImpl implements CategoryService
          Categories categories = categoryMapper.toCategory(request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(categories));
     }
+    @PreAuthorize("hasRole('SHOP')")
+    @Override
+    public CategoryResponse updateCategory (int categoryId, UpdateCategoryRequest request ){
+        Categories category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        categoryMapper.updateCategory(category, request);
+        return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
+
+    @PreAuthorize("hasRole('SHOP')")
+    @Override
+    public String deleteCategory(int categoryId) {
+        Categories category = categoryRepository.findById(categoryId).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        category.setIsDeleted("1");
+        categoryRepository.save(category);
+        return "Xóa thành công";
+    }
+
 
     @Override
     public List<CategoryResponse> getAllCategories() {

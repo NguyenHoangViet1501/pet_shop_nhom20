@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +38,12 @@ public class UserController {
                 .build();
     }
     @PutMapping("/{userId}")
-    UserResponse updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request){
-        return userService.updateUser(userId,request);
+    ApiResponse<UserResponse>updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request){
+        return ApiResponse.<UserResponse>builder()
+                .success(true)
+                .message("Cập nhật user thành công")
+                .result( userService.updateUser(userId,request))
+                .build();
     }
 
 

@@ -4,6 +4,7 @@ package com.webpet_nhom20.backdend.mapper;
 import com.webpet_nhom20.backdend.dto.request.Role_Permission.RoleRequest;
 import com.webpet_nhom20.backdend.dto.response.Role_Permission.RoleResponse;
 import com.webpet_nhom20.backdend.entity.Role;
+import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -15,4 +16,10 @@ public interface RoleMapper {
     Role toRole(RoleRequest request);
 
     RoleResponse toRoleResponse(Role role);
+
+
+    @Condition
+    default boolean isNotEmpty(String value) {
+        return value != null && !value.isEmpty();
+    }
 }

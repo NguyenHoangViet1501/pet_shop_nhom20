@@ -58,7 +58,15 @@ public enum ErrorCode {
     //Category
     CATEGORY_NAME_IS_NOT_NULL(1038,"Tên danh mục không được để trống",HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_FOUND(1039,"Không tìm thấy danh mục",HttpStatus.BAD_REQUEST),
-    CATEGORY_IS_EXISTED(1040,"Danh mục đã tồn tại",HttpStatus.BAD_REQUEST);
+    CATEGORY_IS_EXISTED(1040,"Danh mục đã tồn tại",HttpStatus.BAD_REQUEST),
+
+
+
+
+    //Feature and Deleted
+    IS_DELETED_VALID (1041,"isDeleted must be 0 or 1",HttpStatus.BAD_REQUEST),
+    IS_FEATURED_VALID (1042,"isFeatured must be 0 or 1",HttpStatus.BAD_REQUEST);
+
 
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

@@ -2,12 +2,13 @@ package com.webpet_nhom20.backdend.controller;
 
 
 import com.webpet_nhom20.backdend.dto.request.Category.CreateCategoryRequest;
+import com.webpet_nhom20.backdend.dto.request.Category.UpdateCategoryRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
 import com.webpet_nhom20.backdend.service.CategoryService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +22,28 @@ public class CategoryController {
 
 
     @PostMapping
-    public ApiResponse<CategoryResponse> createCategory(@RequestBody CreateCategoryRequest request) {
+    public ApiResponse<CategoryResponse> createCategory(@RequestBody @Valid CreateCategoryRequest request) {
         return ApiResponse.<CategoryResponse>builder()
                 .success(true)
                 .message("Create category successfully")
                 .result(categoryService.createCategory(request))
+                .build();
+    }
+
+    @PutMapping("/{categoryId}")
+    public ApiResponse<CategoryResponse> updateCategory(@PathVariable int categoryId, @RequestBody @Valid UpdateCategoryRequest request){
+        return ApiResponse.<CategoryResponse>builder()
+                .success(true)
+                .message("Cập nhật category thành công!")
+                .result(categoryService.updateCategory(categoryId,request))
+                .build();
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public ApiResponse<String> deleteCategory(@PathVariable int categoryId){
+        return ApiResponse.<String>builder()
+                .success(true)
+                .message(categoryService.deleteCategory(categoryId))
                 .build();
     }
 

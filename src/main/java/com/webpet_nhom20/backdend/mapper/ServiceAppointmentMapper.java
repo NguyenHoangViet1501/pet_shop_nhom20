@@ -18,5 +18,11 @@ public interface ServiceAppointmentMapper {
 
     // Entity -> Response
     ServiceAppointmentsResponse toResponse(ServiceAppointments entity);
+
+
+    @Condition
+    default boolean isNotEmpty(String value) {
+        return value != null && !value.isEmpty();
+    }
 }
 

@@ -4,6 +4,7 @@ package com.webpet_nhom20.backdend.mapper;
 import com.webpet_nhom20.backdend.dto.request.Role_Permission.PermissionRequest;
 import com.webpet_nhom20.backdend.dto.response.Role_Permission.PermissionResponse;
 import com.webpet_nhom20.backdend.entity.Permission;
+import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -14,4 +15,9 @@ public interface PermissionMapper {
     //    @Mapping(source = "lastName",target = "firstName")
     PermissionResponse toPermissionResponse(Permission permission);
     //    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+
+    @Condition
+    default boolean isNotEmpty(String value) {
+        return value != null && !value.isEmpty();
+    }
 }

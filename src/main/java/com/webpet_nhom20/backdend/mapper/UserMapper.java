@@ -4,10 +4,7 @@ import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.User.UserResponse;
 import com.webpet_nhom20.backdend.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
@@ -17,5 +14,11 @@ public interface UserMapper {
     UserResponse toUserResponse(User user);
 
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
+
+
+    @Condition
+    default boolean isNotEmpty(String value) {
+        return value != null && !value.isEmpty();
+    }
 
 }
