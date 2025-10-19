@@ -9,6 +9,8 @@ import com.webpet_nhom20.backdend.service.CategoryService;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,11 +51,19 @@ public class CategoryController {
 
 
     @GetMapping()
-    public ApiResponse<List<CategoryResponse>> getAllCategories(
+    public ApiResponse<Page<CategoryResponse>> getAllCategories( String search , Pageable pageable
             ){
-        return ApiResponse.<List<CategoryResponse>>builder().
+        return ApiResponse.<Page<CategoryResponse>>builder().
                 success(true).
-                result(categoryService.getAllCategories()).build();
+                result(categoryService.getAllCategories(search ,pageable)).build();
+    }
+    @PostMapping("/feature")
+    public ApiResponse<Page<CategoryResponse>> filterByFeature(@RequestParam("isFeature") String isFeature,  Pageable pageable){
+        return ApiResponse.<Page<CategoryResponse>>builder().
+                success(true)
+                .message("Lấy danh sách Categories feature thành công")
+                .result(categoryService.filterByFeature(isFeature,pageable))
+                .build();
     }
 
     @GetMapping("/{categoryId}")
