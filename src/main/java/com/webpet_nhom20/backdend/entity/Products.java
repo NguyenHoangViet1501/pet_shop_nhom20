@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "products")
@@ -38,9 +39,6 @@ public class Products {
     @Column(name = "price" )
     float price;
 
-    @Column(name = "stock_quantity" , nullable = false)
-    int stockQuantity = 0;
-
     @Column(name = "sold_quantity" , nullable = false)
     int soldQuantity = 0;
 
@@ -50,9 +48,27 @@ public class Products {
     @Column(name = "is_featured" , length = 1)
     String isFeatured = "0";
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
-    LocalDate createdDate;
+    Date createdDate;
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
-    LocalDate updatedDate;
+    Date updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+        updatedDate = new Date();
+    }
+
+    /**
+     * Tự động update ngày khi cập nhật
+     */
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = new Date();
+    }
 }

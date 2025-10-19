@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "product_images")
@@ -37,10 +38,28 @@ public class Product_Images {
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
-    LocalDate createdDate;
+    Date createdDate;
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
-    LocalDate updatedDate;
+    Date updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+        updatedDate = new Date();
+    }
+
+    /**
+     * Tự động update ngày khi cập nhật
+     */
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = new Date();
+    }
 
 }

@@ -65,10 +65,23 @@ public enum ErrorCode {
 
     //Feature and Deleted
     IS_DELETED_VALID (1041,"isDeleted must be 0 or 1",HttpStatus.BAD_REQUEST),
-    IS_FEATURED_VALID (1042,"isFeatured must be 0 or 1",HttpStatus.BAD_REQUEST);
+    IS_FEATURED_VALID (1042,"isFeatured must be 0 or 1",HttpStatus.BAD_REQUEST),
 
 
-
+    //Product
+    PRODUCT_NAME_IS_NOT_NULL(1043,"Tên sản phẩm không được để trống", HttpStatus.BAD_REQUEST),
+    PRODUCT_PRICE_IS_NOT_NULL(1044, "Giá của sản phẩm không được để trống", HttpStatus.BAD_REQUEST),
+    PRODUCT_IS_EXISTED(1045,"Sản phẩm đã tồn tại",HttpStatus.BAD_REQUEST),
+    PRODUCT_NOT_FOUND(1046, "Không tìm thấy sản phẩm", HttpStatus.BAD_REQUEST),
+    //Product_Variant
+    VARIANT_NAME_IS_NOT_NULL(1047,"Tên thuộc tính không được để trống", HttpStatus.BAD_REQUEST),
+    VARIANT_WEIGHT_IS_NOT_NULL(1048,"Khối lượng không được để trống", HttpStatus.BAD_REQUEST),
+    VARIANT_PRICE_IS_NOT_NULL(1049,"Giá không được để trống", HttpStatus.BAD_REQUEST),
+    VARIANT_NAME_IS_EXISTED(1050, "Tên thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
+    VARIANT_NOT_FOUND(1051,"Thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
+    //Product_Image
+    IMAGE_NOT_FOUND(1052,"Không tìm thấy ảnh", HttpStatus.BAD_REQUEST)
+    ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;
