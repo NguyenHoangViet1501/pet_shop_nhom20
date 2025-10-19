@@ -8,6 +8,7 @@ import com.webpet_nhom20.backdend.dto.response.ProductVariant.ProductVariantResp
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -28,9 +29,9 @@ public class ProductResponse {
     String isDeleted;
     String isFeatured;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    String createdDate;
+    Date createdDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    String updatedDate;
+    Date updatedDate;
     List<ProductImageResponse> productImage;
     List<ProductVariantResponse> productVariant;
 }

@@ -8,6 +8,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class ProductImageResponse {
     int isPrimary = 0;
     String isDeleted = "0";
     @JsonFormat(pattern = "yyyy-MM-dd ")
-    LocalDate createdDate;
+    Date createdDate;
     @JsonFormat(pattern = "yyyy-MM-dd ")
-    LocalDate updatedDate;
+    Date updatedDate;
 }

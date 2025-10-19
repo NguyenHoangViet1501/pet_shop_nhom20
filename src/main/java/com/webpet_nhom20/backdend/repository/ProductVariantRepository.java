@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ProductVariantRepository extends JpaRepository<Product_Variants, Integer> {
     List<Product_Variants> findByProductId(int productId);
+    boolean existsByVariantName(String name);
+    boolean existsByProductIdAndVariantName(int productId, String variantName);
 }

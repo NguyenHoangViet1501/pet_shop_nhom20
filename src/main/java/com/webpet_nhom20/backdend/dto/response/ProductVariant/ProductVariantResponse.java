@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class ProductVariantResponse {
     int stockQuantity ;
     String isDeleted ;
     @JsonFormat(pattern = "yyyy-MM-dd ")
-    LocalDate createdDate;
+    Date createdDate;
     @JsonFormat(pattern = "yyyy-MM-dd ")
-    LocalDate updatedDate;
+    Date updatedDate;
 }

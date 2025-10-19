@@ -1,11 +1,19 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
+import com.webpet_nhom20.backdend.dto.request.Category.CreateCategoryRequest;
+import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
+import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
+import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductVariant.ProductVariantResponse;
+import com.webpet_nhom20.backdend.entity.Categories;
 import com.webpet_nhom20.backdend.entity.Product_Images;
 import com.webpet_nhom20.backdend.entity.Product_Variants;
 import com.webpet_nhom20.backdend.entity.Products;
+import com.webpet_nhom20.backdend.exception.AppException;
+import com.webpet_nhom20.backdend.exception.ErrorCode;
+import com.webpet_nhom20.backdend.mapper.ProductMapper;
 import com.webpet_nhom20.backdend.repository.ProductImageRepository;
 import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.repository.ProductVariantRepository;
@@ -14,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +38,39 @@ public class ProductServiceImpl implements ProductService {
     private ProductImageRepository productImageRepository;
     @Autowired
     private ProductVariantRepository productVariantRepository;
+    @Autowired
+    private ProductMapper productMapper;
+
+
+    @PreAuthorize("hasRole('SHOP')")
+    @Override
+    public ProductResponse createProduct(CreateProductRequest request) {
+        if(productRepository.existsByName(request.getName())){
+            throw new AppException(ErrorCode.PRODUCT_IS_EXISTED);
+        }
+        Products products = productMapper.toProduct(request);
+        return productMapper.toProductResponse(productRepository.save(products));
+    }
+
+    @PreAuthorize("hasRole('SHOP')")
+    @Override
+    public ProductResponse updateProduct(int productId, UpdateProductRequest request) {
+        Products products = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        productMapper.updateProduct(products, request);
+        return productMapper.toProductResponse(productRepository.save(products));
+    }
+
+    @PreAuthorize("hasRole('SHOP')")
+    @Override
+    public String deleteProduct(int productId) {
+        Products products = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        if(products.getIsDeleted().equals("1")){
+            return "Sản phẩm đã bị xóa trước đó";
+        }
+        products.setIsDeleted("1");
+        productRepository.save(products);
+        return "Xóa thành công";
+    }
 
     @Override
     public Page<ProductResponse> getAllProduct(Pageable pageable) {
@@ -50,8 +92,8 @@ public class ProductServiceImpl implements ProductService {
                 .soldQuantity(String.valueOf(product.getSoldQuantity()))
                 .isDeleted(product.getIsDeleted())
                 .isFeatured(product.getIsFeatured())
-                .createdDate(String.valueOf(product.getCreatedDate()))
-                .updatedDate(String.valueOf(product.getUpdatedDate()))
+                .createdDate(product.getCreatedDate())
+                .updatedDate(product.getUpdatedDate())
                 .build();
 
         List<Product_Images> images = productImageRepository.findByProductId(product.getId());
