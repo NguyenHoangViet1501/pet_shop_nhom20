@@ -47,7 +47,6 @@ public class ProductServiceImpl implements ProductService {
                 .shortDescription(product.getShortDescription())
                 .description(product.getDescription())
                 .price(String.valueOf(product.getPrice()))
-                .stockQuantity(String.valueOf(product.getStockQuantity()))
                 .soldQuantity(String.valueOf(product.getSoldQuantity()))
                 .isDeleted(product.getIsDeleted())
                 .isFeatured(product.getIsFeatured())

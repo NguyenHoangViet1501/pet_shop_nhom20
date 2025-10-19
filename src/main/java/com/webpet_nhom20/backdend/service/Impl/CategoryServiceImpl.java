@@ -14,6 +14,8 @@ import com.webpet_nhom20.backdend.repository.CategoryRepository;
 import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +65,13 @@ public class CategoryServiceImpl implements CategoryService
 
 
     @Override
-    public List<CategoryResponse> getAllCategories() {
-        return categoryRepository.findAll().stream().map(categoryMapper::toCategoryResponse).toList();
+    public Page<CategoryResponse> getAllCategories(String search , Pageable pageable) {
+        if(search == null || search.trim().isEmpty()){
+            return categoryRepository.findAll(pageable).map(categoryMapper::toCategoryResponse);
+        }
+        return categoryRepository.findByNameContainingIgnoreCase(search,pageable).map(categoryMapper::toCategoryResponse);
     }
+
 
     @Override
     public CategoryResponse getCategoryById(int id) {

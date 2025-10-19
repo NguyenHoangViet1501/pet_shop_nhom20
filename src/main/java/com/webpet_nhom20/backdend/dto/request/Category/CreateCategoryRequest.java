@@ -1,6 +1,5 @@
 package com.webpet_nhom20.backdend.dto.request.Category;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
