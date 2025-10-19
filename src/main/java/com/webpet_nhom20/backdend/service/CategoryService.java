@@ -18,6 +18,8 @@ public interface CategoryService {
 
     public Page<CategoryResponse> getAllCategories(String search,Pageable pageable);
 
+    public Page<CategoryResponse> filterByFeature(String isFeature,Pageable pageable);
+
     public CategoryResponse getCategoryById(int id);
 
 

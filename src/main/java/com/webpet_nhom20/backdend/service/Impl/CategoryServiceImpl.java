@@ -72,6 +72,11 @@ public class CategoryServiceImpl implements CategoryService
         return categoryRepository.findByNameContainingIgnoreCase(search,pageable).map(categoryMapper::toCategoryResponse);
     }
 
+    @Override
+    public Page<CategoryResponse> filterByFeature(String isFeature,Pageable pageable) {
+        return categoryRepository.filterByFeature(isFeature,pageable).map(categoryMapper::toCategoryResponse);
+    }
+
 
     @Override
     public CategoryResponse getCategoryById(int id) {

@@ -57,6 +57,14 @@ public class CategoryController {
                 success(true).
                 result(categoryService.getAllCategories(search ,pageable)).build();
     }
+    @PostMapping("/feature")
+    public ApiResponse<Page<CategoryResponse>> filterByFeature(@RequestParam("isFeature") String isFeature,  Pageable pageable){
+        return ApiResponse.<Page<CategoryResponse>>builder().
+                success(true)
+                .message("Lấy danh sách Categories feature thành công")
+                .result(categoryService.filterByFeature(isFeature,pageable))
+                .build();
+    }
 
     @GetMapping("/{categoryId}")
     ApiResponse<CategoryResponse> getCategoryById(@PathVariable int categoryId ){
