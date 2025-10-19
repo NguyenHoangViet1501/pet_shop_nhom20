@@ -77,6 +77,11 @@ public class CategoryServiceImpl implements CategoryService
         return categoryRepository.filterByFeature(isFeature,pageable).map(categoryMapper::toCategoryResponse);
     }
 
+    @Override
+    public Page<CategoryResponse> filterByDelete(String isDelete, Pageable pageable) {
+        return categoryRepository.filterByDelete(isDelete,pageable).map(categoryMapper::toCategoryResponse);
+    }
+
 
     @Override
     public CategoryResponse getCategoryById(int id) {

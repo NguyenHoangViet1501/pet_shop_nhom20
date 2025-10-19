@@ -17,4 +17,7 @@ public interface CategoryRepository extends JpaRepository<Categories,Integer> , 
 
     @Query(value = "SELECT * From categories where is_featured = :isFeature", nativeQuery = true)
     Page<Categories> filterByFeature(@Param("isFeature") String isFeature, Pageable pageable);
+
+    @Query(value = "SELECT * From categories where is_deleted = :isDelete", nativeQuery = true)
+    Page<Categories> filterByDelete(@Param("isDelete") String isDelete, Pageable pageable);
 }

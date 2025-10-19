@@ -65,6 +65,15 @@ public class CategoryController {
                 .result(categoryService.filterByFeature(isFeature,pageable))
                 .build();
     }
+    @PostMapping("/delete")
+    public ApiResponse<Page<CategoryResponse>> filterByDelete(@RequestParam("isDelete") String isDelete,  Pageable pageable){
+        return ApiResponse.<Page<CategoryResponse>>builder().
+                success(true)
+                .message("Lấy danh sách Categories delete thành công")
+                .result(categoryService.filterByDelete(isDelete,pageable))
+                .build();
+    }
+
 
     @GetMapping("/{categoryId}")
     ApiResponse<CategoryResponse> getCategoryById(@PathVariable int categoryId ){

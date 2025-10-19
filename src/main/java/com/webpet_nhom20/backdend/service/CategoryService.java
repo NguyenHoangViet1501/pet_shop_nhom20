@@ -20,6 +20,8 @@ public interface CategoryService {
 
     public Page<CategoryResponse> filterByFeature(String isFeature,Pageable pageable);
 
+    public Page<CategoryResponse> filterByDelete(String isDelete,Pageable pageable);
+
     public CategoryResponse getCategoryById(int id);
 
 
