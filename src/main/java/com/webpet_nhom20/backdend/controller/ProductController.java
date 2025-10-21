@@ -30,6 +30,15 @@ public class ProductController {
                 success(true).
                 result(productService.getAllProduct(pageable)).build();
     }
+    @GetMapping("/{productId}")
+    public ApiResponse<ProductResponse> getProductById(@PathVariable int productId ){
+        ProductResponse response = productService.getProductById(productId );
+        return ApiResponse.<ProductResponse>builder()
+                .success(true)
+                .message("")
+                .result(response)
+                .build();
+    }
     @PostMapping
     public ApiResponse<ProductResponse> createProduct(@RequestBody @Valid CreateProductRequest request) {
         return ApiResponse.<ProductResponse>builder()

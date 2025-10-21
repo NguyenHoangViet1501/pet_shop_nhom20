@@ -12,8 +12,8 @@ import jakarta.validation.constraints.Pattern;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateProductImageRequest {
     String imageUrl;
-    int position = 0;
-    int isPrimary = 0;
+    Integer position ;
+    Integer isPrimary ;
     @Pattern(regexp = "^[01]?$", message = "IS_DELETED_VALID")
-    String isDeleted = "0";
+    String isDeleted ;
 }

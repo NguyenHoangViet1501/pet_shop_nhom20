@@ -8,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,13 +16,16 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product_Variants {
+public class ProductVariants {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     @Column(name = "product_id" , nullable = false)
     int productId;
+    
+    @Column(name = "product_image_id")
+    Integer productImageId;
 
     @Column(name = "variant_name" , nullable = false)
     String variantName;
@@ -37,6 +38,9 @@ public class Product_Variants {
 
     @Column(name = "stock_quantity" , nullable = false)
     int stockQuantity = 0;
+
+    @Column(name = "sold_quantity" , nullable = false)
+    int soldQuantity = 0;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -44,7 +45,18 @@ public class Payments {
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
-    LocalDate createdDate;
+    Date createdDate;
 
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+
+    }
+
+    /**
+     * Tự động update ngày khi cập nhật
+     */
 }

@@ -28,10 +28,10 @@ public class ServiceAppointments {
     @Column( name = "user_id", nullable = false)
     Long userId;
 
-    @Column( name = "name_pet")
+    @Column( name = "name_pet", nullable = false)
     String namePet;
 
-    @Column( name = "specie_pet")
+    @Column( name = "specie_pet", nullable = false)
     String speciePet;
 
     @Column( name = "appointment_start", nullable = false)

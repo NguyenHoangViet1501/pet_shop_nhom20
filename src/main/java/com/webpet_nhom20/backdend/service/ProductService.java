@@ -19,4 +19,6 @@ public interface ProductService {
     public String deleteProduct(int productId);
 
     Page<ProductResponse> getAllProduct(Pageable pageable);
+
+    ProductResponse getProductById(int productId);
 }

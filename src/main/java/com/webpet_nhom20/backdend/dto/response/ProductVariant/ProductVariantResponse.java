@@ -17,10 +17,12 @@ import java.util.Date;
 public class ProductVariantResponse {
     int id;
     int productId;
+    Integer productImageId;
     String variantName;
     Float weight;
     Float price;
     int stockQuantity ;
+    int soldQuantity;
     String isDeleted ;
     @JsonFormat(pattern = "yyyy-MM-dd ")
     Date createdDate;

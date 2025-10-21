@@ -14,5 +14,4 @@ public class CreateProductImageRequest {
     @NotNull(message = "CATEGORY_NAME_IS_NOT_NULL")
     int productId;
     String imageUrl;
-    int isPrimary = 0;
 }

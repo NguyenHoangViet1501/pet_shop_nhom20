@@ -1,19 +1,18 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
-import com.webpet_nhom20.backdend.dto.request.Category.CreateCategoryRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
-import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductVariant.ProductVariantResponse;
 import com.webpet_nhom20.backdend.entity.Categories;
-import com.webpet_nhom20.backdend.entity.Product_Images;
-import com.webpet_nhom20.backdend.entity.Product_Variants;
+import com.webpet_nhom20.backdend.entity.ProductImages;
+import com.webpet_nhom20.backdend.entity.ProductVariants;
 import com.webpet_nhom20.backdend.entity.Products;
 import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.mapper.ProductMapper;
+import com.webpet_nhom20.backdend.repository.CategoryRepository;
 import com.webpet_nhom20.backdend.repository.ProductImageRepository;
 import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.repository.ProductVariantRepository;
@@ -40,6 +39,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductVariantRepository productVariantRepository;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
 
     @PreAuthorize("hasRole('SHOP')")
@@ -47,6 +48,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse createProduct(CreateProductRequest request) {
         if(productRepository.existsByName(request.getName())){
             throw new AppException(ErrorCode.PRODUCT_IS_EXISTED);
+        }
+        if(categoryRepository.findById(request.getCategoryId()).isEmpty()){
+            throw new AppException(ErrorCode.CATEGORY_NOT_FOUND);
         }
         Products products = productMapper.toProduct(request);
         return productMapper.toProductResponse(productRepository.save(products));
@@ -81,22 +85,32 @@ public class ProductServiceImpl implements ProductService {
         return new PageImpl<>(productResponses, pageable, productPage.getTotalElements());
     }
 
+    @Override
+    public ProductResponse getProductById(int productId){
+        Products product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        return mapToProductResponse(product);
+    }
+
+
+
+
     private ProductResponse mapToProductResponse(Products product) {
         ProductResponse response = ProductResponse.builder()
                 .id(product.getId())
                 .categoryId(product.getCategoryId())
+                .categoryName(categoryRepository.findById(product.getCategoryId()).map(Categories::getName).orElse(null))
                 .name(product.getName())
                 .shortDescription(product.getShortDescription())
                 .description(product.getDescription())
-                .price(String.valueOf(product.getPrice()))
                 .soldQuantity(String.valueOf(product.getSoldQuantity()))
+                .stockQuantity(String.valueOf(product.getStockQuantity()))
                 .isDeleted(product.getIsDeleted())
                 .isFeatured(product.getIsFeatured())
                 .createdDate(product.getCreatedDate())
                 .updatedDate(product.getUpdatedDate())
                 .build();
 
-        List<Product_Images> images = productImageRepository.findByProductId(product.getId());
+        List<ProductImages> images = productImageRepository.findByProductId(product.getId());
         List<ProductImageResponse> imageResponses = images.stream()
                 .map(image -> ProductImageResponse.builder()
                         .id(image.getId())
@@ -111,15 +125,17 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
         response.setProductImage(imageResponses);
 
-        List<Product_Variants> variants = productVariantRepository.findByProductId(product.getId());
+        List<ProductVariants> variants = productVariantRepository.findByProductId(product.getId());
         List<ProductVariantResponse> variantResponses = variants.stream()
                 .map(variant -> ProductVariantResponse.builder()
                         .id(variant.getId())
                         .productId(variant.getProductId())
+                        .productImageId(variant.getProductImageId())
                         .variantName(variant.getVariantName())
                         .weight(variant.getWeight())
                         .price(variant.getPrice())
                         .stockQuantity(variant.getStockQuantity())
+                        .soldQuantity(variant.getSoldQuantity())
                         .isDeleted(variant.getIsDeleted())
                         .createdDate(variant.getCreatedDate())
                         .updatedDate(variant.getUpdatedDate())

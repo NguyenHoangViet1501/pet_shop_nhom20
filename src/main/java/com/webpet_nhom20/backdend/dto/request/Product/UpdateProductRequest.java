@@ -14,9 +14,8 @@ public class UpdateProductRequest {
     String name;
     String shortDescription ;
     String description ;
-    float price;
     @Pattern(regexp = "^[01]?$", message = "IS_DELETED_VALID")
-    String isDeleted = "0";
+    String isDeleted  ;
     @Pattern(regexp = "^[01]?$", message = "IS_FEATURED_VALID")
-    String isFeatured = "0";
+    String isFeatured ;
 }

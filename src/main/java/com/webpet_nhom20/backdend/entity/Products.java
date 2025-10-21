@@ -36,11 +36,14 @@ public class Products {
     @Column(name = "description")
     String description ;
 
-    @Column(name = "price" )
-    float price;
+//    @Column(name = "price" )
+//    float price;
 
     @Column(name = "sold_quantity" , nullable = false)
     int soldQuantity = 0;
+
+    @Column(name = "stock_quantity" ,nullable = false )
+    int stockQuantity = 0 ;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";

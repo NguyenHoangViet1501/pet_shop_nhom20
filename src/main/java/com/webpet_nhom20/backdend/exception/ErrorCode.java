@@ -80,8 +80,20 @@ public enum ErrorCode {
     VARIANT_NAME_IS_EXISTED(1050, "Tên thuộc tính đã tồn tại", HttpStatus.BAD_REQUEST),
     VARIANT_NOT_FOUND(1051,"Thuộc tính không tồn tại", HttpStatus.BAD_REQUEST),
     //Product_Image
-    IMAGE_NOT_FOUND(1052,"Không tìm thấy ảnh", HttpStatus.BAD_REQUEST)
+    IMAGE_NOT_FOUND(1052,"Không tìm thấy ảnh", HttpStatus.BAD_REQUEST),
+
+
+    MAX_FILE_SIZE (1053,"Max ifle size is 2MB",HttpStatus.BAD_REQUEST),
+    FORMAT_FILE_VALID(1054,"Only jpg|jpeg|png|gif|bmp|webp ",HttpStatus.BAD_REQUEST),
+    FAIL_TO_UPLOAD_FILE(1055,"Fail to upload file",HttpStatus.BAD_REQUEST),
+    IMAGE_IS_DELETE(1056,"Image is deleted",HttpStatus.BAD_REQUEST),
+    IMAGE_IS_PRIMARY(1057,"Image is primary",HttpStatus.BAD_REQUEST),
+    IMAGE_IS_NOT_PRIMARY_AND_DELETE(1058,"Image isnt primary and delete",HttpStatus.BAD_REQUEST),
+    PRIMARY_IMAGE_ALREADY_EXISTS(1059,"Sản phẩm đã có ảnh chính, không thể set thêm ảnh chính khác",HttpStatus.BAD_REQUEST)
     ;
+
+
+
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;

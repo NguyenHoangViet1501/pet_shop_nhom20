@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "addresses")
@@ -25,27 +26,45 @@ public class Addresses {
     @Column(name = "contact_name" )
     String contactName;
 
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = false)
     String phone;
 
-    @Column(name = "detail_address")
+    @Column(name = "detail_address", nullable = false)
     String detailAddress;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     String city;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     String state;
 
 
     @Column(name = "is_deleted" , length = 1 )
     String isDeleted = "0";
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
-    LocalDate createdDate;
+    Date createdDate;
 
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
-    LocalDate updatedDate;
+    Date updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+        updatedDate = new Date();
+    }
+
+    /**
+     * Tự động update ngày khi cập nhật
+     */
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = new Date();
+    }
 
 
 

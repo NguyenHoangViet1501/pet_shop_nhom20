@@ -13,6 +13,7 @@ import com.webpet_nhom20.backdend.service.ProductImageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,6 +33,20 @@ public class ProductImageController {
                 .result(responses)
                 .build();
     }
+
+    @PostMapping("/upload/{productId}")
+    public ApiResponse<List<ProductImageResponse>> uploadProductImages(
+            @PathVariable int productId,
+            @RequestParam("files") MultipartFile[] files,
+            @RequestParam(value = "positions", required = false) int[] positions) {
+        List<ProductImageResponse> responses = imageService.uploadProductImages(productId, files, positions);
+        return ApiResponse.<List<ProductImageResponse>>builder()
+                .success(true)
+                .message("Upload images successfully")
+                .result(responses)
+                .build();
+    }
+
     @PutMapping("/{productImageId}")
     public ApiResponse<ProductImageResponse> updateProductImage(@PathVariable int productImageId, @RequestBody @Valid UpdateProductImageRequest request){
         return ApiResponse.<ProductImageResponse>builder()

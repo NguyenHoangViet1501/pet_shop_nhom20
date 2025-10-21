@@ -11,8 +11,10 @@ import jakarta.validation.constraints.Pattern;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpdateProductVariantRequest {
     String variantName;
+    Integer productImageId;
     Float weight;
     Float price;
+    int stockQuantity;
     @Pattern(regexp = "^[01]?$", message = "IS_DELETED_VALID")
-    String isDeleted = "0";
+    String isDeleted ;
 }

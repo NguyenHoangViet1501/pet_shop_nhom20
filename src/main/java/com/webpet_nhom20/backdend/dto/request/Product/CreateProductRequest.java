@@ -23,6 +23,4 @@ public class CreateProductRequest {
     String name;
     String shortDescription ;
     String description ;
-    @NotNull(message = "PRODUCT_PRICE_IS_NOT_NULL")
-    float price;
 }

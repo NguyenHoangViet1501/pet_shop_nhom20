@@ -20,10 +20,10 @@ import java.util.List;
 public class ProductResponse {
     int id;
     int categoryId;
+    String categoryName;
     String name;
     String shortDescription;
     String description;
-    String price;
     String stockQuantity;
     String soldQuantity;
     String isDeleted;
