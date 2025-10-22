@@ -1,4 +1,4 @@
-package com.webpet_nhom20.backdend.dto.response.Service;
+package com.webpet_nhom20.backdend.dto.response.ServicePet;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

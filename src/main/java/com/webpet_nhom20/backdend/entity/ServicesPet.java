@@ -38,7 +38,7 @@ public class ServicesPet {
     BigDecimal price = BigDecimal.ZERO;
 
     @Column(name = "is_active", length = 1)
-    String isActive;
+    String isActive = "1";
 
     @Column(name = "create_date", length = 19, updatable = false)
     LocalDateTime createDate;

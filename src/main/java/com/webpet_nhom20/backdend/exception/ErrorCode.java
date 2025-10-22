@@ -89,7 +89,13 @@ public enum ErrorCode {
     IMAGE_IS_DELETE(1056,"Image is deleted",HttpStatus.BAD_REQUEST),
     IMAGE_IS_PRIMARY(1057,"Image is primary",HttpStatus.BAD_REQUEST),
     IMAGE_IS_NOT_PRIMARY_AND_DELETE(1058,"Image isnt primary and delete",HttpStatus.BAD_REQUEST),
-    PRIMARY_IMAGE_ALREADY_EXISTS(1059,"Sản phẩm đã có ảnh chính, không thể set thêm ảnh chính khác",HttpStatus.BAD_REQUEST)
+    PRIMARY_IMAGE_ALREADY_EXISTS(1059,"Sản phẩm đã có ảnh chính, không thể set thêm ảnh chính khác",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_NAME_IS_NOT_NULL(1060,"Tên dịch vụ không được để trống",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_TITLE_IS_NOT_NULL(1061,"Tiêu đề dịch vụ không được để trống",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_DURATION_IS_NOT_NULL(1062,"Thời gian dịch vụ không được để trống",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_PRICE_IS_NOT_NULL(1063,"Giá dịch vụ không được để trống ",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_IS_EXISTED(1064,"Dịch vụ đã tồn tại",HttpStatus.BAD_REQUEST),
+    SERVICE_PET_NOT_FOUND(1065, "Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST)
     ;
 
 

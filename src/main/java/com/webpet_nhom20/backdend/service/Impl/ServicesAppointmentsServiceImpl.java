@@ -14,7 +14,7 @@ import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.mapper.ServiceAppointmentMapper;
 import com.webpet_nhom20.backdend.repository.ServicesAppointmentsRepository;
-import com.webpet_nhom20.backdend.repository.ServicesPetRespository;
+import com.webpet_nhom20.backdend.repository.ServicesPetRepository;
 import com.webpet_nhom20.backdend.repository.UserRepository;
 import com.webpet_nhom20.backdend.service.AsyncEmailService;
 import com.webpet_nhom20.backdend.service.EmailService;
@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsService {
     @Autowired
-    private ServicesPetRespository servicesPetRespository;
+    private ServicesPetRepository servicesPetRespository;
 
     @Autowired
     private ServicesAppointmentsRepository servicesAppointmentsRepository;
