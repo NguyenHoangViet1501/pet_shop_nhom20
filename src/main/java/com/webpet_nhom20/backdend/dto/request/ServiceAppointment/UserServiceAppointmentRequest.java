@@ -12,9 +12,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserServiceAppointmentRequest {
 
+    /**
+     * ID của người dùng
+     * - Không được để trống
+     */
     @NotNull(message = "USER_ID_NOT_NULL")
     private Integer userId;
 
+    /**
+     * Tên vai trò của người dùng
+     * - Không được để trống
+     * 
+     * Ví dụ: ADMIN, USER, CUSTOMER
+     */
     @NotNull(message = "ROLE_NAME_NOT_NULL")
     private String roleName;
 }

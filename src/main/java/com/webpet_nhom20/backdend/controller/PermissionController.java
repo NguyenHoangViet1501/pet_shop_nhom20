@@ -5,6 +5,7 @@ import com.webpet_nhom20.backdend.dto.request.Role_Permission.PermissionRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.Role_Permission.PermissionResponse;
 import com.webpet_nhom20.backdend.service.PermissionService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,7 +23,7 @@ public class PermissionController {
     PermissionService permissionService;
 
     @PostMapping("/create-permission")
-    ApiResponse<PermissionResponse> create(@RequestBody PermissionRequest request) {
+    ApiResponse<PermissionResponse> create(@Valid @RequestBody PermissionRequest request) {
         PermissionResponse permission = permissionService.create(request);
         return ApiResponse.<PermissionResponse>builder()
                 .success(true)

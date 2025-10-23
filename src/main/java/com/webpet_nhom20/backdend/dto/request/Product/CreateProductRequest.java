@@ -1,14 +1,9 @@
 package com.webpet_nhom20.backdend.dto.request.Product;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +12,29 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateProductRequest {
 
-    @NotNull(message = "CATEGORY_NAME_IS_NOT_NULL")
+    /**
+     * ID danh mục sản phẩm thuộc về
+     * - Không được để trống
+     */
+    @NotNull(message = "CATEGORY_ID_NOT_NULL")
     int categoryId;
-    @NotNull(message = "PRODUCT_NAME_IS_NOT_NULL")
+    
+    /**
+     * Tên sản phẩm
+     * - Không được để trống
+     * 
+     * Ví dụ: Thức ăn cho chó Royal Canin, Đồ chơi bóng cho mèo
+     */
+    @NotBlank(message = "PRODUCT_NAME_IS_NOT_NULL")
     String name;
-    String shortDescription ;
-    String description ;
+    
+    /**
+     * Mô tả ngắn về sản phẩm (tùy chọn)
+     */
+    String shortDescription;
+    
+    /**
+     * Mô tả chi tiết về sản phẩm (tùy chọn)
+     */
+    String description;
 }

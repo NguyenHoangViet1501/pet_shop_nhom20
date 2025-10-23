@@ -12,14 +12,19 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Request để hủy lịch hẹn dịch vụ
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CancelServiceAppointmentRequest {
 
+    /**
+     * ID của lịch hẹn cần hủy
+     * - Không được để trống
+     */
     @NotNull(message = "ID_NOT_NULL")
     private Integer id;
-
-
 }

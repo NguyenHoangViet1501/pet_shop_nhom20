@@ -1,6 +1,6 @@
 package com.webpet_nhom20.backdend.dto.request.Category;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,7 +11,17 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateCategoryRequest {
 
-    @NotNull(message = "CATEGORY_NAME_IS_NOT_NULL")
+    /**
+     * Tên danh mục
+     * - Không được để trống
+     * 
+     * Ví dụ: Thức ăn cho chó, Phụ kiện cho mèo, Đồ chơi thú cưng
+     */
+    @NotBlank(message = "CATEGORY_NAME_IS_NOT_NULL")
     String name;
-    String description ;
+    
+    /**
+     * Mô tả danh mục (tùy chọn)
+     */
+    String description;
 }

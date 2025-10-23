@@ -5,6 +5,7 @@ import com.webpet_nhom20.backdend.dto.request.Role_Permission.RoleRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.dto.response.Role_Permission.RoleResponse;
 import com.webpet_nhom20.backdend.service.RoleService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,7 +23,7 @@ public class RoleController {
     RoleService roleService;
 
     @PostMapping("/create-role")
-    ApiResponse<RoleResponse> create(@RequestBody RoleRequest request) {
+    ApiResponse<RoleResponse> create(@Valid @RequestBody RoleRequest request) {
         RoleResponse role = roleService.create(request);
         return ApiResponse.<RoleResponse>builder().success(true).result(role).build();
     }
