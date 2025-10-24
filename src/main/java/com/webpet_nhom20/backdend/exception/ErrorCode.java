@@ -27,6 +27,7 @@ public enum ErrorCode {
     USER_DELETED(1017,"User deleted", HttpStatus.OK),
     ROLE_NOT_FOUND(1018,"Role not found",HttpStatus.BAD_REQUEST),
     PHONE_EXISTED(1019,"Phone is exist",HttpStatus.BAD_REQUEST),
+    IS_EMPTY(1019,"Danh sách rỗng",HttpStatus.BAD_REQUEST),
 
     // ServiceAppointment
     SERVICE_ID_NOT_NULL(1020, "Service ID không được để trống", HttpStatus.BAD_REQUEST),
@@ -95,7 +96,16 @@ public enum ErrorCode {
     SERVICE_PET_DURATION_IS_NOT_NULL(1062,"Thời gian dịch vụ không được để trống",HttpStatus.BAD_REQUEST),
     SERVICE_PET_PRICE_IS_NOT_NULL(1063,"Giá dịch vụ không được để trống ",HttpStatus.BAD_REQUEST),
     SERVICE_PET_IS_EXISTED(1064,"Dịch vụ đã tồn tại",HttpStatus.BAD_REQUEST),
-    SERVICE_PET_NOT_FOUND(1065, "Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST)
+    SERVICE_PET_NOT_FOUND(1065, "Dịch vụ không tồn tại", HttpStatus.BAD_REQUEST),
+
+    //Address
+    ADDRESS_NOT_FOUND(1066,"Địa chỉ không tồn tại",HttpStatus.BAD_REQUEST),
+    ADDRESS_IS_NOT_NULL(1067,"Địa chỉ không được để trống",HttpStatus.BAD_REQUEST),
+    CONTACT_NAME_IS_NOT_NULL(1068,"Tên người liên hệ không được để trống",HttpStatus.BAD_REQUEST),
+    DETAIL_ADDRESS_IS_NOT_NULL(1070,"Địa chỉ chi tiết không được để trống",HttpStatus.BAD_REQUEST),
+    CITY_IS_NOT_NULL(1071,"Tỉnh/Thành phố không được để trống",HttpStatus.BAD_REQUEST),
+    STATE_IS_NOT_NULL(1072,"Quận/Huyện không được để trống",HttpStatus.BAD_REQUEST),
+    WARD_IS_NOT_NULL(1073,"Phường/Xã không được để trống",HttpStatus.BAD_REQUEST)
     ;
 
 
