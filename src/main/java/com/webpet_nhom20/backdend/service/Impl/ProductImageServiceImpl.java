@@ -74,7 +74,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             
             // Validate file
             if (file.isEmpty()) {
-                continue;
+                continue; // Bỏ qua file rỗng
             }
 
             // Validate file size (2MB)
@@ -87,18 +87,37 @@ public class ProductImageServiceImpl implements ProductImageService {
             if (contentType == null || !contentType.startsWith("image/")) {
                 throw new AppException(ErrorCode.FORMAT_FILE_VALID);
             }
+            
+            // Validate các định dạng ảnh được phép
+            String[] allowedTypes = {"image/jpeg", "image/jpg", "image/png", "image/gif", "image/bmp", "image/webp"};
+            boolean isValidType = false;
+            for (String type : allowedTypes) {
+                if (contentType.equals(type)) {
+                    isValidType = true;
+                    break;
+                }
+            }
+            if (!isValidType) {
+                throw new AppException(ErrorCode.FORMAT_FILE_VALID);
+            }
 
-            // Tính position: maxExistingPosition + position từ frontend
+            // Tính position: Nếu có positions từ frontend thì dùng, không thì tự động tăng
             int finalPosition;
-            if (positions != null) {
-                finalPosition = maxExistingPosition + positions[i];
+            if (positions != null && positions.length > i) {
+                // Sử dụng position từ frontend (không cộng thêm maxExistingPosition)
+                finalPosition = positions[i];
             } else {
                 // Nếu không gửi positions, tự động tăng dần từ maxExistingPosition + 1
                 finalPosition = maxExistingPosition + i + 1;
             }
 
             // Tạo tên file unique
-            String fileName = "/" + productId + "_" + System.currentTimeMillis() + "_" + i;
+            String originalFilename = file.getOriginalFilename();
+            String extension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+            String fileName = "/" + productId + "_" + System.currentTimeMillis() + "_" + i + extension;
             
             // Upload lên Cloudinary
             CloudinaryResponse cloudinaryResponse = cloudinaryService.uploadFile(file, fileName);
@@ -124,7 +143,7 @@ public class ProductImageServiceImpl implements ProductImageService {
                 .orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_FOUND));
         
         // Kiểm tra nếu request muốn set isPrimary = 1
-        if (request.getIsPrimary() != null && request.getIsPrimary() == 1) {
+        if (request.getIsPrimary() != null && request.getIsPrimary().equals("1")) {
             // Tìm xem đã có ảnh primary khác cho product này chưa (không tính ảnh hiện tại)
             Optional<ProductImages> existingPrimaryImage = repository.findByProductIdAndIsPrimary(
                     product_images.getProductId(), 1);
@@ -137,13 +156,13 @@ public class ProductImageServiceImpl implements ProductImageService {
         
         // Kiểm tra logic xung đột giữa isDeleted và isPrimary
         if (request.getIsDeleted() != null && request.getIsPrimary() != null) {
-            if (request.getIsDeleted().equals("1") && request.getIsPrimary() == 1) {
+            if (request.getIsDeleted().equals("1") && request.getIsPrimary().equals("1")) {
                 throw new AppException(ErrorCode.IMAGE_IS_NOT_PRIMARY_AND_DELETE);
             }
         }
         
         // Kiểm tra nếu ảnh đã deleted mà muốn set primary
-        if (product_images.getIsDeleted().equals("1") && request.getIsPrimary() != null && request.getIsPrimary() == 1) {
+        if (product_images.getIsDeleted().equals("1") && request.getIsPrimary() != null && request.getIsPrimary().equals("1")) {
             throw new AppException(ErrorCode.IMAGE_IS_DELETE);
         }
         

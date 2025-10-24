@@ -12,9 +12,23 @@ import java.util.Set;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
-    @NotBlank
+    
+    /**
+     * Tên vai trò
+     * - Không được để trống
+     * 
+     * Ví dụ: ADMIN, USER, SHOP, CUSTOMER
+     */
+    @NotBlank(message = "ROLE_NAME_NOT_NULL")
     String name;
 
+    /**
+     * Mô tả vai trò (tùy chọn)
+     */
     String description;
+    
+    /**
+     * Danh sách quyền được gán cho vai trò này (tùy chọn)
+     */
     Set<String> permissions;
 }

@@ -20,14 +20,28 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     @Override
     public CloudinaryResponse uploadFile(MultipartFile file , String fileName) {
         try {
-            final Map result = cloudinary.uploader().upload(file.getBytes(), Map.of("public_id", "petshop/product" + fileName));
-            final String url =(String) result.get("secure_url");
-            final String publicId =(String) result.get("public_id");
+            // Validate file không null và không rỗng
+            if (file == null || file.isEmpty()) {
+                throw new AppException(ErrorCode.FAIL_TO_UPLOAD_FILE);
+            }
+            
+            final Map result = cloudinary.uploader().upload(file.getBytes(), 
+                Map.of("public_id", "petshop/product" + fileName,
+                       "folder", "petshop/product"));
+            
+            final String url = (String) result.get("secure_url");
+            final String publicId = (String) result.get("public_id");
+            
             return CloudinaryResponse.builder()
                     .url(url)
                     .publicId(publicId)
                     .build();
-        }catch (Exception e){
+        } catch (AppException e) {
+            throw e; // Re-throw AppException
+        } catch (Exception e) {
+            // Log lỗi chi tiết để debug
+            System.err.println("Cloudinary upload error: " + e.getMessage());
+            e.printStackTrace();
             throw new AppException(ErrorCode.FAIL_TO_UPLOAD_FILE);
         }
     }

@@ -54,7 +54,7 @@ public class ApplicationInitConfig {
             if(userRepository.findByUsername("admin").isEmpty()){
                 User user = User.builder()
                         .username("admin")
-                        .password(passwordEncoder.encode("admin123"))
+                        .password(passwordEncoder.encode("Admin123@"))
                         .email("admin@gmail.com")
                         .fullName("Admin")
                         .phone("0123456789")
@@ -68,7 +68,7 @@ public class ApplicationInitConfig {
             if(userRepository.findByUsername("customer").isEmpty()){
                 User customer = User.builder()
                         .username("customer")
-                        .password(passwordEncoder.encode("customer123"))
+                        .password(passwordEncoder.encode("Customer123@"))
                         .email("hoangvit2k4@gmail.com")
                         .fullName("Customer Test")
                         .phone("0987654321")
