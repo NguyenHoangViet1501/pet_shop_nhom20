@@ -38,9 +38,14 @@ public class Addresses {
     @Column(name = "state", nullable = false)
     String state;
 
+    @Column(name = "ward", nullable = false)
+    String ward;
 
     @Column(name = "is_deleted" , length = 1 )
     String isDeleted = "0";
+
+    @Column(name = "is_default" , length = 1 )
+    String isDefault = "0";
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
