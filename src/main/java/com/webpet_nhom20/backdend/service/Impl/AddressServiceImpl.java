@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +37,16 @@ public class AddressServiceImpl implements AddressService {
     public Page<AddressResponse> getAddressById(String token, Pageable pageable) {
         Integer userIdFromToken = jwtTokenProvider.getUserId(token);
 
-        Page<Addresses> addressPage = addressRepository.findAllByUserIdAndIsDeleted(userIdFromToken, "0", pageable);
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(
+                        Sort.Order.desc("isDefault"),
+                        Sort.Order.desc("createdDate")
+                )
+        );
+
+        Page<Addresses> addressPage = addressRepository.findAllByUserIdAndIsDeleted(userIdFromToken, "0", sortedPageable);
 
         if (addressPage.isEmpty()){
             throw new AppException(ErrorCode.IS_EMPTY);

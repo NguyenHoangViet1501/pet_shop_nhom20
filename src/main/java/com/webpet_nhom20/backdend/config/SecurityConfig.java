@@ -47,6 +47,7 @@ public class SecurityConfig {
 
     @Autowired
     private CustomJwtDecoder jwtDecoder;
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
