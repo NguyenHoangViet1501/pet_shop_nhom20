@@ -17,6 +17,7 @@ import com.webpet_nhom20.backdend.repository.ProductImageRepository;
 import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.repository.ProductVariantRepository;
 import com.webpet_nhom20.backdend.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -41,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
     @Autowired
     private CategoryRepository categoryRepository;
+
 
 
     @PreAuthorize("hasRole('SHOP')")
@@ -77,11 +79,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProduct(Pageable pageable) {
-        Page<Products> productPage = productRepository.findAll(pageable);
+    public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search) {
+        Page<Products> productPage;
+
+        // Filter theo cả categoryId và search
+        if (categoryId != null && categoryId > 0 && search != null && !search.trim().isEmpty()) {
+            productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search.trim(), pageable);
+        }
+        // Chỉ filter theo categoryId
+        else if (categoryId != null && categoryId > 0) {
+            productPage = productRepository.findByCategoryId(categoryId, pageable);
+        }
+        // Chỉ search theo name
+        else if (search != null && !search.trim().isEmpty()) {
+            productPage = productRepository.findByNameContainingIgnoreCase(search.trim(), pageable);
+        }
+        // Không có filter gì
+        else {
+            productPage = productRepository.findAll(pageable);
+        }
+
         List<ProductResponse> productResponses = productPage.getContent().stream()
                 .map(this::mapToProductResponse)
                 .collect(Collectors.toList());
+
         return new PageImpl<>(productResponses, pageable, productPage.getTotalElements());
     }
 
@@ -90,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
         Products product = productRepository.findById(productId).orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return mapToProductResponse(product);
     }
-
 
 
 
