@@ -45,6 +45,7 @@ public enum ErrorCode {
     USER_EXISTED(1220, "Người dùng đã tồn tại", HttpStatus.BAD_REQUEST),
     EMAIL_EXISTED(1221, "Email đã được sử dụng", HttpStatus.BAD_REQUEST),
     PHONE_EXISTED(1222, "Số điện thoại đã được sử dụng", HttpStatus.BAD_REQUEST),
+    PASSWORD_EXISTED(1223, "Mật khẩu đã được sử dụng", HttpStatus.BAD_REQUEST),
 
     // Lỗi không tìm thấy
     USER_NOT_EXISTS(1230, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
@@ -137,7 +138,10 @@ public enum ErrorCode {
     DETAIL_ADDRESS_IS_NOT_NULL(2003,"Địa chỉ chi tiết không được để trống",HttpStatus.BAD_REQUEST),
     CITY_IS_NOT_NULL(2004,"Tỉnh/Thành phố không được để trống",HttpStatus.BAD_REQUEST),
     STATE_IS_NOT_NULL(2005,"Quận/Huyện không được để trống",HttpStatus.BAD_REQUEST),
-    WARD_IS_NOT_NULL(2006,"Phường/Xã không được để trống",HttpStatus.BAD_REQUEST)
+    WARD_IS_NOT_NULL(2006,"Phường/Xã không được để trống",HttpStatus.BAD_REQUEST),
+    //User (2100-2199)
+    UNCORRECT_PASSWORD(1223,"Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST),
+
     ;
 
 
