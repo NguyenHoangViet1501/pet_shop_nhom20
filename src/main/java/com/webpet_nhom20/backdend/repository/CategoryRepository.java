@@ -15,6 +15,8 @@ public interface CategoryRepository extends JpaRepository<Categories,Integer> , 
 
     Page<Categories> findByNameContainingIgnoreCase(String name , Pageable pageable);
 
+
+
     @Query(value = "SELECT * From categories where is_featured = :isFeature", nativeQuery = true)
     Page<Categories> filterByFeature(@Param("isFeature") String isFeature, Pageable pageable);
 
