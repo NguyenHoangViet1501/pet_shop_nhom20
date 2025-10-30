@@ -15,4 +15,9 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Products,Integer>, JpaSpecificationExecutor<Products> {
     boolean existsByName(String name);
     List<Products> findAllByCategoryId(int categoryId);
+
+    Page<Products> findByCategoryId(int categoryId, Pageable pageable);
+    Page<Products> findByCategoryIdAndNameContainingIgnoreCase(int categoryId, String name , Pageable pageable);
+
+    Page<Products> findByNameContainingIgnoreCase(String name , Pageable pageable);
 }
