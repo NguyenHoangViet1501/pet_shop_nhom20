@@ -1,6 +1,7 @@
 package com.webpet_nhom20.backdend.controller;
 
 
+import com.webpet_nhom20.backdend.dto.request.User.ChangePasswordUserRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
@@ -62,6 +63,15 @@ public class UserController {
         UserResponse user = userService.getUser(userId);
         return ApiResponse.<UserResponse>builder()
                 .result(user)
+                .build();
+    }
+    @PutMapping("/changePassword/{userId}")
+    public ApiResponse<String> changePasswordUser(@PathVariable int userId, @Valid @RequestBody ChangePasswordUserRequest request) {
+        String resultMessage = userService.changeUserPassword(userId, request);
+
+        return ApiResponse.<String>builder()
+                .success(true)
+                .message(resultMessage)
                 .build();
     }
 
