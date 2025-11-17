@@ -1,5 +1,6 @@
 package com.webpet_nhom20.backdend.service;
 
+import com.webpet_nhom20.backdend.dto.request.User.ChangePasswordUserRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.User.UserResponse;
@@ -17,6 +18,8 @@ public interface UserService  {
     public UserResponse getUser(int id);
 
     public List<UserResponse> getUsers();
+
+    public String changeUserPassword(int userId, ChangePasswordUserRequest request);
 
 
 }

@@ -1,5 +1,6 @@
 package com.webpet_nhom20.backdend.service.Impl;
 
+import com.webpet_nhom20.backdend.dto.request.User.ChangePasswordUserRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserCreationRequest;
 import com.webpet_nhom20.backdend.dto.request.User.UserUpdateRequest;
 import com.webpet_nhom20.backdend.dto.response.User.UserResponse;
@@ -84,5 +85,26 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> getUsers() {
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
+    @Override
+    public String changeUserPassword(int userId, ChangePasswordUserRequest request) {
+        // Lấy user trong DB theo ID
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTS));
+
+        // Kiểm tra mật khẩu cũ có đúng không
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.UNCORRECT_PASSWORD);
+        }
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.PASSWORD_EXISTED);
+        }
+
+        // Mã hoá mật khẩu mới và cập nhật
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        return "Đổi mật khẩu thành công";
+    }
+
 
 }
