@@ -11,9 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,7 +18,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.util.List;
 
 @Configuration
@@ -29,12 +25,18 @@ import java.util.List;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     private final String[] PUBLIC_POST_ENDPOINTS = {
             "/api/v1/users",
             "/api/v1/auth/login",
             "/api/v1/auth/introspect",
             "/api/v1/auth/refresh-token",
-            "/api/v1/auth/logout",
+            "/api/v1/auth/logout"
     };
     private final String[] PUBLIC_GET_ENDPOINTS = {
             "/api/v1/categories",
@@ -64,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         // Cho phép GET không cần login
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         // Các request khác đều cần JWT
                         .anyRequest().authenticated()
                 )
@@ -80,6 +83,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("*")); // hoặc thay bằng domain cụ thể
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("/swagger-ui/**"));
         configuration.setAllowCredentials(false); // nếu cần cookie thì set true + origin cụ thể
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
