@@ -2,6 +2,7 @@ package com.webpet_nhom20.backdend.service.Impl;
 
 import com.webpet_nhom20.backdend.config.JwtTokenProvider;
 import com.webpet_nhom20.backdend.dto.request.Address.AddressRequest;
+import com.webpet_nhom20.backdend.dto.request.Address.UpdateAddressRequest;
 import com.webpet_nhom20.backdend.dto.response.Address.AddressResponse;
 import com.webpet_nhom20.backdend.entity.Addresses;
 import com.webpet_nhom20.backdend.exception.AppException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -86,5 +88,50 @@ public class AddressServiceImpl implements AddressService {
         Addresses savedAddress = addressRepository.save(newAddress);
 
         return addressMapper.toResponse(savedAddress);
+    }
+
+    @Override
+    public AddressResponse updateAddress(String token, UpdateAddressRequest request) {
+        Integer userId = jwtTokenProvider.getUserId(token);
+
+        Addresses address = addressRepository.findById(request.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.ADDRESS_NOT_FOUND));
+
+        if (address.getUserId() != (userId)) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        if ("1".equals(address.getIsDefault()) && "1".equals(request.getIsDeleted())) {
+            throw new AppException(ErrorCode.CANNOT_DELETE_DEFAULT_ADDRESS);
+        }
+        address.setContactName(request.getContactName());
+        address.setPhone(request.getPhone());
+        address.setDetailAddress(request.getDetailAddress());
+        address.setCity(request.getCity());
+        address.setState(request.getState());
+        address.setWard(request.getWard());
+        address.setIsDefault(request.getIsDefault());
+        address.setUpdatedDate(new Date());
+        address.setIsDeleted(request.getIsDeleted());
+        // Nếu frontend gửi isDefault = "1"
+        if ("1".equals(request.getIsDefault())) {
+            // Reset các address khác của user về 0
+            addressRepository.findByUserIdAndIsDeleted(userId, "0")
+                    .forEach(addr -> {
+                        if (addr.getId() !=(address.getId()) && "1".equals(addr.getIsDefault())) {
+                            addr.setIsDefault("0");
+                            addr.setUpdatedDate(new Date());
+                            addressRepository.save(addr);
+                        }
+                    });
+            // Cập nhật cái đang sửa là mặc định
+            address.setIsDefault("1");
+        }
+        Addresses updatedAddress = addressRepository.save(address);
+        return addressMapper.toResponse(updatedAddress);
+    }
+
+    @Override
+    public void deleteAddress(String token, Integer addressId) {
+
     }
 }

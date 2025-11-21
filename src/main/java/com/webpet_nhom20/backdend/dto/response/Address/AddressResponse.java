@@ -17,6 +17,7 @@ import java.util.Date;
 public class AddressResponse {
 
     int id;
+    int userId;
     String contactName;
     String phone;
     String detailAddress;

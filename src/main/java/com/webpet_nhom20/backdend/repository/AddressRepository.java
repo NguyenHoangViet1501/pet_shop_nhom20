@@ -15,4 +15,5 @@ public interface AddressRepository extends JpaRepository<Addresses, Integer> {
     List<Addresses> findByUserId(Integer userId);
 
 
+    List<Addresses> findByUserIdAndIsDeleted(Integer userId, String s);
 }

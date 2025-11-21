@@ -139,12 +139,11 @@ public enum ErrorCode {
     CITY_IS_NOT_NULL(2004,"Tỉnh/Thành phố không được để trống",HttpStatus.BAD_REQUEST),
     STATE_IS_NOT_NULL(2005,"Quận/Huyện không được để trống",HttpStatus.BAD_REQUEST),
     WARD_IS_NOT_NULL(2006,"Phường/Xã không được để trống",HttpStatus.BAD_REQUEST),
+    CANNOT_DELETE_DEFAULT_ADDRESS(2007,"Không thể xóa địa chỉ mặc định",HttpStatus.BAD_REQUEST),
     //User (2100-2199)
     UNCORRECT_PASSWORD(1223,"Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST),
 
     ;
-
-
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

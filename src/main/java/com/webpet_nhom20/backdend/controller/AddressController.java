@@ -1,6 +1,7 @@
 package com.webpet_nhom20.backdend.controller;
 
 import com.webpet_nhom20.backdend.dto.request.Address.AddressRequest;
+import com.webpet_nhom20.backdend.dto.request.Address.UpdateAddressRequest;
 import com.webpet_nhom20.backdend.dto.response.Address.AddressResponse;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
 import com.webpet_nhom20.backdend.service.AddressService;
@@ -56,6 +57,21 @@ public class AddressController {
                 ApiResponse.<AddressResponse>builder()
                         .success(true)
                         .message("Create address successfully")
+                        .result(response)
+                        .build()
+        );
+    }
+    @PostMapping("/update")
+    public ResponseEntity<ApiResponse<AddressResponse>> updateAddress(
+            @RequestHeader("Authorization") String token,
+            @Valid @RequestBody UpdateAddressRequest request
+    ) {
+        AddressResponse response = addressService.updateAddress(token, request);
+
+        return ResponseEntity.ok(
+                ApiResponse.<AddressResponse>builder()
+                        .success(true)
+                        .message("Update address successfully")
                         .result(response)
                         .build()
         );
