@@ -19,6 +19,7 @@ import com.webpet_nhom20.backdend.repository.ProductVariantRepository;
 import com.webpet_nhom20.backdend.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -79,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable(value = "product_list" , key = "{#pageable.pageNumber, #pageable.pageSize}" )
     public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search) {
         Page<Products> productPage;
 

@@ -59,15 +59,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors() // 👉 bật cors ở đây
-                .and()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Cấu hình trỏ tới Bean bên dưới
                 .authorizeHttpRequests(auth -> auth
-                        // Cho phép POST vào các endpoint public
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
-                        // Cho phép GET không cần login
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
-                        // Các request khác đều cần JWT
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
@@ -80,19 +76,31 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*")); // hoặc thay bằng domain cụ thể
+
+        // 1. Cho phép các Frontend cụ thể (3000 và 5173)
+        // Lưu ý: Khi setAllowCredentials(true), KHÔNG ĐƯỢC dùng "*"
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:5173"
+        ));
+
+        // 2. Các method được phép
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedHeaders(List.of("/swagger-ui/**"));
-        configuration.setAllowCredentials(false); // nếu cần cookie thì set true + origin cụ thể
+
+        // 3. Các Header được phép (Sửa lỗi: Xóa dòng "/swagger-ui/**" sai cú pháp)
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-auth-token"));
+
+        // 4. Cho phép header khác trả về client (nếu cần thiết)
+        configuration.setExposedHeaders(List.of("x-auth-token"));
+
+        // 5. Cho phép credentials (cookies, authorization headers...)
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // áp dụng cho tất cả API
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-
-    // Custom converter để lấy authorities từ JWT
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
@@ -103,7 +111,4 @@ public class SecurityConfig {
 
         return jwtConverter;
     }
-
-
-
 }

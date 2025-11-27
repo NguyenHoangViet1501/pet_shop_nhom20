@@ -13,5 +13,6 @@ public class OpenApiConfig implements ApplicationListener<ApplicationReadyEvent>
     public void onApplicationEvent(ApplicationReadyEvent event) {
         String swaggerUrl = "http://localhost:8080/swagger-ui/index.html";
         System.out.println("Swagger : " + swaggerUrl);
+
     }
 }

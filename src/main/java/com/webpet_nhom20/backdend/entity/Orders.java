@@ -23,7 +23,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "orderCode" , nullable = false)
+    @Column(name = "order_code" , nullable = false)
     String orderCode;
 
     @Column(name = "user_id" , nullable = false)
