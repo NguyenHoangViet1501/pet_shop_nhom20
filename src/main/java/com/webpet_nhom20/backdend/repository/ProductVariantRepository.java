@@ -11,4 +11,5 @@ public interface ProductVariantRepository extends JpaRepository<ProductVariants,
     List<ProductVariants> findByProductId(int productId);
     boolean existsByVariantName(String name);
     boolean existsByProductIdAndVariantName(int productId, String variantName);
+
 }

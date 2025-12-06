@@ -80,27 +80,63 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "product_list" , key = "{#pageable.pageNumber, #pageable.pageSize}" )
-    public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search) {
+    @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #search, #categoryId, #minPrice, #maxPrice}")
+    public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice) {
         Page<Products> productPage;
 
-        // Filter theo cả categoryId và search
-        if (categoryId != null && categoryId > 0 && search != null && !search.trim().isEmpty()) {
-            productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search.trim(), pageable);
-        }
-        // Chỉ filter theo categoryId
-        else if (categoryId != null && categoryId > 0) {
-            productPage = productRepository.findByCategoryId(categoryId, pageable);
-        }
-        // Chỉ search theo name
-        else if (search != null && !search.trim().isEmpty()) {
-            productPage = productRepository.findByNameContainingIgnoreCase(search.trim(), pageable);
-        }
-        // Không có filter gì
-        else {
-            productPage = productRepository.findAll(pageable);
+        // 1. Chuẩn hóa điều kiện lọc
+        boolean hasCategory = categoryId != null && categoryId > 0;
+        boolean hasSearch = search != null && !search.trim().isEmpty();
+
+        // Kiểm tra có lọc giá hay không (chỉ cần nhập min HOẶC max là tính có lọc)
+        boolean hasPrice = minPrice != null || maxPrice != null;
+
+        // Tự động điền giá trị thiếu:
+        // - Nếu thiếu min -> coi như min = 0
+        // - Nếu thiếu max -> coi như max = số cực lớn
+        Double finalMin = (minPrice != null) ? minPrice : 0.0;
+        Double finalMax = (maxPrice != null) ? maxPrice : Double.MAX_VALUE;
+
+        // 2. Xử lý phân nhánh if-else
+        if (hasPrice) {
+            // === NHÓM CÓ LỌC GIÁ ===
+            if (hasCategory && hasSearch) {
+                // Case 1: Category + Search + Price
+                productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCaseAndPriceBetween(
+                        categoryId, search.trim(), finalMin, finalMax, pageable);
+            } else if (hasCategory) {
+                // Case 2: Category + Price
+                productPage = productRepository.findByCategoryIdAndPriceBetween(
+                        categoryId, finalMin, finalMax, pageable);
+            } else if (hasSearch) {
+                // Case 3: Search + Price
+                productPage = productRepository.findByNameContainingIgnoreCaseAndPriceBetween(
+                        search.trim(), finalMin, finalMax, pageable);
+            } else {
+                // Case 4: Chỉ lọc theo Price
+                productPage = productRepository.findByPriceBetween(
+                        finalMin, finalMax, pageable);
+            }
+        } else {
+            // === NHÓM KHÔNG LỌC GIÁ (Logic cũ) ===
+            if (hasCategory && hasSearch) {
+                // Case 5: Category + Search
+                productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search.trim(), pageable);
+            } else if (hasCategory) {
+                // Case 6: Chỉ Category
+                productPage = productRepository.findByCategoryId(
+                        categoryId, pageable);
+            } else if (hasSearch) {
+                // Case 7: Chỉ Search
+                productPage = productRepository.findByNameContainingIgnoreCase(
+                        search.trim(), pageable);
+            } else {
+                // Case 8: Không lọc gì cả (Lấy tất cả)
+                productPage = productRepository.findAll(pageable);
+            }
         }
 
+        // 3. Map dữ liệu sang Response
         List<ProductResponse> productResponses = productPage.getContent().stream()
                 .map(this::mapToProductResponse)
                 .collect(Collectors.toList());

@@ -25,11 +25,11 @@ public class ProductController {
 
     @GetMapping()
     public ApiResponse<Page<ProductResponse>> getAllProducts(@RequestParam(required = false) String search, @RequestParam(required = false) Integer categoryId,
-            Pageable pageable){
+            Pageable pageable, @RequestParam (required = false) Double minPrice, @RequestParam(required = false) Double maxPrice){
         return ApiResponse.<Page<ProductResponse>>builder().
                 success(true)
                 .message("Lấy danh sách sản phẩm thành công")
-                .result(productService.getAllProduct(pageable,categoryId,search)).build();
+                .result(productService.getAllProduct(pageable,categoryId,search,minPrice, maxPrice)).build();
     }
     @GetMapping("/{productId}")
     public ApiResponse<ProductResponse> getProductById(@PathVariable int productId ){
