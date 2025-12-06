@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Orders {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -30,19 +30,25 @@ public class Orders {
     int userId;
 
     @Column(name = "total_amount" , nullable = false)
-    Float totalAmount;
+    double totalAmount;
 
     @Column(name = "shipping_amount" , nullable = false)
-    Float shippingAmount;
+    double shippingAmount;
 
     @Column(name = "discount_amount" )
-    Float discountAmount;
+    Double discountPercent;
 
     @Column(name = "payment_method" , nullable = false)
     String paymentMethods ;
 
+    @Column(name = "shipping_address" , nullable = false , length = 500)
+    String shippingAddress ;
+
     @Column(name = "status" , nullable = false)
     String status;
+
+    @Column(name = "note" , length = 500)
+    String note;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";

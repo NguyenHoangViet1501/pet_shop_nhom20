@@ -143,6 +143,13 @@ public enum ErrorCode {
     //User (2100-2199)
     UNCORRECT_PASSWORD(1223,"Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST),
 
+    //Order (2200-2299)
+    ORDER_NOT_FOUND(2200,"Đơn hàng không tồn tại",HttpStatus.BAD_REQUEST),
+    ORDER_STATUS_INVALID(2201,"Trạng thái đơn hàng không hợp lệ",HttpStatus.BAD_REQUEST),
+    CANNOT_CANCEL_COMPLETED_ORDER(2202,"Không thể hủy đơn hàng đã hoàn thành",HttpStatus.BAD_REQUEST),
+    CANNOT_CANCEL_CANCELED_ORDER(2203,"Không thể hủy đơn hàng đã bị hủy",HttpStatus.BAD_REQUEST),
+    PRODUCT_VARIANT_ID_IS_NOT_NULL(2204,"ID biến thể sản phẩm không được để trống",HttpStatus.BAD_REQUEST),
+
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

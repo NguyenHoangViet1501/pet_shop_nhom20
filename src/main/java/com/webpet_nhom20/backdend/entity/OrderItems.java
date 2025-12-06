@@ -32,10 +32,10 @@ public class OrderItems {
     int quantity;
 
     @Column(name = "unit_price", nullable = false)
-    Float unitPrice;
+    double unitPrice;
 
     @Column(name = "total_price", nullable = false)
-    Float totalPrice;
+    double totalPrice;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";
