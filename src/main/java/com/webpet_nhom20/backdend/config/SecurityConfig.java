@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
@@ -82,27 +83,15 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 1. Cho phép các Frontend cụ thể (3000 và 5173)
-        // Lưu ý: Khi setAllowCredentials(true), KHÔNG ĐƯỢC dùng "*"
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "http://localhost:5173"
-        ));
-
-        // 2. Các method được phép
+        configuration.setAllowedOrigins(List.of("*")); // Cho tất cả domain
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-
-        // 3. Các Header được phép (Sửa lỗi: Xóa dòng "/swagger-ui/**" sai cú pháp)
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-auth-token"));
-
-        // 4. Cho phép header khác trả về client (nếu cần thiết)
-        configuration.setExposedHeaders(List.of("x-auth-token"));
-
-        // 5. Cho phép credentials (cookies, authorization headers...)
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("*")); // Cho mọi header
+        configuration.setExposedHeaders(List.of("*"));
+        configuration.setAllowCredentials(false); // Quan trọng!!
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 
