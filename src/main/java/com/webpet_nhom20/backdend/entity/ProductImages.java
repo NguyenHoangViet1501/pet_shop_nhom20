@@ -12,6 +12,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductImages {
 
@@ -23,6 +24,8 @@ public class ProductImages {
     @JoinColumn(name = "product_id")
     @ToString.Exclude // Quan trọng: Ngắt vòng lặp vô tận khi in log
     private Products product;
+    @Column(name = "public_id", nullable = false)
+    private String publicId;
 
     @Column(name = "image_url", nullable = false)
     String imageUrl;

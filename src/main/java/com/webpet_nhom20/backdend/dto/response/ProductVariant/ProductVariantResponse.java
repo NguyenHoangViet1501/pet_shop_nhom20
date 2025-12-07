@@ -17,7 +17,6 @@ import java.util.Date;
 public class ProductVariantResponse {
     int id;
     int productId;
-    Integer productImageId;
     String variantName;
     Float weight;
     Float price;
