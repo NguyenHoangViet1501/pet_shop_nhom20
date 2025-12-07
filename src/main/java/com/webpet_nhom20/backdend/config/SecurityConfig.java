@@ -27,8 +27,13 @@ public class SecurityConfig {
 
     private static final String[] SWAGGER_WHITELIST = {
             "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/webjars/**"
     };
 
     private final String[] PUBLIC_POST_ENDPOINTS = {
