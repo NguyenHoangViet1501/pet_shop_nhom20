@@ -4,20 +4,34 @@ import com.webpet_nhom20.backdend.dto.request.Product_Image.CreateProductImageRe
 import com.webpet_nhom20.backdend.dto.request.Product_Image.UpdateProductImageRequest;
 import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
 import com.webpet_nhom20.backdend.entity.ProductImages;
-import org.mapstruct.Condition;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import com.webpet_nhom20.backdend.entity.Products;
+import com.webpet_nhom20.backdend.repository.ProductRepository;
+import org.mapstruct.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring",nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface ProductImageMapper {
-    ProductImageResponse toProductImageResponse(ProductImages productImages);
-    ProductImages toProductImage(CreateProductImageRequest request);
-    void updateProductImage(@MappingTarget ProductImages productImages, UpdateProductImageRequest request);
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public abstract class ProductImageMapper {
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    public abstract ProductImageResponse toProductImageResponse(ProductImages productImages);
+
+    @Mapping(source = "productId", target = "product")
+    public abstract ProductImages toProductImage(CreateProductImageRequest request);
+
+    public abstract void updateProductImage(@MappingTarget ProductImages productImages, UpdateProductImageRequest request);
+
+    protected Products mapProductIdToProduct(Integer productId) {
+        if (productId == null) {
+            return null;
+        }
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
 
     @Condition
-    default boolean isNotEmpty(String value) {
+    protected boolean isNotEmpty(String value) {
         return value != null && !value.isEmpty();
     }
 }

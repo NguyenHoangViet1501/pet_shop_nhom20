@@ -24,8 +24,9 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "order_id" , nullable = false)
-    int orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column(name = "amount" , nullable = false)
     Float amount;

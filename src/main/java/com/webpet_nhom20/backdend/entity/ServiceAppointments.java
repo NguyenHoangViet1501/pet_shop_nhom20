@@ -22,11 +22,13 @@ public class ServiceAppointments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column( name = "service_id" , nullable = false)
-    int serviceId;
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private ServicesPet service;
 
-    @Column( name = "user_id", nullable = false)
-    Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column( name = "name_pet", nullable = false)
     String namePet;

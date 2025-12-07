@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -24,8 +25,18 @@ public class Products {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "category_id" )
-    int categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Categories category;
+
+    @OneToMany(mappedBy = "product")
+    private Set<ProductVariants> productVariants;
+
+    @OneToMany(mappedBy = "product")
+    private Set<ProductImages> productImages;
+
+    @OneToMany(mappedBy = "product")
+    private Set<Reviews> reviews;
 
     @Column(name = "name" )
     String name;

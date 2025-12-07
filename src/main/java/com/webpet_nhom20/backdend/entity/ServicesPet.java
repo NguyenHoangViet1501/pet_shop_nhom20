@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "services")
@@ -21,6 +22,9 @@ public class ServicesPet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+
+    @OneToMany(mappedBy = "service")
+    private Set<ServiceAppointments> serviceAppointments;
 
     @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     String name;

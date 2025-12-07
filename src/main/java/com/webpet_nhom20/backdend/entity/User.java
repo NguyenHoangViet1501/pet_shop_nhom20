@@ -44,6 +44,21 @@ public class User  {
     @ManyToOne
     Role role;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Reviews> reviews;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Addresses> addresses;
+
+    @OneToMany(mappedBy = "user")
+    private Set<ServiceAppointments> serviceAppointments;
+
     @Column(name = "is_deleted", length = 1)
     String isDeleted = "0";
 

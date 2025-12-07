@@ -21,11 +21,13 @@ public class CartItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "cart_id", nullable = false)
-    int cartId;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    @Column(name = "product_variant_id", nullable = false)
-    int productVariantId;
+    @ManyToOne
+    @JoinColumn(name = "product_variant_id")
+    private ProductVariants productVariant;
 
     @Column(name = "quantity", nullable = false)
     int quantity;

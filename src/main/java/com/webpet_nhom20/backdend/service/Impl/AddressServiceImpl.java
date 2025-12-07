@@ -5,6 +5,7 @@ import com.webpet_nhom20.backdend.dto.request.Address.AddressRequest;
 import com.webpet_nhom20.backdend.dto.request.Address.UpdateAddressRequest;
 import com.webpet_nhom20.backdend.dto.response.Address.AddressResponse;
 import com.webpet_nhom20.backdend.entity.Addresses;
+import com.webpet_nhom20.backdend.entity.User;
 import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.mapper.AddressMapper;
@@ -63,9 +64,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressResponse createAddress(String token, AddressRequest request) {
         Integer userId = jwtTokenProvider.getUserId(token);
+        User user = new User();
+        user.setId(userId);
 
         Addresses newAddress = addressMapper.toEntity(request);
-        newAddress.setUserId(userId);
+        newAddress.setUser(user);
 
         List<Addresses> userAddresses = addressRepository.findByUserId(userId);
 
@@ -97,7 +100,7 @@ public class AddressServiceImpl implements AddressService {
         Addresses address = addressRepository.findById(request.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.ADDRESS_NOT_FOUND));
 
-        if (address.getUserId() != (userId)) {
+        if (address.getUser().getId() != (userId)) {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
         if ("1".equals(address.getIsDefault()) && "1".equals(request.getIsDeleted())) {

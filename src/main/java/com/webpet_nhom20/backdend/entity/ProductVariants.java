@@ -8,7 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product_variants")
@@ -21,11 +24,25 @@ public class ProductVariants {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "product_id" , nullable = false)
-    int productId;
-    
-    @Column(name = "product_image_id")
-    Integer productImageId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
+
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductVariantImage> productVariantImages = new ArrayList<>();
+
+    // Helper method để lấy nhanh danh sách ảnh thực tế (nếu cần)
+    public List<ProductImages> getActualImages() {
+        return productVariantImages.stream()
+                .map(ProductVariantImage::getImage)
+                .toList();
+    }
+
+    @OneToMany(mappedBy = "productVariant")
+    private Set<CartItems> cartItems;
+
+    @OneToMany(mappedBy = "productVariant")
+    private Set<OrderItems> orderItems;
 
     @Column(name = "variant_name" , nullable = false)
     String variantName;

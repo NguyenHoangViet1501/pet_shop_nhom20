@@ -17,11 +17,9 @@ import com.webpet_nhom20.backdend.repository.ServicesAppointmentsRepository;
 import com.webpet_nhom20.backdend.repository.ServicesPetRepository;
 import com.webpet_nhom20.backdend.repository.UserRepository;
 import com.webpet_nhom20.backdend.service.AsyncEmailService;
-import com.webpet_nhom20.backdend.service.EmailService;
 import com.webpet_nhom20.backdend.service.ServicesAppointmentsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,26 +31,12 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Slf4j
 public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsService {
-    @Autowired
-    private ServicesPetRepository servicesPetRespository;
-
-    @Autowired
-    private ServicesAppointmentsRepository servicesAppointmentsRepository;
-
-    @Autowired
-    private ServiceAppointmentMapper serviceAppointmentMapper;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    AsyncEmailService asyncEmailService;
-
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final ServicesPetRepository servicesPetRespository;
+    private final ServicesAppointmentsRepository servicesAppointmentsRepository;
+    private final ServiceAppointmentMapper serviceAppointmentMapper;
+    private final UserRepository userRepository;
+    private final AsyncEmailService asyncEmailService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public ServiceAppointmentsResponse create(ServiceAppointmentsRequest request) {
@@ -67,7 +51,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
 
         ServiceAppointments saved = servicesAppointmentsRepository.save(appointment);
         try {
-            userRepository.findById(saved.getUserId().intValue()).ifPresent(user -> {
+            userRepository.findById(saved.getUser().getId()).ifPresent(user -> {
                 String subject = CommonUtil.buildAppointmentEmailSubject(saved, user.getFullName(), user.getPhone());
                 String htmlBody = CommonUtil.buildAppointmentEmailHtml(saved, user.getFullName(), user.getPhone(), servicesPet.getTitle());
                 asyncEmailService.sendAppointmentEmail(user.getEmail(), subject, htmlBody);
@@ -90,7 +74,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
             return servicesAppointmentsRepository.findAllOrderByStatusAndStart(pageable)
                     .map(entity -> {
                         ServiceAppointmentsResponse response = serviceAppointmentMapper.toResponse(entity);
-                        servicesPetRespository.findById(entity.getServiceId())
+                        servicesPetRespository.findById(entity.getService().getId())
                                 .ifPresent(sp -> response.setServiceName(sp.getTitle()));
                         return response;
                     });
@@ -98,7 +82,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
             return servicesAppointmentsRepository.findByUserIdOrderByStatusAndStart(request.getUserId(), pageable)
                     .map(entity -> {
                         ServiceAppointmentsResponse response = serviceAppointmentMapper.toResponse(entity);
-                        servicesPetRespository.findById(entity.getServiceId())
+                        servicesPetRespository.findById(entity.getService().getId())
                                 .ifPresent(sp -> response.setServiceName(sp.getTitle()));
                         return response;
                     });
@@ -123,7 +107,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         // Kiểm tra quyền truy cập
         if (roleFromToken.equals("CUSTOMER")) {
             // Customer chỉ có thể cập nhật appointment của chính họ
-            if (!existingAppointment.getUserId().equals(userIdFromToken.longValue())) {
+            if (existingAppointment.getUser().getId() != userIdFromToken.longValue()) {
                 throw new AppException(ErrorCode.ACCESS_DENIED);
             }
             
@@ -133,16 +117,14 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
                 throw new AppException(ErrorCode.ACCESS_DENIED);
             }
 
-        } else if (roleFromToken.equals("SHOP")) {
-            // Shop có thể cập nhật bất kỳ appointment nào
-        } else {
+        } else if (!roleFromToken.equals("SHOP")) {
             log.error("Invalid role: {}", roleFromToken);
             throw new AppException(ErrorCode.ACCESS_DENIED);
         }
         
         // Validate service tồn tại nếu có thay đổi serviceId
-        if (request.getServiceId() != null && !request.getServiceId().equals(existingAppointment.getServiceId())) {
-            ServicesPet service = servicesPetRespository.findById(request.getServiceId())
+        if (request.getServiceId() != null && !request.getServiceId().equals(existingAppointment.getService().getId())) {
+            servicesPetRespository.findById(request.getServiceId())
                     .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
         }
         // Cập nhật thông tin appointment
@@ -158,7 +140,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
             existingAppointment.setAppoinmentStart(request.getAppoinmentStart());
             
             // Cập nhật appointment_end nếu có thay đổi serviceId hoặc start time
-            int serviceId = request.getServiceId() != null ? request.getServiceId() : existingAppointment.getServiceId();
+            int serviceId = request.getServiceId() != null ? request.getServiceId() : existingAppointment.getService().getId();
             ServicesPet service = servicesPetRespository.findById(serviceId)
                     .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
             
@@ -167,13 +149,13 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
             existingAppointment.setAppoinmentEnd(appointmentEnd);
         }
         
-        if (request.getServiceId() != null && !request.getServiceId().equals(existingAppointment.getServiceId())) {
-            existingAppointment.setServiceId(request.getServiceId());
+        if (request.getServiceId() != null && !request.getServiceId().equals(existingAppointment.getService().getId())) {
+            ServicesPet service = servicesPetRespository.findById(request.getServiceId())
+                    .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
+            existingAppointment.setService(service);
             
             // Cập nhật lại appointment_end khi service thay đổi
             if (request.getAppoinmentStart() != null) {
-                ServicesPet service = servicesPetRespository.findById(request.getServiceId())
-                        .orElseThrow(() -> new AppException(ErrorCode.SERVICE_NOT_FOUND));
                 
                 LocalDateTime appointmentEnd = request.getAppoinmentStart()
                         .plusMinutes(service.getDurationMinutes());
@@ -198,7 +180,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         ServiceAppointmentsResponse response = serviceAppointmentMapper.toResponse(savedAppointment);
         
         // Lấy tên service để hiển thị trong response
-        servicesPetRespository.findById(savedAppointment.getServiceId())
+        servicesPetRespository.findById(savedAppointment.getService().getId())
                 .ifPresent(service -> response.setServiceName(service.getTitle()));
         
         return response;
@@ -216,7 +198,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         // 2️⃣ Lấy appointment từ DB
         ServiceAppointments existingAppointment = servicesAppointmentsRepository.findById(request.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-        if(!existingAppointment.getUserId().equals(userIdFromToken.longValue())){
+        if(existingAppointment.getUser().getId() != userIdFromToken.longValue()){
             throw new AppException(ErrorCode.UNAUTHENTICATED_CANCEL);
         }
         // 3️⃣ Kiểm tra nếu đã bị hủy trước đó
@@ -236,10 +218,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         ServiceAppointments canceledAppointment = servicesAppointmentsRepository.save(existingAppointment);
 
         // 6️⃣ Mapping sang response
-        ServiceAppointmentsResponse response = serviceAppointmentMapper.toResponse(canceledAppointment);
-
-
-        return response;
+        return serviceAppointmentMapper.toResponse(canceledAppointment);
     }
 
 }
