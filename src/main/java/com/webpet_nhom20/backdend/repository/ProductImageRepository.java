@@ -12,6 +12,6 @@ public interface ProductImageRepository extends JpaRepository<ProductImages, Int
     List<ProductImages> findByProductId(int productId);
     
     // Tìm ảnh primary chưa bị xóa
-    @Query("SELECT pi FROM ProductImages pi WHERE pi.productId = :productId AND pi.isPrimary = :isPrimary AND pi.isDeleted = '0'")
+    @Query("SELECT pi FROM ProductImages pi WHERE pi.product.id = :productId AND pi.isPrimary = :isPrimary AND pi.isDeleted = '0'")
     Optional<ProductImages> findByProductIdAndIsPrimary(@Param("productId") int productId, @Param("isPrimary") int isPrimary);
 }

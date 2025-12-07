@@ -22,11 +22,13 @@ public class OrderItems {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "order_id", nullable = false)
-    int orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    @Column(name = "product_variant_id", nullable = false)
-    int productVariantId;
+    @ManyToOne
+    @JoinColumn(name = "product_variant_id")
+    private ProductVariants productVariant;
 
     @Column(name = "quantity", nullable = false)
     int quantity;

@@ -5,10 +5,13 @@ import com.webpet_nhom20.backdend.dto.request.Product_Image.UpdateProductImageRe
 import com.webpet_nhom20.backdend.dto.response.Cloudinary.CloudinaryResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
 import com.webpet_nhom20.backdend.entity.ProductImages;
+import com.webpet_nhom20.backdend.entity.ProductVariants;
+import com.webpet_nhom20.backdend.entity.Products;
 import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.mapper.ProductImageMapper;
 import com.webpet_nhom20.backdend.repository.ProductImageRepository;
+import com.webpet_nhom20.backdend.repository.ProductRepository;
 import com.webpet_nhom20.backdend.service.CloudinaryService;
 import com.webpet_nhom20.backdend.service.ProductImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class ProductImageServiceImpl implements ProductImageService {
     private ProductImageMapper mapper;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private ProductRepository productRepository;
 
     @PreAuthorize("hasRole('SHOP')")
     @Override
@@ -36,8 +41,10 @@ public class ProductImageServiceImpl implements ProductImageService {
         List<ProductImageResponse> responses = new ArrayList<>();
 
         for (CreateProductImageRequest req : requests) {
+
+            Products products = productRepository.findById(req.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
             ProductImages image = new ProductImages();
-            image.setProductId(req.getProductId());
+            image.setProduct(products);
             image.setImageUrl(req.getImageUrl());
             image.setPosition(position++);
 
@@ -51,6 +58,8 @@ public class ProductImageServiceImpl implements ProductImageService {
     @PreAuthorize("hasRole('SHOP')")
     @Override
     public List<ProductImageResponse> uploadProductImages(int productId, MultipartFile[] files, int[] positions) {
+
+        Products product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
         List<ProductImageResponse> responses = new ArrayList<>();
         
         if (files == null || files.length == 0) {
@@ -124,7 +133,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             
             // Lưu vào database
             ProductImages image = new ProductImages();
-            image.setProductId(productId);
+            image.setProduct(product);
             image.setImageUrl(cloudinaryResponse.getUrl());
             image.setPosition(finalPosition);
             image.setIsPrimary(0); // Tất cả isPrimary đều là 0
@@ -146,7 +155,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         if (request.getIsPrimary() != null && request.getIsPrimary().equals("1")) {
             // Tìm xem đã có ảnh primary khác cho product này chưa (không tính ảnh hiện tại)
             Optional<ProductImages> existingPrimaryImage = repository.findByProductIdAndIsPrimary(
-                    product_images.getProductId(), 1);
+                    product_images.getProduct().getId(), 1);
             
             // Nếu có ảnh primary và không phải là ảnh hiện tại đang update
             if (existingPrimaryImage.isPresent() && existingPrimaryImage.get().getId() != ImageId) {

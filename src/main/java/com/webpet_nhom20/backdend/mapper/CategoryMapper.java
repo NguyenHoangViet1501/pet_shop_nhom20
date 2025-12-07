@@ -6,6 +6,7 @@ import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
 import com.webpet_nhom20.backdend.entity.Categories;
 import org.mapstruct.Condition;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -14,6 +15,7 @@ public interface CategoryMapper {
 
     Categories toCategory(CreateCategoryRequest request);
 
+    @Mapping(target = "products", ignore = true)
     CategoryResponse toCategoryResponse(Categories categories);
 
     void updateCategory(@MappingTarget Categories categories, UpdateCategoryRequest request);

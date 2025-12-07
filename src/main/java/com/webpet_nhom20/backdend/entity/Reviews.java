@@ -22,11 +22,13 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "user_id" , nullable = false)
-    int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "product_id" , nullable = false)
-    int productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Products product;
 
     @Column(name = "rating" , nullable = false)
     short rating;

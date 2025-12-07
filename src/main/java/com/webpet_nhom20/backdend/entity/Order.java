@@ -2,6 +2,8 @@ package com.webpet_nhom20.backdend.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +28,15 @@ public class Order {
     @Column(name = "order_code" , nullable = false)
     String orderCode;
 
-    @Column(name = "user_id" , nullable = false)
-    int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItems> orderItems;
+
+    @OneToMany(mappedBy = "order")
+    private Set<Payments> payments;
 
     @Column(name = "total_amount" , nullable = false)
     double totalAmount;
@@ -62,6 +71,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
     Date updatedDate;
+
 
     @PrePersist
     protected void onCreate() {

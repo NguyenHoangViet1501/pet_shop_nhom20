@@ -12,6 +12,13 @@ import jakarta.validation.constraints.*;
 public class UpdateProductVariantRequest {
     
     /**
+     * ID sản phẩm (tùy chọn)
+     * - Phải là số dương nếu được cung cấp
+     */
+    @Positive(message = "PRODUCT_ID_MUST_BE_POSITIVE")
+    Integer productId;
+
+    /**
      * Tên biến thể (tùy chọn)
      * - Từ 1-255 ký tự nếu được cung cấp
      */

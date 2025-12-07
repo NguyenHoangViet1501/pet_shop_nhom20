@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -27,6 +28,9 @@ public class Categories {
 
     @Column(name = "description")
     String description ;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Products> products;
 
     @Column(name = "is_featured" , length = 1)
     String isFeatured = "0";

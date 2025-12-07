@@ -14,7 +14,7 @@ public interface ServicesAppointmentsRepository extends JpaRepository<ServiceApp
     // CUSTOMER: lấy theo userId, ưu tiên SCHEDULED, rồi sắp theo appoinmentStart tăng dần
     @Query("""
            SELECT s FROM ServiceAppointments s 
-           WHERE s.userId = :userId 
+           WHERE s.user.id = :userId 
            ORDER BY 
              CASE WHEN s.status = 'SCHEDULED' THEN 0 ELSE 1 END,
              s.appoinmentStart ASC

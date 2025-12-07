@@ -8,6 +8,7 @@ import com.webpet_nhom20.backdend.dto.response.OrderItem.OrderItemResponse;
 import com.webpet_nhom20.backdend.entity.Order;
 import com.webpet_nhom20.backdend.entity.OrderItems;
 import com.webpet_nhom20.backdend.entity.ProductVariants;
+import com.webpet_nhom20.backdend.entity.User;
 import com.webpet_nhom20.backdend.enums.OrderStatus;
 import com.webpet_nhom20.backdend.repository.OrderItemRepository;
 import com.webpet_nhom20.backdend.repository.OrderRepository;
@@ -67,7 +68,9 @@ public class OrderServiceImpl implements OrderService {
 
 
         Order order = new Order();
-        order.setUserId(userIdFromToken);
+        User user = new User();
+        user.setId(userIdFromToken);
+        order.setUser(user);
         order.setOrderCode(orderCode);
         order.setTotalAmount((float) totalAmount);
         order.setShippingAmount((float)request.getShippingAmount());
@@ -87,9 +90,11 @@ public class OrderServiceImpl implements OrderService {
             ProductVariants variant = productVariantRepository.findById(itemReq.getProductVariantId())
                     .orElseThrow(() -> new RuntimeException("Product variant not found"));
 
+
+
             OrderItems item = new OrderItems();
-            item.setOrderId(savedOrder.getId());
-            item.setProductVariantId(itemReq.getProductVariantId());
+            item.setOrder(savedOrder);
+            item.setProductVariant(variant);
             item.setQuantity(itemReq.getQuantity());
             item.setUnitPrice(variant.getPrice());
             item.setTotalPrice(variant.getPrice() * itemReq.getQuantity());
@@ -100,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
         OrderResponse response = new OrderResponse();
         response.setId(savedOrder.getId());
         response.setOrderCode(savedOrder.getOrderCode());
-        response.setUserId(savedOrder.getUserId());
+        response.setUserId(savedOrder.getUser().getId());
         response.setTotalAmount(savedOrder.getTotalAmount());
         response.setShippingAmount(savedOrder.getShippingAmount());
         response.setDiscountPercent(savedOrder.getDiscountPercent());
@@ -114,8 +119,8 @@ public class OrderServiceImpl implements OrderService {
         // chuyển items về response
         List<OrderItemResponse> itemResponses = savedItems.stream().map(item -> {
             OrderItemResponse i = new OrderItemResponse();
-            i.setOrderId(item.getOrderId());
-            i.setProductVariantId(item.getProductVariantId());
+            i.setOrderId(item.getOrder().getId());
+            i.setProductVariantId(item.getProductVariant().getId());
             i.setQuantity(item.getQuantity());
             i.setUnitPrice(item.getUnitPrice());
             i.setTotalPrice(item.getTotalPrice());

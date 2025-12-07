@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "cart")
@@ -22,8 +23,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "user_id", nullable = false)
-    int userId;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "cart")
+    private Set<CartItems> cartItems;
 
     @Basic
     @Temporal(TemporalType.TIMESTAMP)

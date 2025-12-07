@@ -20,8 +20,9 @@ public class Addresses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "user_id" , nullable = false)
-    int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "contact_name" )
     String contactName;

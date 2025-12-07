@@ -2,10 +2,7 @@ package com.webpet_nhom20.backdend.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
@@ -22,8 +19,10 @@ public class ProductImages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @Column(name = "product_id" , nullable = false)
-    int productId;
+    @ManyToOne(fetch = FetchType.LAZY) // Lazy loading để tối ưu hiệu năng
+    @JoinColumn(name = "product_id")
+    @ToString.Exclude // Quan trọng: Ngắt vòng lặp vô tận khi in log
+    private Products product;
 
     @Column(name = "image_url", nullable = false)
     String imageUrl;
