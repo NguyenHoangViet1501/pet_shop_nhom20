@@ -44,9 +44,9 @@ public class SecurityConfig {
             "/api/v1/auth/logout"
     };
     private final String[] PUBLIC_GET_ENDPOINTS = {
-            "/api/v1/categories",
+            "/api/v1/categories/**",
             "/api/v1/services/active",
-            "/api/v1/products"
+            "/api/v1/products/**"
     };
 
     @Value("${signerKey}")
@@ -69,7 +69,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
-
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
@@ -79,21 +78,33 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*")); // Cho tất cả domain
+        // Cho phép wildcard domain (hoặc localhost các port)
+        configuration.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "http://127.0.0.1:*",
+                "http://192.168.*.*",
+                "*"
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*")); // Cho mọi header
-        configuration.setExposedHeaders(List.of("*"));
-        configuration.setAllowCredentials(false); // Quan trọng!!
+
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "x-auth-token"));
+
+        configuration.setExposedHeaders(List.of("x-auth-token"));
+
+        // Cho phép Cookies / Authorization header
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
+
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {

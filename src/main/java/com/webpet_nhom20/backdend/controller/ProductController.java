@@ -1,31 +1,28 @@
 package com.webpet_nhom20.backdend.controller;
 
-
+import com.webpet_nhom20.backdend.dto.request.Product.FullProductCreateRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
-import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
-import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
+import com.webpet_nhom20.backdend.dto.response.Product.FullProductCreateResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/v1/products")
-
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping()
     public ApiResponse<Page<ProductResponse>> getAllProducts(@RequestParam(required = false) String search, @RequestParam(required = false) Integer categoryId,
-            Pageable pageable, @RequestParam (required = false) Double minPrice, @RequestParam(required = false) Double maxPrice){
+                                                             Pageable pageable, @RequestParam (required = false) Double minPrice, @RequestParam(required = false) Double maxPrice){
         return ApiResponse.<Page<ProductResponse>>builder().
                 success(true)
                 .message("Lấy danh sách sản phẩm thành công")
@@ -64,4 +61,14 @@ public class ProductController {
                 .build();
     }
 
+    @PostMapping("/create-all")
+    public ApiResponse<FullProductCreateResponse> createFullProduct(
+            @Valid @RequestBody FullProductCreateRequest request) {
+        FullProductCreateResponse response = productService.createFullProduct(request);
+        return ApiResponse.<FullProductCreateResponse>builder()
+                .success(true)
+                .message(response.getMessage())
+                .result(response)
+                .build();
+    }
 }

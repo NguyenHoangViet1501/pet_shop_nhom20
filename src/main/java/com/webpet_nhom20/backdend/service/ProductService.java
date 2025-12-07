@@ -1,10 +1,9 @@
 package com.webpet_nhom20.backdend.service;
 
-import com.webpet_nhom20.backdend.dto.request.Category.CreateCategoryRequest;
-import com.webpet_nhom20.backdend.dto.request.Category.UpdateCategoryRequest;
+import com.webpet_nhom20.backdend.dto.request.Product.FullProductCreateRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
-import com.webpet_nhom20.backdend.dto.response.Category.CategoryResponse;
+import com.webpet_nhom20.backdend.dto.response.Product.FullProductCreateResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +20,8 @@ public interface ProductService {
     Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice);
 
     ProductResponse getProductById(int productId);
+
+    FullProductCreateResponse createFullProduct(FullProductCreateRequest request);
 
 
 }

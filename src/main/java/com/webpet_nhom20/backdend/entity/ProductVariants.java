@@ -2,10 +2,7 @@ package com.webpet_nhom20.backdend.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ import java.util.Set;
 @Table(name = "product_variants")
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductVariants {
