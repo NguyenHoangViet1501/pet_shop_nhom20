@@ -28,7 +28,7 @@ public class Products {
     private Categories category;
 
     @OneToMany(mappedBy = "product")
-    private Set<ProductVariants> productVariants;
+    private Set<ProductVariants> product_variants;
 
     @OneToMany(mappedBy = "product")
     private Set<ProductImages> productImages;
