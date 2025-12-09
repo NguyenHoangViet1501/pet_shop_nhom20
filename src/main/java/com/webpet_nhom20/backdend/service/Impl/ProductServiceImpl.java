@@ -17,9 +17,7 @@ import com.webpet_nhom20.backdend.service.ProductImageService;
 import com.webpet_nhom20.backdend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,11 +74,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #search, #categoryId, #minPrice, #maxPrice}")
+    @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #search, #categoryId, #minPrice, #maxPrice, #pageable.sort}")
     public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice) {
         Page<Products> productPage;
 
-        // 1. Chuẩn hóa điều kiện lọc
+        // 1. Chuẩn hóa tham số
         boolean hasCategory = categoryId != null && categoryId > 0;
         boolean hasSearch = search != null && !search.trim().isEmpty();
 
@@ -93,46 +91,54 @@ public class ProductServiceImpl implements ProductService {
         Double finalMin = (minPrice != null) ? minPrice : 0.0;
         Double finalMax = (maxPrice != null) ? maxPrice : Double.MAX_VALUE;
 
-        // 2. Xử lý phân nhánh if-else
-        if (hasPrice) {
-            // === NHÓM CÓ LỌC GIÁ ===
-            if (hasCategory && hasSearch) {
-                // Case 1: Category + Search + Price
-                productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCaseAndPriceBetween(
-                        categoryId, search.trim(), finalMin, finalMax, pageable);
-            } else if (hasCategory) {
-                // Case 2: Category + Price
-                productPage = productRepository.findByCategoryIdAndPriceBetween(
-                        categoryId, finalMin, finalMax, pageable);
-            } else if (hasSearch) {
-                // Case 3: Search + Price
-                productPage = productRepository.findByNameContainingIgnoreCaseAndPriceBetween(
-                        search.trim(), finalMin, finalMax, pageable);
+        // 2. Kiểm tra Sort
+        boolean isSortByPrice = pageable.getSort().stream()
+                .anyMatch(order -> order.getProperty().equals("price"));
+
+        if (isSortByPrice) {
+            // === LOGIC SORT GIÁ (Dùng Native Query Custom) ===
+            boolean isAsc = pageable.getSort().getOrderFor("price").isAscending();
+
+            // Tạo Pageable mới KHÔNG CÓ SORT để tránh conflict với ORDER BY trong SQL
+            Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+
+            if (isAsc) {
+                productPage = productRepository.findAllWithFiltersSortedByPriceAsc(
+                        hasCategory ? categoryId : null,
+                        hasSearch ? search.trim() : null,
+                        finalMin, finalMax, unsortedPageable);
             } else {
-                // Case 4: Chỉ lọc theo Price
-                productPage = productRepository.findByPriceBetween(
-                        finalMin, finalMax, pageable);
+                productPage = productRepository.findAllWithFiltersSortedByPriceDesc(
+                        hasCategory ? categoryId : null,
+                        hasSearch ? search.trim() : null,
+                        finalMin, finalMax, unsortedPageable);
             }
         } else {
-            // === NHÓM KHÔNG LỌC GIÁ (Logic cũ) ===
-            if (hasCategory && hasSearch) {
-                // Case 5: Category + Search
-                productPage = productRepository.findByCategoryIdAndNameContainingIgnoreCase(categoryId, search.trim(), pageable);
-            } else if (hasCategory) {
-                // Case 6: Chỉ Category
-                productPage = productRepository.findByCategoryId(
-                        categoryId, pageable);
-            } else if (hasSearch) {
-                // Case 7: Chỉ Search
-                productPage = productRepository.findByNameContainingIgnoreCase(
-                        search.trim(), pageable);
-            } else {
-                // Case 8: Không lọc gì cả (Lấy tất cả)
-                productPage = productRepository.findAll(pageable);
-            }
+            // === LOGIC THƯỜNG (Mặc định, Mới nhất, Bán chạy) ===
+
+            // FIX LỖI: Map tên biến Java sang tên cột Database thủ công
+            List<Sort.Order> dbOrders = pageable.getSort().stream()
+                    .map(order -> {
+                        String property = order.getProperty();
+                        // Map createdDate -> created_time (hoặc created_date tùy DB của bạn)
+                        if ("createdDate".equals(property)) return new Sort.Order(order.getDirection(), "created_date");
+                        // Map soldQuantity -> sold_quantity
+                        if ("soldQuantity".equals(property)) return new Sort.Order(order.getDirection(), "sold_quantity");
+                        // Các trường khác giữ nguyên
+                        return order;
+                    })
+                    .collect(Collectors.toList());
+
+            // Tạo Pageable mới với tên cột DB chuẩn
+            Pageable dbPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(dbOrders));
+
+            productPage = productRepository.findAllWithFilters(
+                    hasCategory ? categoryId : null,
+                    hasSearch ? search.trim() : null,
+                    finalMin, finalMax, dbPageable);
         }
 
-        // 3. Map dữ liệu sang Response
+        // 3. Map Response
         List<ProductResponse> productResponses = productPage.getContent().stream()
                 .map(this::mapToProductResponse)
                 .collect(Collectors.toList());
