@@ -20,7 +20,7 @@ public abstract class ServiceAppointmentMapper {
     private UserRepository userRepository;
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "appoinmentEnd", ignore = true)
+    @Mapping(target = "appointmentEnd", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)

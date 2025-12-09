@@ -1,6 +1,9 @@
 package com.webpet_nhom20.backdend.entity;
 
 
+import com.webpet_nhom20.backdend.enums.PaymentMethod;
+import com.webpet_nhom20.backdend.enums.PaymentStatus;
+import com.webpet_nhom20.backdend.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -24,21 +28,27 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @OneToOne
+    @JoinColumn(name = "order_id" ,referencedColumnName = "id")
     private Order order;
 
     @Column(name = "amount" , nullable = false)
-    Float amount;
+    BigDecimal amount;
 
     @Column(name = "payment_methods" , nullable = false)
-    String paymentMethods;
+    PaymentMethod paymentMethods;
 
     @Column(name = "status" , nullable = false)
     String status;
 
     @Column(name = "provider_reference" , nullable = false)
     String providerReference;
+
+    @Column
+    PaymentStatus paymentStatus;
+
+    @Column
+    PaymentType paymentType;
 
     @Column(name = "paid_at" , nullable = false)
     LocalDate paidAt;

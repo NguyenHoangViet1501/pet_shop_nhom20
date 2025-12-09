@@ -20,7 +20,6 @@ public abstract class AddressMapper {
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
-    @Mapping(source = "userId", target = "user")
     public abstract Addresses toEntity(AddressRequest request);
 
     public abstract AddressResponse toResponse(Addresses address);

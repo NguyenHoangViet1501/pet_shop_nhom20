@@ -5,6 +5,7 @@ import com.webpet_nhom20.backdend.dto.response.OrderItem.OrderItemResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class OrderResponse {
 
     int userId;
 
-    Double totalAmount;
+    BigDecimal totalAmount;
 
-    Double shippingAmount;
+    BigDecimal shippingAmount;
 
     double discountPercent;
 

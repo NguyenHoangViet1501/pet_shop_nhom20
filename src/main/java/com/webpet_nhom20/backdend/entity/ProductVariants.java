@@ -29,7 +29,6 @@ public class ProductVariants {
     @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductVariantImage> productVariantImages = new ArrayList<>();
 
-    // Helper method để lấy nhanh danh sách ảnh thực tế (nếu cần)
     public List<ProductImages> getActualImages() {
         return productVariantImages.stream()
                 .map(ProductVariantImage::getImage)

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -16,8 +17,8 @@ public class OrderItemResponse {
     int orderId;
     int productVariantId;
     int quantity;
-    double unitPrice;
-    double totalPrice;
+    BigDecimal unitPrice;
+    BigDecimal totalPrice;
     String isDeleted;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date createdDate;

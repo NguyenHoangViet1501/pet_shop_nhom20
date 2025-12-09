@@ -45,6 +45,12 @@ public class Products {
     @Column(name = "description")
     String description ;
 
+    @Column(name = "animal", nullable = true)
+    String animal ;
+
+    @Column(name = "brand", nullable = true)
+    String brand ;
+
 //    @Column(name = "price" )
 //    float price;
 

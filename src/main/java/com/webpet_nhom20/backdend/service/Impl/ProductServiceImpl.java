@@ -13,6 +13,7 @@ import com.webpet_nhom20.backdend.exception.AppException;
 import com.webpet_nhom20.backdend.exception.ErrorCode;
 import com.webpet_nhom20.backdend.mapper.ProductMapper;
 import com.webpet_nhom20.backdend.repository.*;
+import com.webpet_nhom20.backdend.service.ProductImageService;
 import com.webpet_nhom20.backdend.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductVariantImageRepository productVariantImageRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
+    private final ProductImageService productImageService;
 
 
     @PreAuthorize("hasRole('SHOP')")
@@ -249,10 +251,18 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
         response.setProductImage(imageResponses);
 
+
+
+
         List<ProductVariants> variants = productVariantRepository.findByProductId(product.getId());
         List<ProductVariantResponse> variantResponses = variants.stream()
                 .map(variant -> {
-                    ProductVariantResponse.ProductVariantResponseBuilder builder = ProductVariantResponse.builder()
+                    List<ProductVariantImage> variantImages = productVariantImageRepository.findImagesByVariantId(variant.getId());
+
+                    List<String> imageUrls = variantImages.stream().map(
+                            vImg -> vImg.getImage().getImageUrl()).toList();
+
+                    return ProductVariantResponse.builder()
                             .id(variant.getId())
                             .productId(variant.getProduct().getId())
                             .variantName(variant.getVariantName())
@@ -262,10 +272,11 @@ public class ProductServiceImpl implements ProductService {
                             .soldQuantity(variant.getSoldQuantity())
                             .isDeleted(variant.getIsDeleted())
                             .createdDate(variant.getCreatedDate())
-                            .updatedDate(variant.getUpdatedDate());
-                    return builder.build();
+                            .updatedDate(variant.getUpdatedDate())
+                            .imageUrl(imageUrls)
+                            .build();
                 })
-                .collect(Collectors.toList());
+                        .toList();
         response.setProductVariant(variantResponses);
 
         return response;

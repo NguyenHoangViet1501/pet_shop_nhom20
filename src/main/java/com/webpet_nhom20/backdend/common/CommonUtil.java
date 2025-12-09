@@ -14,8 +14,8 @@ public class CommonUtil {
 
 	public static String buildAppointmentEmailHtml(ServiceAppointments appointment, String userFullName, String userPhone, String serviceName) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
-		String start = appointment.getAppoinmentStart().format(formatter);
-		String end = appointment.getAppoinmentEnd().format(formatter);
+		String start = appointment.getAppointmentStart().format(formatter);
+		String end = appointment.getAppointmentEnd().format(formatter);
 		String petName = appointment.getNamePet() == null ? "(Không có)" : appointment.getNamePet();
 		String speciePet = appointment.getSpeciePet() == null ? "(Không có)" : appointment.getSpeciePet();
 		String notes = appointment.getNotes() == null ? "(Không có)" : appointment.getNotes();

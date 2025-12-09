@@ -75,6 +75,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
         productVariantImage.setVariant(product_variants); // Gán đối tượng đã được lưu (có ID)
         productVariantImage.setImage(productImages);
 
+
+
         productVariantImageRepository.save(productVariantImage);
 
         mapper.updateProductVariant(product_variants, request);

@@ -17,7 +17,7 @@ public interface ServicesAppointmentsRepository extends JpaRepository<ServiceApp
            WHERE s.user.id = :userId 
            ORDER BY 
              CASE WHEN s.status = 'SCHEDULED' THEN 0 ELSE 1 END,
-             s.appoinmentStart ASC
+             s.appointmentStart ASC
            """)
     Page<ServiceAppointments> findByUserIdOrderByStatusAndStart(Integer userId, Pageable pageable);
 
@@ -26,7 +26,7 @@ public interface ServicesAppointmentsRepository extends JpaRepository<ServiceApp
            SELECT s FROM ServiceAppointments s
            ORDER BY 
              CASE WHEN s.status = 'SCHEDULED' THEN 0 ELSE 1 END,
-             s.appoinmentStart ASC
+             s.appointmentStart ASC
            """)
     Page<ServiceAppointments> findAllOrderByStatusAndStart(Pageable pageable);
 }

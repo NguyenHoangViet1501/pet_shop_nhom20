@@ -13,8 +13,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddressRequest {
-    @NotNull(message = "USER_ID_IS_NOT_NULL")
-    Integer userId;
     @NotNull(message = "CONTACT_NAME_IS_NOT_NULL")
     String contactName;
     @NotBlank(message = "PHONE_NOT_BLANK")

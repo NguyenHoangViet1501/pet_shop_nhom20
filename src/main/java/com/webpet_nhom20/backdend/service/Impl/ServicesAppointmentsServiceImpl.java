@@ -47,7 +47,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         LocalDateTime appointmentEnd = request.getAppoinmentStart()
                 .plusMinutes(servicesPet.getDurationMinutes());
 
-        appointment.setAppoinmentEnd(appointmentEnd);
+        appointment.setAppointmentEnd(appointmentEnd);
 
         ServiceAppointments saved = servicesAppointmentsRepository.save(appointment);
         try {
@@ -137,7 +137,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
         }
         
         if (request.getAppoinmentStart() != null) {
-            existingAppointment.setAppoinmentStart(request.getAppoinmentStart());
+            existingAppointment.setAppointmentStart(request.getAppoinmentStart());
             
             // Cập nhật appointment_end nếu có thay đổi serviceId hoặc start time
             int serviceId = request.getServiceId() != null ? request.getServiceId() : existingAppointment.getService().getId();
@@ -146,7 +146,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
             
             LocalDateTime appointmentEnd = request.getAppoinmentStart()
                     .plusMinutes(service.getDurationMinutes());
-            existingAppointment.setAppoinmentEnd(appointmentEnd);
+            existingAppointment.setAppointmentEnd(appointmentEnd);
         }
         
         if (request.getServiceId() != null && !request.getServiceId().equals(existingAppointment.getService().getId())) {
@@ -159,7 +159,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
                 
                 LocalDateTime appointmentEnd = request.getAppoinmentStart()
                         .plusMinutes(service.getDurationMinutes());
-                existingAppointment.setAppoinmentEnd(appointmentEnd);
+                existingAppointment.setAppointmentEnd(appointmentEnd);
             }
         }
         

@@ -37,10 +37,10 @@ public class ServiceAppointments {
     String speciePet;
 
     @Column( name = "appointment_start", nullable = false)
-    LocalDateTime appoinmentStart;
+    LocalDateTime appointmentStart;
 
     @Column( name = "appointment_end", nullable = false)
-    LocalDateTime appoinmentEnd;
+    LocalDateTime appointmentEnd;
 
     @Enumerated(EnumType.STRING)
     @Column( name = "status", nullable = false, length = 20)

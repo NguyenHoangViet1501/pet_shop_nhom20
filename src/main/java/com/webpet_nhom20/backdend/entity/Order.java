@@ -1,6 +1,7 @@
 package com.webpet_nhom20.backdend.entity;
 
 
+import com.webpet_nhom20.backdend.enums.PaymentMethod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -35,20 +37,19 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<OrderItems> orderItems;
 
-    @OneToMany(mappedBy = "order")
-    private Set<Payments> payments;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payments payments;
 
     @Column(name = "total_amount" , nullable = false)
-    double totalAmount;
+    BigDecimal totalAmount;
+
+
 
     @Column(name = "shipping_amount" , nullable = false)
-    double shippingAmount;
+    BigDecimal shippingAmount;
 
     @Column(name = "discount_amount" )
-    Double discountPercent;
-
-    @Column(name = "payment_method" , nullable = false)
-    String paymentMethods ;
+    Float discountPercent;
 
     @Column(name = "shipping_address" , nullable = false , length = 500)
     String shippingAddress ;

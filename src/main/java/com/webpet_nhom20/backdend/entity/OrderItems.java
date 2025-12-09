@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -34,10 +35,10 @@ public class OrderItems {
     int quantity;
 
     @Column(name = "unit_price", nullable = false)
-    double unitPrice;
+    BigDecimal unitPrice;
 
     @Column(name = "total_price", nullable = false)
-    double totalPrice;
+    BigDecimal totalPrice;
 
     @Column(name = "is_deleted" , length = 1)
     String isDeleted = "0";

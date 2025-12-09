@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -16,9 +17,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderRequest {
 
-    double shippingAmount;
+    BigDecimal shippingAmount;
 
-    Double discountPercent;
+    Float discountPercent;
 
     PaymentMethod paymentMethods;
 
