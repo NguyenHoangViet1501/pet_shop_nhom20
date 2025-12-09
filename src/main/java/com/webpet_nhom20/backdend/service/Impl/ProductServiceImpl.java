@@ -263,10 +263,10 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVariants> variants = productVariantRepository.findByProductId(product.getId());
         List<ProductVariantResponse> variantResponses = variants.stream()
                 .map(variant -> {
-                    List<ProductVariantImage> variantImages = productVariantImageRepository.findImagesByVariantId(variant.getId());
+                    List<ProductImages> variantImages = productImageRepository.findImagesByVariantId(variant.getId());
 
                     List<String> imageUrls = variantImages.stream().map(
-                            vImg -> vImg.getImage().getImageUrl()).toList();
+                            ProductImages::getImageUrl).toList();
 
                     return ProductVariantResponse.builder()
                             .id(variant.getId())

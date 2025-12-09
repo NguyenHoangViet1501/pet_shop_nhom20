@@ -136,6 +136,7 @@ public class ProductImageServiceImpl implements ProductImageService {
             image.setProduct(product);
             image.setImageUrl(cloudinaryResponse.getUrl());
             image.setPosition(finalPosition);
+            image.setIsDeleted("0");
             image.setIsPrimary(0); // Tất cả isPrimary đều là 0
 
             ProductImages saved = repository.save(image);
