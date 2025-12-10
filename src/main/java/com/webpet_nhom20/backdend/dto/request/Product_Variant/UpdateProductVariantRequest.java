@@ -4,6 +4,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,8 +31,10 @@ public class UpdateProductVariantRequest {
      * ID hình ảnh sản phẩm (tùy chọn)
      * - Phải là số dương nếu được cung cấp
      */
-    @Positive(message = "PRODUCT_IMAGE_ID_MUST_BE_POSITIVE")
-    Integer productImageId;
+
+    List<
+            @Positive(message = "PRODUCT_IMAGE_ID_MUST_BE_POSITIVE")
+            Integer> imageIds;
     
     /**
      * Khối lượng (tùy chọn)
