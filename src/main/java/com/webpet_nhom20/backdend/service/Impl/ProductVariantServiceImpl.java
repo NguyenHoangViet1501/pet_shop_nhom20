@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ProductVariantServiceImpl implements ProductVariantService {
@@ -67,23 +67,68 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
     @PreAuthorize("hasRole('SHOP')")
     @Override
-    public ProductVariantResponse updateProductVariant(int variantId, UpdateProductVariantRequest request) {
-        ProductVariants product_variants = repository.findById(variantId).orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
-        ProductVariantImage productVariantImage = new ProductVariantImage();
-        ProductImages productImages = productImageRepository.findById(request.getProductId())
-                .orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_FOUND));
-        productVariantImage.setVariant(product_variants); // Gán đối tượng đã được lưu (có ID)
-        productVariantImage.setImage(productImages);
+    public ProductVariantResponse updateProductVariant(
+            int variantId,
+            UpdateProductVariantRequest request
+    ) {
+        //  Lấy variant
+        ProductVariants variant = repository.findById(variantId)
+                .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
 
+        //  Update thông tin cơ bản của variant
+        mapper.updateProductVariant(variant, request);
 
+        //  Nếu có gửi danh sách imageIds thì mới xử lý ảnh
+        if (request.getImageIds() != null) {
 
-        productVariantImageRepository.save(productVariantImage);
+            // Danh sách image hiện tại của variant trong DB
+            List<ProductVariantImage> currentLinks =
+                    productVariantImageRepository.findByVariantId(variantId);
 
-        mapper.updateProductVariant(product_variants, request);
+            List<Integer> currentImageIds = currentLinks.stream()
+                    .map(pvi -> pvi.getImage().getId())
+                    .toList();
 
+            List<Integer> newImageIds = request.getImageIds();
 
-        return mapper.toProductVariantResponse(repository.save(product_variants));
+            // 3.1 XÓA những ảnh bị BỎ CHỌN
+            List<ProductVariantImage> toDelete = currentLinks.stream()
+                    .filter(pvi -> !newImageIds.contains(pvi.getImage().getId()))
+                    .toList();
+
+            if (!toDelete.isEmpty()) {
+                productVariantImageRepository.deleteAll(toDelete);
+            }
+
+            // 3.2 THÊM những ảnh MỚI được CHỌN
+            List<Integer> imageIdsToAdd = newImageIds.stream()
+                    .filter(id -> !currentImageIds.contains(id))
+                    .toList();
+
+            if (!imageIdsToAdd.isEmpty()) {
+                List<ProductImages> imagesToAdd =
+                        productImageRepository.findAllById(imageIdsToAdd);
+
+                List<ProductVariantImage> newLinks = imagesToAdd.stream()
+                        .map(img -> {
+                            ProductVariantImage pvi = new ProductVariantImage();
+                            pvi.setVariant(variant);
+                            pvi.setImage(img);
+                            return pvi;
+                        })
+                        .toList();
+
+                productVariantImageRepository.saveAll(newLinks);
+            }
+        }
+
+        // Lưu variant
+        ProductVariants saved = repository.save(variant);
+
+        // Trả response
+        return mapper.toProductVariantResponse(saved);
     }
+
 
     @Override
     public String deleteProductVariant(int variantId) {

@@ -9,5 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductVariantImageRepository extends JpaRepository<ProductVariantImage, Integer> {
+    List<ProductVariantImage> findByVariantId(@Param("variantId") Integer variantId);
 
 }
