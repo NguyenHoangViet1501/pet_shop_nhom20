@@ -1,513 +1,513 @@
--- INSERT INTO services (name, title, description, duration_minutes, price, is_active, create_date, update_date)
--- VALUES
---     ('veterinary', 'Khám sức khỏe thú y', 'Khám tổng quát bởi bác sĩ thú y giàu kinh nghiệm', 60, 85.00, '1', NOW(), NOW()),
---
---     ('grooming', 'Tắm & vệ sinh thú cưng', 'Dịch vụ tắm rửa sạch sẽ, vệ sinh tai, cắt móng cho thú cưng', 45, 50.00, '1', NOW(), NOW()),
---
---     ('haircut', 'Cắt tỉa lông thú cưng', 'Cắt tỉa, tạo kiểu lông gọn gàng, thoải mái cho thú cưng', 70, 65.00, '1', NOW(), NOW()),
---
---     ('vaccination', 'Tiêm phòng vắc-xin', 'Tiêm phòng định kỳ giúp thú cưng khỏe mạnh, phòng tránh bệnh truyền nhiễm', 30, 40.00, '1', NOW(), NOW()),
---
---     ('petboarding', 'Dịch vụ trông giữ thú cưng', 'Chăm sóc thú cưng khi chủ vắng nhà, có chỗ ăn uống, vui chơi và nghỉ ngơi an toàn', 1440, 120.00, '1', NOW(), NOW());
-
-
-CREATE DATABASE  IF NOT EXISTS `pet_shop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
---USE `pet_shop`;
----- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+---- INSERT INTO services (name, title, description, duration_minutes, price, is_active, create_date, update_date)
+---- VALUES
+----     ('veterinary', 'Khám sức khỏe thú y', 'Khám tổng quát bởi bác sĩ thú y giàu kinh nghiệm', 60, 85.00, '1', NOW(), NOW()),
 ----
----- Host: localhost    Database: pet_shop
----- ------------------------------------------------------
----- Server version	8.0.42
+----     ('grooming', 'Tắm & vệ sinh thú cưng', 'Dịch vụ tắm rửa sạch sẽ, vệ sinh tai, cắt móng cho thú cưng', 45, 50.00, '1', NOW(), NOW()),
+----
+----     ('haircut', 'Cắt tỉa lông thú cưng', 'Cắt tỉa, tạo kiểu lông gọn gàng, thoải mái cho thú cưng', 70, 65.00, '1', NOW(), NOW()),
+----
+----     ('vaccination', 'Tiêm phòng vắc-xin', 'Tiêm phòng định kỳ giúp thú cưng khỏe mạnh, phòng tránh bệnh truyền nhiễm', 30, 40.00, '1', NOW(), NOW()),
+----
+----     ('petboarding', 'Dịch vụ trông giữ thú cưng', 'Chăm sóc thú cưng khi chủ vắng nhà, có chỗ ăn uống, vui chơi và nghỉ ngơi an toàn', 1440, 120.00, '1', NOW(), NOW());
 --
---/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
---/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
---/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
---/*!50503 SET NAMES utf8 */;
---/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
---/*!40103 SET TIME_ZONE='+00:00' */;
---/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
---/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
---/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
---/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+--
+--CREATE DATABASE  IF NOT EXISTS `pet_shop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+----USE `pet_shop`;
+------ MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+------
+------ Host: localhost    Database: pet_shop
+------ ------------------------------------------------------
+------ Server version	8.0.42
+----
+----/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+----/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+----/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+----/*!50503 SET NAMES utf8 */;
+----/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+----/*!40103 SET TIME_ZONE='+00:00' */;
+----/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+----/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+----/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+----/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+----
+------
+------ Table structure for table `addresses`
+------
+----
+----DROP TABLE IF EXISTS `addresses`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `addresses` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `city` varchar(255) DEFAULT NULL,
+----  `contact_name` varchar(255) DEFAULT NULL,
+----  `created_date` date DEFAULT NULL,
+----  `detail_address` varchar(255) DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `phone` varchar(255) DEFAULT NULL,
+----  `state` varchar(255) DEFAULT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  `user_id` int NOT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `cart`
+------
+----
+----DROP TABLE IF EXISTS `cart`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `cart` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` date DEFAULT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  `user_id` int DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `cart_items`
+------
+----
+----DROP TABLE IF EXISTS `cart_items`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `cart_items` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `cart_id` int DEFAULT NULL,
+----  `created_date` date DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `product_variant_id` int DEFAULT NULL,
+----  `quantity` int DEFAULT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `categories`
+------
+----
+----DROP TABLE IF EXISTS `categories`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `categories` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `description` varchar(255) DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `is_featured` varchar(1) DEFAULT NULL,
+----  `name` varchar(255) DEFAULT NULL,
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `invalidated_token`
+------
+----
+----DROP TABLE IF EXISTS `invalidated_token`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `invalidated_token` (
+----  `id` varchar(255) NOT NULL,
+----  `expiry_time` datetime(6) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `order_items`
+------
+----
+----DROP TABLE IF EXISTS `order_items`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `order_items` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` date DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `order_id` int DEFAULT NULL,
+----  `product_variant_id` int DEFAULT NULL,
+----  `quantity` int DEFAULT NULL,
+----  `total_price` float DEFAULT NULL,
+----  `unit_price` float DEFAULT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `orders`
+------
+----
+----DROP TABLE IF EXISTS `orders`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `orders` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` date DEFAULT NULL,
+----  `discount_amount` float DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `order_code` varchar(255) NOT NULL,
+----  `payment_method` varchar(255) NOT NULL,
+----  `shipping_amount` float NOT NULL,
+----  `status` varchar(255) NOT NULL,
+----  `total_amount` float NOT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  `user_id` int NOT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `payments`
+------
+----
+----DROP TABLE IF EXISTS `payments`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `payments` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `amount` float NOT NULL,
+----  `created_date` date DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `order_id` int NOT NULL,
+----  `paid_at` date NOT NULL,
+----  `payment_methods` varchar(255) NOT NULL,
+----  `provider_reference` varchar(255) NOT NULL,
+----  `status` varchar(255) NOT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `permission`
+------
+----
+----DROP TABLE IF EXISTS `permission`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `permission` (
+----  `name` varchar(255) NOT NULL,
+----  `description` varchar(255) DEFAULT NULL,
+----  PRIMARY KEY (`name`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `product_images`
+------
+----
+----DROP TABLE IF EXISTS `product_images`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `product_images` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `image_url` varchar(255) DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `is_primary` int DEFAULT NULL,
+----  `position` int DEFAULT NULL,
+----  `product_id` int NOT NULL,
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `product_variants`
+------
+----
+----DROP TABLE IF EXISTS `product_variants`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `product_variants` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `price` float DEFAULT NULL,
+----  `product_id` int NOT NULL,
+----  `stock_quantity` int NOT NULL,
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  `variant_name` varchar(255) NOT NULL,
+----  `weight` float DEFAULT NULL,
+----  `sold_quantity` int NOT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+----/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+----/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+----/*!50003 SET character_set_client  = utf8mb4 */ ;
+----/*!50003 SET character_set_results = utf8mb4 */ ;
+----/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+----/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+----/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+----DELIMITER ;;
+----/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_insert_variant` AFTER INSERT ON `product_variants` FOR EACH ROW BEGIN
+----    UPDATE products p
+----    SET
+----        p.stock_quantity = (
+----            SELECT COALESCE(SUM(v.stock_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = NEW.product_id
+----        ),
+----        p.sold_quantity = (
+----            SELECT COALESCE(SUM(v.sold_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = NEW.product_id
+----        )
+----    WHERE p.id = NEW.product_id;
+----END */;;
+----DELIMITER ;
+----/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+----/*!50003 SET character_set_client  = @saved_cs_client */ ;
+----/*!50003 SET character_set_results = @saved_cs_results */ ;
+----/*!50003 SET collation_connection  = @saved_col_connection */ ;
+----/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+----/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+----/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+----/*!50003 SET character_set_client  = utf8mb4 */ ;
+----/*!50003 SET character_set_results = utf8mb4 */ ;
+----/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+----/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+----/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+----DELIMITER ;;
+----/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_update_variant` AFTER UPDATE ON `product_variants` FOR EACH ROW BEGIN
+----    UPDATE products p
+----    SET
+----        p.stock_quantity = (
+----            SELECT COALESCE(SUM(v.stock_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = NEW.product_id
+----        ),
+----         p.sold_quantity = (
+----            SELECT COALESCE(SUM(v.sold_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = NEW.product_id
+----        )
+----    WHERE p.id = NEW.product_id;
+----END */;;
+----DELIMITER ;
+----/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+----/*!50003 SET character_set_client  = @saved_cs_client */ ;
+----/*!50003 SET character_set_results = @saved_cs_results */ ;
+----/*!50003 SET collation_connection  = @saved_col_connection */ ;
+----/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+----/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+----/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+----/*!50003 SET character_set_client  = utf8mb4 */ ;
+----/*!50003 SET character_set_results = utf8mb4 */ ;
+----/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+----/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+----/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+----DELIMITER ;;
+----/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_delete_variant` AFTER DELETE ON `product_variants` FOR EACH ROW BEGIN
+----    UPDATE products p
+----    SET
+----        p.stock_quantity = (
+----            SELECT COALESCE(SUM(v.stock_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = OLD.product_id
+----        ),
+----         p.sold_quantity = (
+----            SELECT COALESCE(SUM(v.sold_quantity), 0)
+----            FROM product_variants v
+----            WHERE v.product_id = OLD.product_id
+----        )
+----    WHERE p.id = OLD.product_id;
+----END */;;
+----DELIMITER ;
+----/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+----/*!50003 SET character_set_client  = @saved_cs_client */ ;
+----/*!50003 SET character_set_results = @saved_cs_results */ ;
+----/*!50003 SET collation_connection  = @saved_col_connection */ ;
+----
+------
+------ Table structure for table `products`
+------
+----
+----DROP TABLE IF EXISTS `products`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `products` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `category_id` int DEFAULT NULL,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `description` varchar(255) DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `is_featured` varchar(1) DEFAULT NULL,
+----  `name` varchar(255) DEFAULT NULL,
+----  `price` float DEFAULT NULL,
+----  `short_description` varchar(255) DEFAULT NULL,
+----  `sold_quantity` int DEFAULT '0',
+----  `stock_quantity` int DEFAULT '0',
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `reviews`
+------
+----
+----DROP TABLE IF EXISTS `reviews`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `reviews` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `comment` varchar(255) DEFAULT NULL,
+----  `created_date` date DEFAULT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `is_verified` smallint DEFAULT NULL,
+----  `product_id` int NOT NULL,
+----  `rating` smallint NOT NULL,
+----  `updated_date` date DEFAULT NULL,
+----  `user_id` int NOT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `role`
+------
+----
+----DROP TABLE IF EXISTS `role`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `role` (
+----  `name` varchar(255) NOT NULL,
+----  `description` varchar(255) DEFAULT NULL,
+----  PRIMARY KEY (`name`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `role_permissions`
+------
+----
+----DROP TABLE IF EXISTS `role_permissions`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `role_permissions` (
+----  `role_name` varchar(255) NOT NULL,
+----  `permissions_name` varchar(255) NOT NULL,
+----  PRIMARY KEY (`role_name`,`permissions_name`),
+----  KEY `FKf5aljih4mxtdgalvr7xvngfn1` (`permissions_name`),
+----  CONSTRAINT `FKcppvu8fk24eqqn6q4hws7ajux` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`),
+----  CONSTRAINT `FKf5aljih4mxtdgalvr7xvngfn1` FOREIGN KEY (`permissions_name`) REFERENCES `permission` (`name`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `role_user`
+------
+----
+----DROP TABLE IF EXISTS `role_user`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `role_user` (
+----  `role_name` varchar(255) NOT NULL,
+----  `user_id` int NOT NULL,
+----  UNIQUE KEY `UKnjajel6a2q8tr36emb9l8vw7n` (`user_id`),
+----  KEY `FKlaou0yym5spx4g7223d96ughs` (`role_name`),
+----  CONSTRAINT `FKhvai2k29vlwpt9wod4sw4ghmn` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+----  CONSTRAINT `FKlaou0yym5spx4g7223d96ughs` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`)
+----) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `service_appointments`
+------
+----
+----DROP TABLE IF EXISTS `service_appointments`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `service_appointments` (
+----  `id` bigint NOT NULL AUTO_INCREMENT,
+----  `appointment_end` datetime(6) NOT NULL,
+----  `appointment_start` datetime(6) NOT NULL,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `name_pet` varchar(255) DEFAULT NULL,
+----  `notes` text,
+----  `service_id` bigint NOT NULL,
+----  `status` enum('CANCELED','COMPLETED','NO_SHOW','SCHEDULED') NOT NULL,
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  `user_id` bigint NOT NULL,
+----  `specie_pet` varchar(255) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `services`
+------
+----
+----DROP TABLE IF EXISTS `services`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `services` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `create_date` datetime(6) DEFAULT NULL,
+----  `description` text NOT NULL,
+----  `duration_minutes` int NOT NULL,
+----  `is_active` varchar(1) DEFAULT NULL,
+----  `name` text NOT NULL,
+----  `price` decimal(12,2) DEFAULT NULL,
+----  `title` text NOT NULL,
+----  `update_date` datetime(6) DEFAULT NULL,
+----  PRIMARY KEY (`id`)
+----) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Table structure for table `users`
+------
+----
+----DROP TABLE IF EXISTS `users`;
+----/*!40101 SET @saved_cs_client     = @@character_set_client */;
+----/*!50503 SET character_set_client = utf8mb4 */;
+----CREATE TABLE `users` (
+----  `id` int NOT NULL AUTO_INCREMENT,
+----  `created_date` datetime(6) DEFAULT NULL,
+----  `email` varchar(100) NOT NULL,
+----  `full_name` varchar(100) NOT NULL,
+----  `is_deleted` varchar(1) DEFAULT NULL,
+----  `password` varchar(100) NOT NULL,
+----  `phone` varchar(100) NOT NULL,
+----  `updated_date` datetime(6) DEFAULT NULL,
+----  `username` varchar(100) NOT NULL,
+----  `role_name` varchar(255) DEFAULT NULL,
+----  PRIMARY KEY (`id`),
+----  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`),
+----  UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
+----  KEY `FKio7xawwvpk025stk4xkq2t0y8` (`role_name`),
+----  CONSTRAINT `FKio7xawwvpk025stk4xkq2t0y8` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`)
+----) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+----/*!40101 SET character_set_client = @saved_cs_client */;
+----
+------
+------ Dumping events for database 'pet_shop'
+------
+----
+------
+------ Dumping routines for database 'pet_shop'
+------
+----/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+----
+----/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+----/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+----/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+----/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+----/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+----/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+----/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+----
+------ Dump completed on 2025-10-20 16:15:03
 --
 ----
----- Table structure for table `addresses`
-----
---
---DROP TABLE IF EXISTS `addresses`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `addresses` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `city` varchar(255) DEFAULT NULL,
---  `contact_name` varchar(255) DEFAULT NULL,
---  `created_date` date DEFAULT NULL,
---  `detail_address` varchar(255) DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `phone` varchar(255) DEFAULT NULL,
---  `state` varchar(255) DEFAULT NULL,
---  `updated_date` date DEFAULT NULL,
---  `user_id` int NOT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `cart`
-----
---
---DROP TABLE IF EXISTS `cart`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `cart` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` date DEFAULT NULL,
---  `updated_date` date DEFAULT NULL,
---  `user_id` int DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `cart_items`
-----
---
---DROP TABLE IF EXISTS `cart_items`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `cart_items` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `cart_id` int DEFAULT NULL,
---  `created_date` date DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `product_variant_id` int DEFAULT NULL,
---  `quantity` int DEFAULT NULL,
---  `updated_date` date DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `categories`
-----
---
---DROP TABLE IF EXISTS `categories`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `categories` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` datetime(6) DEFAULT NULL,
---  `description` varchar(255) DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `is_featured` varchar(1) DEFAULT NULL,
---  `name` varchar(255) DEFAULT NULL,
---  `updated_date` datetime(6) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `invalidated_token`
-----
---
---DROP TABLE IF EXISTS `invalidated_token`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `invalidated_token` (
---  `id` varchar(255) NOT NULL,
---  `expiry_time` datetime(6) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `order_items`
-----
---
---DROP TABLE IF EXISTS `order_items`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `order_items` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` date DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `order_id` int DEFAULT NULL,
---  `product_variant_id` int DEFAULT NULL,
---  `quantity` int DEFAULT NULL,
---  `total_price` float DEFAULT NULL,
---  `unit_price` float DEFAULT NULL,
---  `updated_date` date DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `orders`
-----
---
---DROP TABLE IF EXISTS `orders`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `orders` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` date DEFAULT NULL,
---  `discount_amount` float DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `order_code` varchar(255) NOT NULL,
---  `payment_method` varchar(255) NOT NULL,
---  `shipping_amount` float NOT NULL,
---  `status` varchar(255) NOT NULL,
---  `total_amount` float NOT NULL,
---  `updated_date` date DEFAULT NULL,
---  `user_id` int NOT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `payments`
-----
---
---DROP TABLE IF EXISTS `payments`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `payments` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `amount` float NOT NULL,
---  `created_date` date DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `order_id` int NOT NULL,
---  `paid_at` date NOT NULL,
---  `payment_methods` varchar(255) NOT NULL,
---  `provider_reference` varchar(255) NOT NULL,
---  `status` varchar(255) NOT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `permission`
-----
---
---DROP TABLE IF EXISTS `permission`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `permission` (
---  `name` varchar(255) NOT NULL,
---  `description` varchar(255) DEFAULT NULL,
---  PRIMARY KEY (`name`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `product_images`
-----
---
---DROP TABLE IF EXISTS `product_images`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `product_images` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` datetime(6) DEFAULT NULL,
---  `image_url` varchar(255) DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `is_primary` int DEFAULT NULL,
---  `position` int DEFAULT NULL,
---  `product_id` int NOT NULL,
---  `updated_date` datetime(6) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `product_variants`
-----
---
---DROP TABLE IF EXISTS `product_variants`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `product_variants` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` datetime(6) DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `price` float DEFAULT NULL,
---  `product_id` int NOT NULL,
---  `stock_quantity` int NOT NULL,
---  `updated_date` datetime(6) DEFAULT NULL,
---  `variant_name` varchar(255) NOT NULL,
---  `weight` float DEFAULT NULL,
---  `sold_quantity` int NOT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
---/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
---/*!50003 SET @saved_col_connection = @@collation_connection */ ;
---/*!50003 SET character_set_client  = utf8mb4 */ ;
---/*!50003 SET character_set_results = utf8mb4 */ ;
---/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
---/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
---/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
---DELIMITER ;;
---/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_insert_variant` AFTER INSERT ON `product_variants` FOR EACH ROW BEGIN
---    UPDATE products p
---    SET
---        p.stock_quantity = (
---            SELECT COALESCE(SUM(v.stock_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = NEW.product_id
---        ),
---        p.sold_quantity = (
---            SELECT COALESCE(SUM(v.sold_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = NEW.product_id
---        )
---    WHERE p.id = NEW.product_id;
---END */;;
---DELIMITER ;
---/*!50003 SET sql_mode              = @saved_sql_mode */ ;
---/*!50003 SET character_set_client  = @saved_cs_client */ ;
---/*!50003 SET character_set_results = @saved_cs_results */ ;
---/*!50003 SET collation_connection  = @saved_col_connection */ ;
---/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
---/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
---/*!50003 SET @saved_col_connection = @@collation_connection */ ;
---/*!50003 SET character_set_client  = utf8mb4 */ ;
---/*!50003 SET character_set_results = utf8mb4 */ ;
---/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
---/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
---/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
---DELIMITER ;;
---/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_update_variant` AFTER UPDATE ON `product_variants` FOR EACH ROW BEGIN
---    UPDATE products p
---    SET
---        p.stock_quantity = (
---            SELECT COALESCE(SUM(v.stock_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = NEW.product_id
---        ),
---         p.sold_quantity = (
---            SELECT COALESCE(SUM(v.sold_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = NEW.product_id
---        )
---    WHERE p.id = NEW.product_id;
---END */;;
---DELIMITER ;
---/*!50003 SET sql_mode              = @saved_sql_mode */ ;
---/*!50003 SET character_set_client  = @saved_cs_client */ ;
---/*!50003 SET character_set_results = @saved_cs_results */ ;
---/*!50003 SET collation_connection  = @saved_col_connection */ ;
---/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
---/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
---/*!50003 SET @saved_col_connection = @@collation_connection */ ;
---/*!50003 SET character_set_client  = utf8mb4 */ ;
---/*!50003 SET character_set_results = utf8mb4 */ ;
---/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
---/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
---/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
---DELIMITER ;;
---/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_after_delete_variant` AFTER DELETE ON `product_variants` FOR EACH ROW BEGIN
---    UPDATE products p
---    SET
---        p.stock_quantity = (
---            SELECT COALESCE(SUM(v.stock_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = OLD.product_id
---        ),
---         p.sold_quantity = (
---            SELECT COALESCE(SUM(v.sold_quantity), 0)
---            FROM product_variants v
---            WHERE v.product_id = OLD.product_id
---        )
---    WHERE p.id = OLD.product_id;
---END */;;
---DELIMITER ;
---/*!50003 SET sql_mode              = @saved_sql_mode */ ;
---/*!50003 SET character_set_client  = @saved_cs_client */ ;
---/*!50003 SET character_set_results = @saved_cs_results */ ;
---/*!50003 SET collation_connection  = @saved_col_connection */ ;
---
-----
----- Table structure for table `products`
-----
---
---DROP TABLE IF EXISTS `products`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `products` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `category_id` int DEFAULT NULL,
---  `created_date` datetime(6) DEFAULT NULL,
---  `description` varchar(255) DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `is_featured` varchar(1) DEFAULT NULL,
---  `name` varchar(255) DEFAULT NULL,
---  `price` float DEFAULT NULL,
---  `short_description` varchar(255) DEFAULT NULL,
---  `sold_quantity` int DEFAULT '0',
---  `stock_quantity` int DEFAULT '0',
---  `updated_date` datetime(6) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `reviews`
-----
---
---DROP TABLE IF EXISTS `reviews`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `reviews` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `comment` varchar(255) DEFAULT NULL,
---  `created_date` date DEFAULT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `is_verified` smallint DEFAULT NULL,
---  `product_id` int NOT NULL,
---  `rating` smallint NOT NULL,
---  `updated_date` date DEFAULT NULL,
---  `user_id` int NOT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `role`
-----
---
---DROP TABLE IF EXISTS `role`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `role` (
---  `name` varchar(255) NOT NULL,
---  `description` varchar(255) DEFAULT NULL,
---  PRIMARY KEY (`name`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `role_permissions`
-----
---
---DROP TABLE IF EXISTS `role_permissions`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `role_permissions` (
---  `role_name` varchar(255) NOT NULL,
---  `permissions_name` varchar(255) NOT NULL,
---  PRIMARY KEY (`role_name`,`permissions_name`),
---  KEY `FKf5aljih4mxtdgalvr7xvngfn1` (`permissions_name`),
---  CONSTRAINT `FKcppvu8fk24eqqn6q4hws7ajux` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`),
---  CONSTRAINT `FKf5aljih4mxtdgalvr7xvngfn1` FOREIGN KEY (`permissions_name`) REFERENCES `permission` (`name`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `role_user`
-----
---
---DROP TABLE IF EXISTS `role_user`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `role_user` (
---  `role_name` varchar(255) NOT NULL,
---  `user_id` int NOT NULL,
---  UNIQUE KEY `UKnjajel6a2q8tr36emb9l8vw7n` (`user_id`),
---  KEY `FKlaou0yym5spx4g7223d96ughs` (`role_name`),
---  CONSTRAINT `FKhvai2k29vlwpt9wod4sw4ghmn` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
---  CONSTRAINT `FKlaou0yym5spx4g7223d96ughs` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`)
---) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `service_appointments`
-----
---
---DROP TABLE IF EXISTS `service_appointments`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `service_appointments` (
---  `id` bigint NOT NULL AUTO_INCREMENT,
---  `appointment_end` datetime(6) NOT NULL,
---  `appointment_start` datetime(6) NOT NULL,
---  `created_date` datetime(6) DEFAULT NULL,
---  `name_pet` varchar(255) DEFAULT NULL,
---  `notes` text,
---  `service_id` bigint NOT NULL,
---  `status` enum('CANCELED','COMPLETED','NO_SHOW','SCHEDULED') NOT NULL,
---  `updated_date` datetime(6) DEFAULT NULL,
---  `user_id` bigint NOT NULL,
---  `specie_pet` varchar(255) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `services`
-----
---
---DROP TABLE IF EXISTS `services`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `services` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `create_date` datetime(6) DEFAULT NULL,
---  `description` text NOT NULL,
---  `duration_minutes` int NOT NULL,
---  `is_active` varchar(1) DEFAULT NULL,
---  `name` text NOT NULL,
---  `price` decimal(12,2) DEFAULT NULL,
---  `title` text NOT NULL,
---  `update_date` datetime(6) DEFAULT NULL,
---  PRIMARY KEY (`id`)
---) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Table structure for table `users`
-----
---
---DROP TABLE IF EXISTS `users`;
---/*!40101 SET @saved_cs_client     = @@character_set_client */;
---/*!50503 SET character_set_client = utf8mb4 */;
---CREATE TABLE `users` (
---  `id` int NOT NULL AUTO_INCREMENT,
---  `created_date` datetime(6) DEFAULT NULL,
---  `email` varchar(100) NOT NULL,
---  `full_name` varchar(100) NOT NULL,
---  `is_deleted` varchar(1) DEFAULT NULL,
---  `password` varchar(100) NOT NULL,
---  `phone` varchar(100) NOT NULL,
---  `updated_date` datetime(6) DEFAULT NULL,
---  `username` varchar(100) NOT NULL,
---  `role_name` varchar(255) DEFAULT NULL,
---  PRIMARY KEY (`id`),
---  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`),
---  UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
---  KEY `FKio7xawwvpk025stk4xkq2t0y8` (`role_name`),
---  CONSTRAINT `FKio7xawwvpk025stk4xkq2t0y8` FOREIGN KEY (`role_name`) REFERENCES `role` (`name`)
---) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
---/*!40101 SET character_set_client = @saved_cs_client */;
---
-----
----- Dumping events for database 'pet_shop'
-----
---
-----
----- Dumping routines for database 'pet_shop'
-----
---/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
---
---/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
---/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
---/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
---/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
---/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
---/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
---/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
---
----- Dump completed on 2025-10-20 16:15:03
-
---

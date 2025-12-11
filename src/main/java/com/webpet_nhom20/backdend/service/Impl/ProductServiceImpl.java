@@ -73,78 +73,86 @@ public class ProductServiceImpl implements ProductService {
         return "Xóa thành công";
     }
 
-    @Override
-    @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #search, #categoryId, #minPrice, #maxPrice, #pageable.sort}")
-    public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice) {
-        Page<Products> productPage;
+        @Override
+        @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort, #categoryId, #search, #minPrice, #maxPrice, #animal, #brand}")
+        public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice, String animal, String brand) {
+            Page<Products> productPage;
 
-        // 1. Chuẩn hóa tham số
-        boolean hasCategory = categoryId != null && categoryId > 0;
-        boolean hasSearch = search != null && !search.trim().isEmpty();
+            // 1. Chuẩn hóa tham số
+            boolean hasCategory = categoryId != null && categoryId > 0;
+            boolean hasSearch = search != null && !search.trim().isEmpty();
 
-        // Kiểm tra có lọc giá hay không (chỉ cần nhập min HOẶC max là tính có lọc)
-        boolean hasPrice = minPrice != null || maxPrice != null;
+            // animal và brand có thể null, query repository đã xử lý logic này (IS NULL OR ...)
 
-        // Tự động điền giá trị thiếu:
-        // - Nếu thiếu min -> coi như min = 0
-        // - Nếu thiếu max -> coi như max = số cực lớn
-        Double finalMin = (minPrice != null) ? minPrice : 0.0;
-        Double finalMax = (maxPrice != null) ? maxPrice : Double.MAX_VALUE;
+            // Kiểm tra có lọc giá hay không (chỉ cần nhập min HOẶC max là tính có lọc)
+            boolean hasPrice = minPrice != null || maxPrice != null;
 
-        // 2. Kiểm tra Sort
-        boolean isSortByPrice = pageable.getSort().stream()
-                .anyMatch(order -> order.getProperty().equals("price"));
+            // Tự động điền giá trị thiếu:
+            // - Nếu thiếu min -> coi như min = 0
+            // - Nếu thiếu max -> coi như max = số cực lớn
+            Double finalMin = (minPrice != null) ? minPrice : 0.0;
+            Double finalMax = (maxPrice != null) ? maxPrice : Double.MAX_VALUE;
 
-        if (isSortByPrice) {
-            // === LOGIC SORT GIÁ (Dùng Native Query Custom) ===
-            boolean isAsc = pageable.getSort().getOrderFor("price").isAscending();
+            // 2. Kiểm tra Sort
+            boolean isSortByPrice = pageable.getSort().stream()
+                    .anyMatch(order -> order.getProperty().equals("price"));
 
-            // Tạo Pageable mới KHÔNG CÓ SORT để tránh conflict với ORDER BY trong SQL
-            Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+            if (isSortByPrice) {
+                // === LOGIC SORT GIÁ (Dùng Native Query Custom) ===
+                boolean isAsc = pageable.getSort().getOrderFor("price").isAscending();
 
-            if (isAsc) {
-                productPage = productRepository.findAllWithFiltersSortedByPriceAsc(
-                        hasCategory ? categoryId : null,
-                        hasSearch ? search.trim() : null,
-                        finalMin, finalMax, unsortedPageable);
+                // Tạo Pageable mới KHÔNG CÓ SORT để tránh conflict với ORDER BY trong SQL
+                Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+
+                if (isAsc) {
+                    productPage = productRepository.findAllWithFiltersSortedByPriceAsc(
+                            hasCategory ? categoryId : null,
+                            animal, // Thêm tham số animal
+                            brand,  // Thêm tham số brand
+                            hasSearch ? search.trim() : null,
+                            finalMin, finalMax, unsortedPageable);
+                } else {
+                    productPage = productRepository.findAllWithFiltersSortedByPriceDesc(
+                            hasCategory ? categoryId : null,
+                            animal, // Thêm tham số animal
+                            brand,  // Thêm tham số brand
+                            hasSearch ? search.trim() : null,
+                            finalMin, finalMax, unsortedPageable);
+                }
             } else {
-                productPage = productRepository.findAllWithFiltersSortedByPriceDesc(
-                        hasCategory ? categoryId : null,
-                        hasSearch ? search.trim() : null,
-                        finalMin, finalMax, unsortedPageable);
-            }
-        } else {
-            // === LOGIC THƯỜNG (Mặc định, Mới nhất, Bán chạy) ===
+                // === LOGIC THƯỜNG (Mặc định, Mới nhất, Bán chạy) ===
 
-            // FIX LỖI: Map tên biến Java sang tên cột Database thủ công
-            List<Sort.Order> dbOrders = pageable.getSort().stream()
-                    .map(order -> {
-                        String property = order.getProperty();
-                        // Map createdDate -> created_time (hoặc created_date tùy DB của bạn)
-                        if ("createdDate".equals(property)) return new Sort.Order(order.getDirection(), "created_date");
-                        // Map soldQuantity -> sold_quantity
-                        if ("soldQuantity".equals(property)) return new Sort.Order(order.getDirection(), "sold_quantity");
-                        // Các trường khác giữ nguyên
-                        return order;
-                    })
+                // FIX LỖI: Map tên biến Java sang tên cột Database thủ công
+                List<Sort.Order> dbOrders = pageable.getSort().stream()
+                        .map(order -> {
+                            String property = order.getProperty();
+                            // Map createdDate -> created_time (hoặc created_date tùy DB của bạn)
+                            if ("createdDate".equals(property)) return new Sort.Order(order.getDirection(), "created_date");
+                            // Map soldQuantity -> sold_quantity
+                            if ("soldQuantity".equals(property)) return new Sort.Order(order.getDirection(), "sold_quantity");
+                            // Các trường khác giữ nguyên
+                            return order;
+                        })
+                        .collect(Collectors.toList());
+
+                // Tạo Pageable mới với tên cột DB chuẩn
+                Pageable dbPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(dbOrders));
+
+                productPage = productRepository.findAllWithFilters(
+                        hasCategory ? categoryId : null,
+                        animal, // Thêm tham số animal
+                        brand,  // Thêm tham số brand
+                        hasSearch ? search.trim() : null,
+                        finalMin, finalMax, dbPageable);
+            }
+
+            // 3. Map Response
+            List<ProductResponse> productResponses = productPage.getContent().stream()
+                    .map(this::mapToProductResponse)
                     .collect(Collectors.toList());
 
-            // Tạo Pageable mới với tên cột DB chuẩn
-            Pageable dbPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(dbOrders));
-
-            productPage = productRepository.findAllWithFilters(
-                    hasCategory ? categoryId : null,
-                    hasSearch ? search.trim() : null,
-                    finalMin, finalMax, dbPageable);
+            return new PageImpl<>(productResponses, pageable, productPage.getTotalElements());
         }
-
-        // 3. Map Response
-        List<ProductResponse> productResponses = productPage.getContent().stream()
-                .map(this::mapToProductResponse)
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(productResponses, pageable, productPage.getTotalElements());
-    }
 
     @Override
     public ProductResponse getProductById(int productId) {

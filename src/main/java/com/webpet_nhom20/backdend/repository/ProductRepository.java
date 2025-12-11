@@ -20,21 +20,28 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
     Page<Products> findByCategoryId(int categoryId, Pageable pageable);
     // 1. Hàm lọc chung (Mặc định, Mới nhất, Bán chạy)
     // Dùng LEFT JOIN để lấy cả sản phẩm chưa có variant hoặc hết hàng
+    // 1. Lọc mặc định (không sắp xếp giá cụ thể)
     @Query(value = "SELECT DISTINCT p.* FROM products p " +
             "LEFT JOIN product_variants v ON p.id = v.product_id " +
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+            "AND (:animal IS NULL OR p.animal = :animal) " + // Thêm lọc animal
+            "AND (:brand IS NULL OR p.brand = :brand) " +    // Thêm lọc brand
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
             countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
                     "LEFT JOIN product_variants v ON p.id = v.product_id " +
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+                    "AND (:animal IS NULL OR p.animal = :animal) " + // Thêm lọc animal
+                    "AND (:brand IS NULL OR p.brand = :brand) " +    // Thêm lọc brand
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
             nativeQuery = true)
     Page<Products> findAllWithFilters(
             @Param("categoryId") Integer categoryId,
+            @Param("animal") String animal, // Thêm tham số
+            @Param("brand") String brand,   // Thêm tham số
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
@@ -42,25 +49,29 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
     );
 
     // 2. Sắp xếp giá TĂNG DẦN (ASC)
-    // Vẫn dùng LEFT JOIN, nhưng khi sort thì sản phẩm không có giá (null) sẽ bị đẩy xuống cuối hoặc lên đầu tùy DB
-    // Để chắc chắn, ta dùng COALESCE để gán giá mặc định cực lớn cho sp không có giá
     @Query(value = "SELECT p.* FROM products p " +
             "LEFT JOIN product_variants v ON p.id = v.product_id " +
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+            "AND (:animal IS NULL OR p.animal = :animal) " +
+            "AND (:brand IS NULL OR p.brand = :brand) " +
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice) " +
             "GROUP BY p.id " +
-            "ORDER BY MIN(COALESCE(v.price, 999999999)) ASC", // Sp không có giá sẽ xuống cuối
+            "ORDER BY MIN(COALESCE(v.price, 999999999)) ASC",
             countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
                     "LEFT JOIN product_variants v ON p.id = v.product_id " +
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+                    "AND (:animal IS NULL OR p.animal = :animal) " +
+                    "AND (:brand IS NULL OR p.brand = :brand) " +
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
             nativeQuery = true)
     Page<Products> findAllWithFiltersSortedByPriceAsc(
             @Param("categoryId") Integer categoryId,
+            @Param("animal") String animal,
+            @Param("brand") String brand,
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
@@ -71,63 +82,31 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
     @Query(value = "SELECT p.* FROM products p " +
             "LEFT JOIN product_variants v ON p.id = v.product_id " +
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+            "AND (:animal IS NULL OR p.animal = :animal) " +
+            "AND (:brand IS NULL OR p.brand = :brand) " +
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice) " +
             "GROUP BY p.id " +
-            "ORDER BY MIN(COALESCE(v.price, 0)) DESC", // Sp không có giá sẽ xuống cuối
+            "ORDER BY MIN(COALESCE(v.price, 0)) DESC",
             countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
                     "LEFT JOIN product_variants v ON p.id = v.product_id " +
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
+                    "AND (:animal IS NULL OR p.animal = :animal) " +
+                    "AND (:brand IS NULL OR p.brand = :brand) " +
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
             nativeQuery = true)
     Page<Products> findAllWithFiltersSortedByPriceDesc(
             @Param("categoryId") Integer categoryId,
+            @Param("animal") String animal,
+            @Param("brand") String brand,
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
             Pageable pageable
     );
-    Page<Products> findByNameContainingIgnoreCase(String name , Pageable pageable);
-    @Query(value = "SELECT DISTINCT p.* FROM products p " +
-            "INNER JOIN product_variants v ON p.id = v.product_id " +
-            "WHERE v.price BETWEEN :minPrice AND :maxPrice",
-            countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
-                    "INNER JOIN product_variant v ON p.id = v.product_id " +
-                    "WHERE v.price BETWEEN :minPrice AND :maxPrice",
-            nativeQuery = true)
-    Page<Products> findByPriceBetween(@Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
 
-    // 2. Category + Giá
-    @Query(value = "SELECT DISTINCT p.* FROM products p " +
-            "INNER JOIN product_variants v ON p.id = v.product_id " +
-            "WHERE p.category_id = :categoryId AND v.price BETWEEN :minPrice AND :maxPrice",
-            countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
-                    "INNER JOIN product_variant v ON p.id = v.product_id " +
-                    "WHERE p.category_id = :categoryId AND v.price BETWEEN :minPrice AND :maxPrice",
-            nativeQuery = true)
-    Page<Products> findByCategoryIdAndPriceBetween(@Param("categoryId") int categoryId, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
-
-    // 3. Tên + Giá
-    @Query(value = "SELECT DISTINCT p.* FROM products p " +
-            "INNER JOIN product_variants v ON p.id = v.product_id " +
-            "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND v.price BETWEEN :minPrice AND :maxPrice",
-            countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
-                    "INNER JOIN product_variant v ON p.id = v.product_id " +
-                    "WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND v.price BETWEEN :minPrice AND :maxPrice",
-            nativeQuery = true)
-    Page<Products> findByNameContainingIgnoreCaseAndPriceBetween(@Param("name") String name, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
-
-    // 4. Category + Tên + Giá
-    @Query(value = "SELECT DISTINCT p.* FROM products p " +
-            "INNER JOIN product_variants v ON p.id = v.product_id " +
-            "WHERE p.category_id = :categoryId AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND v.price BETWEEN :minPrice AND :maxPrice",
-            countQuery = "SELECT COUNT(DISTINCT p.id) FROM products p " +
-                    "INNER JOIN product_variant v ON p.id = v.product_id " +
-                    "WHERE p.category_id = :categoryId AND LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%')) AND v.price BETWEEN :minPrice AND :maxPrice",
-            nativeQuery = true)
-    Page<Products> findByCategoryIdAndNameContainingIgnoreCaseAndPriceBetween(@Param("categoryId") int categoryId, @Param("name") String name, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice, Pageable pageable);
 
 }

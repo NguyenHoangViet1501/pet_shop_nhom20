@@ -17,7 +17,7 @@ public interface ProductService {
 
     public String deleteProduct(int productId);
 
-    Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice);
+    Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice, String animal, String brand);
 
     ProductResponse getProductById(int productId);
 
