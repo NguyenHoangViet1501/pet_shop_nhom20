@@ -54,9 +54,6 @@ public class ServicesPetServiceImpl implements ServicesPetService {
     @PreAuthorize("hasRole('SHOP')")
     @Override
     public ServicesPetResponse createServicesPet(CreateServicePetRequest request){
-        if(servicesPetRepository.existsByName(request.getName())){
-            throw new AppException(ErrorCode.SERVICE_PET_IS_EXISTED);
-        }
         ServicesPet servicesPet = servicesPetMapper.toServicePet(request);
         return servicesPetMapper.toServicesPetResponse(servicesPetRepository.save(servicesPet));
     }
