@@ -22,4 +22,5 @@ public class CartResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     Date updatedDate;
     List<CartItemResponse> items;
+    int totalItems;
 }
