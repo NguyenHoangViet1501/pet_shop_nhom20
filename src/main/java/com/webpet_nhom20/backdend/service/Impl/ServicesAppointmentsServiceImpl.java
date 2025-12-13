@@ -44,7 +44,7 @@ public class ServicesAppointmentsServiceImpl implements ServicesAppointmentsServ
                 .orElseThrow(() -> new RuntimeException("Service không tồn tại"));
 
         ServiceAppointments appointment = serviceAppointmentMapper.toEntity(request);
-        LocalDateTime appointmentEnd = request.getAppoinmentStart()
+        LocalDateTime appointmentEnd = request.getAppointmentStart()
                 .plusMinutes(servicesPet.getDurationMinutes());
 
         appointment.setAppointmentEnd(appointmentEnd);

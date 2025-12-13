@@ -4,6 +4,7 @@ import com.webpet_nhom20.backdend.dto.request.Product.FullProductCreateRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
 import com.webpet_nhom20.backdend.dto.response.ApiResponse;
+import com.webpet_nhom20.backdend.dto.response.Product.BrandResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.FullProductCreateResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.service.ProductService;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -69,6 +72,15 @@ public class ProductController {
                 .success(true)
                 .message(response.getMessage())
                 .result(response)
+                .build();
+    }
+    @GetMapping("/brands")
+    public ApiResponse<List<BrandResponse>> getBrand() {
+        List<BrandResponse> brands = productService.getBrand();
+        return ApiResponse.<List<BrandResponse>>builder()
+                .success(true)
+                .message("Lấy danh sách thương hiệu thành công")
+                .result(brands)
                 .build();
     }
 }

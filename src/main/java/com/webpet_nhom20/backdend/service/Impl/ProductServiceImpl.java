@@ -4,6 +4,7 @@ import com.webpet_nhom20.backdend.dto.request.Product.FullProductCreateRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.CreateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product.UpdateProductRequest;
 import com.webpet_nhom20.backdend.dto.request.Product_Variant.VariantCreateDto;
+import com.webpet_nhom20.backdend.dto.response.Product.BrandResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.FullProductCreateResponse;
 import com.webpet_nhom20.backdend.dto.response.Product.ProductResponse;
 import com.webpet_nhom20.backdend.dto.response.ProductImage.ProductImageResponse;
@@ -298,5 +299,10 @@ public class ProductServiceImpl implements ProductService {
         response.setProductVariant(variantResponses);
 
         return response;
+    }
+
+    @Override
+    public List<BrandResponse> getBrand(){
+        return productRepository.getBrand();
     }
 }

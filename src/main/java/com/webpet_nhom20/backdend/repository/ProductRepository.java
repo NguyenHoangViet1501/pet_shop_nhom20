@@ -1,5 +1,6 @@
 package com.webpet_nhom20.backdend.repository;
 
+import com.webpet_nhom20.backdend.dto.response.Product.BrandResponse;
 import com.webpet_nhom20.backdend.entity.Categories;
 import com.webpet_nhom20.backdend.entity.Products;
 import org.springframework.data.domain.Page;
@@ -107,6 +108,16 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             @Param("maxPrice") Double maxPrice,
             Pageable pageable
     );
+    @Query("""
+        SELECT new com.webpet_nhom20.backdend.dto.response.Product.BrandResponse(
+            p.brand,
+            COUNT(p.brand)
+        )
+        FROM Products p
+        WHERE p.brand IS NOT NULL
+        GROUP BY p.brand
+    """)
+    List<BrandResponse> getBrand();
 
 
 }
