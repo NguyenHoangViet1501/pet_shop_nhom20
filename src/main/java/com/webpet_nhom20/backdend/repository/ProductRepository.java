@@ -26,7 +26,8 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             "LEFT JOIN product_variants v ON p.id = v.product_id " +
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
             "AND (:animal IS NULL OR p.animal = :animal) " + // Thêm lọc animal
-            "AND (:brand IS NULL OR p.brand = :brand) " +    // Thêm lọc brand
+            "AND (:brand IS NULL OR p.brand = :brand) " +
+            "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +// Thêm lọc brand
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
@@ -34,7 +35,8 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
                     "LEFT JOIN product_variants v ON p.id = v.product_id " +
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
                     "AND (:animal IS NULL OR p.animal = :animal) " + // Thêm lọc animal
-                    "AND (:brand IS NULL OR p.brand = :brand) " +    // Thêm lọc brand
+                    "AND (:brand IS NULL OR p.brand = :brand) " +
+                    "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +// Thêm lọc brand
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
@@ -42,7 +44,8 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
     Page<Products> findAllWithFilters(
             @Param("categoryId") Integer categoryId,
             @Param("animal") String animal, // Thêm tham số
-            @Param("brand") String brand,   // Thêm tham số
+            @Param("brand") String brand,
+            @Param("is_featured") String isFeature,// Thêm tham số
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
@@ -55,6 +58,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
             "AND (:animal IS NULL OR p.animal = :animal) " +
             "AND (:brand IS NULL OR p.brand = :brand) " +
+            "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice) " +
@@ -65,6 +69,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
                     "AND (:animal IS NULL OR p.animal = :animal) " +
                     "AND (:brand IS NULL OR p.brand = :brand) " +
+                    "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
@@ -73,6 +78,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             @Param("categoryId") Integer categoryId,
             @Param("animal") String animal,
             @Param("brand") String brand,
+            @Param("is_featured") String isFeature,
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
@@ -85,6 +91,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
             "AND (:animal IS NULL OR p.animal = :animal) " +
             "AND (:brand IS NULL OR p.brand = :brand) " +
+            "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +
             "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
             "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
             "AND (:maxPrice IS NULL OR v.price <= :maxPrice) " +
@@ -95,6 +102,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
                     "WHERE (:categoryId IS NULL OR p.category_id = :categoryId) " +
                     "AND (:animal IS NULL OR p.animal = :animal) " +
                     "AND (:brand IS NULL OR p.brand = :brand) " +
+                    "AND (:is_featured IS NULL OR p.is_featured = :is_featured)" +
                     "AND (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
                     "AND (:minPrice IS NULL OR v.price >= :minPrice) " +
                     "AND (:maxPrice IS NULL OR v.price <= :maxPrice)",
@@ -103,6 +111,7 @@ public interface ProductRepository extends JpaRepository<Products,Integer>, JpaS
             @Param("categoryId") Integer categoryId,
             @Param("animal") String animal,
             @Param("brand") String brand,
+            @Param("is_featured") String isFeature,
             @Param("name") String name,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,

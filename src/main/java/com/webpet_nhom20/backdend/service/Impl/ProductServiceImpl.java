@@ -75,8 +75,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
         @Override
-        @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort, #categoryId, #search, #minPrice, #maxPrice, #animal, #brand}")
-        public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice, String animal, String brand) {
+        @Cacheable(value = "product_list", key = "{#pageable.pageNumber, #pageable.pageSize, #pageable.sort, #categoryId, #search, #minPrice, #maxPrice, #animal, #brand, #isFeature}")
+        public Page<ProductResponse> getAllProduct(Pageable pageable, Integer categoryId, String search, Double minPrice, Double maxPrice, String animal, String brand, String isFeature) {
             Page<Products> productPage;
 
             // 1. Chuẩn hóa tham số
@@ -109,14 +109,16 @@ public class ProductServiceImpl implements ProductService {
                     productPage = productRepository.findAllWithFiltersSortedByPriceAsc(
                             hasCategory ? categoryId : null,
                             animal, // Thêm tham số animal
-                            brand,  // Thêm tham số brand
+                            brand,
+                            isFeature,// Thêm tham số brand
                             hasSearch ? search.trim() : null,
                             finalMin, finalMax, unsortedPageable);
                 } else {
                     productPage = productRepository.findAllWithFiltersSortedByPriceDesc(
                             hasCategory ? categoryId : null,
                             animal, // Thêm tham số animal
-                            brand,  // Thêm tham số brand
+                            brand,
+                            isFeature,// Thêm tham số brand
                             hasSearch ? search.trim() : null,
                             finalMin, finalMax, unsortedPageable);
                 }
@@ -142,7 +144,8 @@ public class ProductServiceImpl implements ProductService {
                 productPage = productRepository.findAllWithFilters(
                         hasCategory ? categoryId : null,
                         animal, // Thêm tham số animal
-                        brand,  // Thêm tham số brand
+                        brand,
+                        isFeature,// Thêm tham số brand
                         hasSearch ? search.trim() : null,
                         finalMin, finalMax, dbPageable);
             }
