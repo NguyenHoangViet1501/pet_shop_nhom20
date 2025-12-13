@@ -57,7 +57,7 @@ public class ServiceAppointmentsRequest {
      */
     @NotNull(message = "APPOINTMENT_START_NOT_NULL")
     @Future(message = "APPOINTMENT_START_NOT_FUTURE")
-    private LocalDateTime appoinmentStart;
+    private LocalDateTime appointmentStart;
 
     /**
      * Trạng thái lịch hẹn (tùy chọn)
