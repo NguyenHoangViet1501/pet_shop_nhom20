@@ -43,7 +43,8 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse addToCart(CartRequest request, String token) {
         Integer userIdFromToken = jwtTokenProvider.getUserId(token);
-        // --- 1. Lấy cart nếu có, nếu chưa có thì tạo ---
+
+        // 1. Lấy hoặc tạo cart
         Cart cart = cartRepository.findByUserId(userIdFromToken).orElseGet(() -> {
             Cart c = new Cart();
             User u = new User();
@@ -52,37 +53,58 @@ public class CartServiceImpl implements CartService {
             return cartRepository.save(c);
         });
 
-        List<CartItems> savedItems = new ArrayList<>();
+        List<CartItems> resultItems = new ArrayList<>();
 
-        // --- 2. Lặp qua danh sách item client gửi lên ---
         for (CartItemRequest itemReq : request.getItems()) {
 
             ProductVariants variant = productVariantRepository
                     .findByIdAndIsDeletedNot(itemReq.getProductVariantId(), "1")
                     .orElseThrow(() -> new RuntimeException("Product variant not found or deleted"));
 
-            // --- 2.1 Kiểm tra xem sản phẩm đã tồn tại trong giỏ chưa ---
             Optional<CartItems> existingItemOpt =
                     cartItemRepository.findByCartIdAndProductVariantId(cart.getId(), variant.getId());
 
-            CartItems item;
-            if (existingItemOpt.isPresent()) {
-                // Nếu đã có thì + quantity
-                item = existingItemOpt.get();
-                item.setQuantity(item.getQuantity() + itemReq.getQuantity());
-            } else {
-                // Nếu chưa có → tạo mới 1 CartItem
-                item = new CartItems();
-                item.setCart(cart);
-                item.setProductVariant(variant);
-                item.setQuantity(itemReq.getQuantity());
-                item.setIsDeleted("0");
+            // CASE 1: chưa có item trong cart
+            if (existingItemOpt.isEmpty()) {
+
+                if (itemReq.getQuantity() <= 0) {
+                    throw new RuntimeException("Quantity must be greater than 0 for new item");
+                }
+
+                CartItems newItem = new CartItems();
+                newItem.setCart(cart);
+                newItem.setProductVariant(variant);
+                newItem.setQuantity(itemReq.getQuantity());
+                newItem.setIsDeleted("0");
+
+                resultItems.add(cartItemRepository.save(newItem));
+                continue;
             }
 
-            savedItems.add(cartItemRepository.save(item));
+            // CASE 2: đã có item
+            CartItems existingItem = existingItemOpt.get();
+            int newQuantity = existingItem.getQuantity() + itemReq.getQuantity();
+
+            // Không cho âm
+            if (newQuantity < 0) {
+                throw new RuntimeException("Quantity cannot be negative");
+            }
+
+            // Về 0 → xóa hẳn
+            if (newQuantity == 0) {
+                cartItemRepository.delete(existingItem);
+                continue;
+            }
+
+            // > 0 → update
+            existingItem.setQuantity(newQuantity);
+            resultItems.add(cartItemRepository.save(existingItem));
         }
 
-        return mapCartToResponse(cart, savedItems);
+        // Lấy lại danh sách item còn tồn tại trong cart để response đúng
+        List<CartItems> finalItems = cartItemRepository.findByCartId(cart.getId());
+
+        return mapCartToResponse(cart, finalItems);
     }
 
     @Override
@@ -139,6 +161,7 @@ public class CartServiceImpl implements CartService {
         }).toList();
 
         response.setItems(itemResponses);
+        response.setTotalItems(itemResponses.size());
         return response;
     }
 
